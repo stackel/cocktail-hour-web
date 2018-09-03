@@ -56,6 +56,9 @@ class App extends Component {
   };
 
   DebugToggle = props => {
+    if(props.hide) {
+      return null;
+    }
     return (
       <FormControlLabel
         control={<Switch
@@ -75,7 +78,7 @@ class App extends Component {
     return (
       <div>
         <div className="ma4">
-          <this.DebugToggle debug={this.state.debug}/>
+          <this.DebugToggle hide={true} debug={this.state.debug}/>
         </div>
         <div className="ma4 mw7 center">
           <Auth onLogin={this.onLogin} onLogout={this.onLogout}/>

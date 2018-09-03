@@ -4,6 +4,10 @@ import Button from '@material-ui/core/Button';
 import CardContent from '@material-ui/core/CardContent';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItem';
 
 import {database, auth, googleAuthProvider} from './firebase'
 
@@ -13,7 +17,8 @@ class Auth extends Component {
 
     this.state = {
       authUser: null,
-      firebaseUser: null
+      firebaseUser: null,
+      drawerOpen: false
     };
   }
 
@@ -78,6 +83,10 @@ class Auth extends Component {
     })
   }
 
+  toggleDrawer = (open) => () => {
+    this.setState({drawerOpen: open});
+  };
+
   UserArea = (props) => {
     if (!props.authUser) {
       return (
@@ -87,20 +96,51 @@ class Auth extends Component {
       )
     } else {
       return (
-        <Card>
-          <CardContent>
-            <h2 className="sans-serif tc">Welcome {props.authUser.displayName}!</h2>
-            <h3 className="sans-serif tc f4 gray fw3">
-              {props.authUser.email}</h3>
-            <Button onClick={this.logout} variant="contained" color="primary">
-              Log out
-            </Button>
-          </CardContent>
-        </Card>
+        <div>
+          <Drawer
+            anchor="top"
+            open={this.state.drawerOpen}
+            onClose={this.toggleDrawer(false)}>
+            <div
+              tabIndex={0}
+              role="button"
+              onClick={this.toggleDrawer(false)}
+              onKeyDown={this.toggleDrawer(false)}>
+
+              <List component="nav">
+
+                <ListItem>
+                  <p className="sans-serif f4 mv0 pv0">
+                    {props.authUser.displayName}
+                  </p>
+                </ListItem>
+
+                <ListItem>
+                  <p className="sans-serif f4 gray mv0 pv0 fw3">
+                    {props.authUser.email}
+                  </p>
+                </ListItem>
+
+                <ListItem button="button">
+                  <Button onClick={this.logout} variant="contained" color="primary">
+                    Log out
+                  </Button>
+                </ListItem>
+              </List>
+
+            </div>
+          </Drawer>
+          <div className="tc">
+            <Button
+              className="sans-serif"
+              variant="outlined"
+              onClick={this.toggleDrawer(true)}>
+              {props.authUser.displayName}s drinks</Button>
+          </div>
+        </div>
       )
     }
   }
-
   render() {
     return (<this.UserArea authUser={this.state.authUser}/>);
   }

@@ -63,7 +63,6 @@ class DrinkList extends Component {
 
     return (<div>
       {drinkComponents}
-      <pre>{JSON.stringify(drinks, null, 2)}</pre>
     </div>);
   }
 }
