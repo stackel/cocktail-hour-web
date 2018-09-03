@@ -5,10 +5,10 @@ import CardContent from '@material-ui/core/CardContent';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
-import {database, auth, googleAuthProvider} from './firebase'
+import {database} from 'utils/firebase'
 
-import Auth from './Auth'
-import IngredientListItem from './IngredientListItem'
+import Auth from 'components/user/Auth'
+import IngredientListItem from 'components/ingredients/ingredient/IngredientListItem'
 
 class IngredientList extends Component {
   constructor(props) {

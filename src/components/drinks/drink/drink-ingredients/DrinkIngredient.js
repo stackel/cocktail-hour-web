@@ -5,8 +5,6 @@ import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import Select from 'react-select';
 
-import {database} from './firebase'
-
 class DrinkIngredient extends Component {
   constructor(props) {
     super(props);
@@ -49,13 +47,10 @@ class DrinkIngredient extends Component {
     }
 
     if (props.ingredient) {
-      if(props.firestoreUser) {
-        if(props.firestoreUser.ingredients.includes(props.ingredient.name)){
+      if(props.firestoreUser.ingredients.includes(props.ingredient.name)){
           return (<p className="sans-serif dib b">{props.ingredient.label}</p>)
-        }
       }
       return (<p className="sans-serif dib gray ">{props.ingredient.label}</p>)
-
     }
     return null
   }

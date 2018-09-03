@@ -4,7 +4,7 @@ require("firebase/app");
 require("firebase/firestore");
 require("firebase/auth");
 
-let config = {
+const config = {
   apiKey: "AIzaSyBFm-wn2F0YqF-7xguCk6Lj7gSMr6JiXvA",
   authDomain: "cocktail-hour-1529929123157.firebaseapp.com",
   databaseURL: "https://cocktail-hour-1529929123157.firebaseio.com",
@@ -13,14 +13,14 @@ let config = {
   messagingSenderId: "295959505102"
 };
 
-let settings = { timestampsInSnapshots: true}
 
 firebase.initializeApp(config);
 
-let database = firebase.firestore();
-database.settings(settings)
+const firestoreSettings = { timestampsInSnapshots: true}
+const database = firebase.firestore();
+database.settings(firestoreSettings)
 
-let googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-let auth = firebase.auth();
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+const auth = firebase.auth();
 
 export { database, auth, googleAuthProvider, firebase };

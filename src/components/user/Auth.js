@@ -9,7 +9,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItem';
 
-import {database, auth, googleAuthProvider} from './firebase'
+import {database, auth, googleAuthProvider} from 'utils/firebase'
 
 class Auth extends Component {
   constructor(props) {

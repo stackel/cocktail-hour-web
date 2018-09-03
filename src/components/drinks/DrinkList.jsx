@@ -5,11 +5,10 @@ import CardContent from '@material-ui/core/CardContent';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
-import {database, auth, googleAuthProvider} from './firebase'
+import {database, auth, googleAuthProvider} from 'utils/firebase'
 
-import Auth from './Auth'
-import AddNewDrink from './AddNewDrink'
-import Drink from './Drink'
+import Auth from 'components/user/Auth'
+import Drink from 'components/drinks/drink/Drink'
 
 class DrinkList extends Component {
   constructor(props) {
@@ -51,6 +50,10 @@ class DrinkList extends Component {
   }
 
   render() {
+    if(!this.props.firestoreUser) {
+      return null
+    }
+
     const drinks = this.state.drinks;
     const drinkComponents = [];
     for (let i = 0; i < drinks.length; i++) {

@@ -7,7 +7,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Select from 'react-select';
 
-import {database} from './firebase'
 
 import DrinkIngredient from './DrinkIngredient'
 

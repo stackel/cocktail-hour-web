@@ -9,10 +9,9 @@ import Select from 'react-select';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import {database} from './firebase'
+import {database} from 'utils/firebase'
 
-import DrinkIngredient from './DrinkIngredient'
-import DrinkIngredientList from './DrinkIngredientList'
+import DrinkIngredientList from 'components/drinks/drink/drink-ingredients/DrinkIngredientList'
 
 class Drink extends Component {
   constructor(props) {
@@ -150,29 +149,6 @@ class Drink extends Component {
       return null
     }
   }
-
-  /*EditToggle = (props) => {
-    if (props.new) {
-      return null;
-    } else {
-      return (
-        <div className="mh4">
-          <FormControlLabel
-            className="ma4"
-            control={<Switch
-            checked = {
-              this.state.edit
-            }
-            onChange = {
-              this.editModeChanged
-            }
-            value = "edit"
-            />}
-            label="Edit"/>
-        </div>
-      )
-    }
-  }*/
 
   EditButton = (props) => {
     return (<MenuItem onClick={this.editDrink}>Edit</MenuItem>)

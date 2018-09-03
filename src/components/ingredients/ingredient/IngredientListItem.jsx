@@ -7,7 +7,7 @@ import Select from 'react-select';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
-import {database, firebase} from './firebase'
+import {database, firebase} from 'utils/firebase'
 
 class IngredientListItem extends Component {
   constructor(props) {

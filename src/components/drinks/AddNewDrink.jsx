@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import Drink from './Drink'
+import Drink from 'components/drinks/drink/Drink'
 
 class AddNewDrink extends Component {
   render() {

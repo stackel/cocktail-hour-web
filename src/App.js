@@ -7,12 +7,12 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 
-import {database} from './firebase'
+import {database} from './utils/firebase'
 
-import Auth from './Auth'
-import AddNewDrink from './AddNewDrink'
-import DrinkList from './DrinkList'
-import IngredientList from './IngredientList'
+import Auth from 'components/user/Auth'
+import AddNewDrink from 'components/drinks/AddNewDrink'
+import DrinkList from 'components/drinks/DrinkList'
+import IngredientList from 'components/ingredients/IngredientList'
 
 class App extends Component {
   constructor(props) {
