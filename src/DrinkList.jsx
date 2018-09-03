@@ -64,6 +64,7 @@ class DrinkList extends Component {
               edit={false}
               new={false}
               authUser={this.props.authUser}
+              firestoreUser={this.props.firestoreUser}
               allIngredients={this.props.allIngredients}
               units={this.props.units}/>
           </CardContent>

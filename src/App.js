@@ -20,7 +20,7 @@ class App extends Component {
 
     this.state = {
       authUser: null,
-      firebaseUser: null,
+      firestoreUser: null,
       debug: false,
       units: [],
       allIngredients: [],
@@ -55,7 +55,7 @@ class App extends Component {
   }
 
   onLogout = () => {
-    this.setState({authUser: null, firebaseUser: null, drinks: null})
+    this.setState({authUser: null, firestoreUser: null, drinks: null})
   }
 
   handleDebugChange = name => event => {
@@ -104,6 +104,7 @@ class App extends Component {
           <DrinkList
             debug={this.state.debug}
             authUser={this.state.authUser}
+            firestoreUser={this.state.firestoreUser}
             units={this.state.units}
             allIngredients={this.state.allIngredients}/>
         </div>
@@ -113,6 +114,7 @@ class App extends Component {
       return (          <IngredientList
                   debug={this.state.debug}
                   authUser={this.state.authUser}
+                  firestoreUser={this.state.firestoreUser}
                   units={this.state.units}
                   allIngredients={this.state.allIngredients}/>)
     }

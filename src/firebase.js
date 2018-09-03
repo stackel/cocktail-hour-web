@@ -23,4 +23,4 @@ database.settings(settings)
 let googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 let auth = firebase.auth();
 
-export { database, auth, googleAuthProvider };
+export { database, auth, googleAuthProvider, firebase };

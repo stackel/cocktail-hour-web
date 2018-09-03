@@ -17,7 +17,7 @@ class Auth extends Component {
 
     this.state = {
       authUser: null,
-      firebaseUser: null,
+      firestoreUser: null,
       drawerOpen: false
     };
   }
@@ -75,7 +75,7 @@ class Auth extends Component {
   logout = () => {
     auth.signOut().then(() => {
       console.log("Successfully logged out.")
-      this.setState({authUser: null, firebaseUser: null})
+      this.setState({authUser: null, firestoreUser: null})
       this.props.onLogout()
     }, error => {
       console.log("An error occured while logging out: ")

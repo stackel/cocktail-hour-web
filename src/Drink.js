@@ -269,6 +269,7 @@ class Drink extends Component {
           edit={this.state.edit}
           debug={this.state.debug}
           units={this.props.units}
+          firestoreUser={this.props.firestoreUser}
           allIngredients={this.props.allIngredients}
           drinkIngredientFieldChanged={this.drinkIngredientFieldChanged}
           drinkIngredientDeleted={this.deleteDrinkIngredient}/>

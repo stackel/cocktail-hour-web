@@ -49,10 +49,15 @@ class DrinkIngredient extends Component {
     }
 
     if (props.ingredient) {
-      return (<p className="sans-serif dib">{props.ingredient.label}</p>)
-    } else {
-      return null
+      if(props.firestoreUser) {
+        if(props.firestoreUser.ingredients.includes(props.ingredient.name)){
+          return (<p className="sans-serif dib b">{props.ingredient.label}</p>)
+        }
+      }
+      return (<p className="sans-serif dib gray ">{props.ingredient.label}</p>)
+
     }
+    return null
   }
 
   AmountField = props => {
@@ -112,6 +117,7 @@ class DrinkIngredient extends Component {
           ingredient={this.state.drinkIngredient.ingredient}
           allIngredients={this.props.allIngredients}
           i={this.props.i}
+          firestoreUser={this.props.firestoreUser}
           edit={this.props.edit}/>
 
         <this.AmountField

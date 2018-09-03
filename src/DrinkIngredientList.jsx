@@ -35,6 +35,7 @@ class DrinkIngredientList extends Component {
           debug={this.props.debug}
           allUnits={this.props.units}
           allIngredients={this.props.allIngredients}
+          firestoreUser={this.props.firestoreUser}
           drinkIngredientFieldChanged={this.drinkIngredientFieldChanged}
           drinkIngredientDeleted={this.drinkIngredientDeleted}/>
       )

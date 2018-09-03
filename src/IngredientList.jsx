@@ -36,7 +36,7 @@ class IngredientList extends Component {
   }
 
   fetchIngredients = (userUid) => {
-    database.collection("ingredients").onSnapshot(
+    database.collection("ingredients").orderBy("name").onSnapshot(
       snapshot => {
         const ingredients = []
         snapshot.forEach(doc => {
@@ -54,14 +54,16 @@ class IngredientList extends Component {
     const ingredientComponents = [];
     for (let i = 0; i < ingredients.length; i++) {
       ingredientComponents.push(
-        <Card className="ma3" key={ingredients[i].id}>
+        <Card className="ma2" key={ingredients[i].id}>
           <CardContent className="ma2">
             <IngredientListItem
               className="ma4"
               ingredient={ingredients[i]}
               debug={this.props.debug}
               edit={false}
-              new={false}/>
+              new={false}
+              authUser={this.props.authUser}
+              ingredients={this.props.firestoreUser.ingredients}/>
           </CardContent>
         </Card>
       )
