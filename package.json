@@ -2,6 +2,7 @@
   "name": "cocktail-hour-web",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://stackel.github.io/cocktail-hour-web",
   "dependencies": {
     "@material-ui/core": "^3.0.0",
     "firebase": "^5.4.1",
@@ -19,6 +20,11 @@
     "eject": "react-scripts eject",
     "css": "tachyons src/css/app.css > src/index.css --minify",
     "prestart": "npm run css",
-    "prebuild": "npm run css"
+    "prebuild": "npm run css",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "devDependencies": {
+    "gh-pages": "^1.2.0"
   }
 }
