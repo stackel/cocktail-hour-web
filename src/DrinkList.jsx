@@ -45,8 +45,8 @@ class DrinkList extends Component {
     const drinkComponents = [];
     for (let i = 0; i < drinks.length; i++) {
       drinkComponents.push(
-        <div className="w-25 dib" key={drinks[i].id}>
-          <div className="ma2">
+        <Card className="ma3" key={drinks[i].id}>
+          <CardContent className="ma2">
             <Drink
               className="ma4"
               drink={drinks[i]}
@@ -56,8 +56,8 @@ class DrinkList extends Component {
               authUser={this.props.authUser}
               allIngredients={this.props.allIngredients}
               units={this.props.units}/>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       )
     }
 

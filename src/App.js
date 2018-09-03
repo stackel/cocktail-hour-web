@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
 import {database} from './firebase'
 
@@ -56,7 +59,7 @@ class App extends Component {
   };
 
   DebugToggle = props => {
-    if(props.hide) {
+    if (props.hide) {
       return null;
     }
     return (
@@ -84,13 +87,18 @@ class App extends Component {
           <Auth onLogin={this.onLogin} onLogout={this.onLogout}/>
         </div>
 
-        <div className="ma4 mw7 center">
-          <AddNewDrink
-            debug={this.state.debug}
-            authUser={this.state.authUser}
-            units={this.state.units}
-            allIngredients={this.state.allIngredients}/>
-        </div>
+          <ExpansionPanel>
+            <ExpansionPanelSummary >
+                <h2 className="tc sans-serif f4 center mv0 pv0">Add New Drink</h2>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails className="mh3">
+              <AddNewDrink
+                debug={this.state.debug}
+                authUser={this.state.authUser}
+                units={this.state.units}
+                allIngredients={this.state.allIngredients}/>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
 
         <DrinkList
           debug={this.state.debug}
