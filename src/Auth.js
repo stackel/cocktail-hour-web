@@ -90,9 +90,12 @@ class Auth extends Component {
   UserArea = (props) => {
     if (!props.authUser) {
       return (
-        <Button onClick={this.loginWithGoogleAuth} variant="contained" color="primary">
-          Log in
-        </Button>
+        <div className="tc">
+          <h1 className="sans-serif f2 tc mt7"> COCKTAIL HOUR</h1>
+          <Button onClick={this.loginWithGoogleAuth} variant="outlined" color="primary">
+            Log in
+          </Button>
+        </div>
       )
     } else {
       return (

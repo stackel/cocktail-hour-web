@@ -49,7 +49,7 @@ class DrinkIngredient extends Component {
     }
 
     if (props.ingredient) {
-      return (<p>{props.ingredient.label}</p>)
+      return (<p className="sans-serif dib">{props.ingredient.label}</p>)
     } else {
       return null
     }
@@ -68,7 +68,7 @@ class DrinkIngredient extends Component {
     }
 
     if (props.amount) {
-      return (<p>{props.amount}</p>)
+      return (<p className="sans-serif fr">{props.amount}</p>)
     } else {
       return null
     }
@@ -86,7 +86,7 @@ class DrinkIngredient extends Component {
     }
 
     if (props.unit) {
-      return (<p>{props.unit.label}</p>)
+      return (<p className="sans-serif fr mh1 gray">{props.unit.label}</p>)
     } else {
       return null
     }

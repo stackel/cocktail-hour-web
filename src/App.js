@@ -86,10 +86,10 @@ class App extends Component {
         <div className="ma4 mw7 center">
           <Auth onLogin={this.onLogin} onLogout={this.onLogout}/>
         </div>
-
+        {this.state.authUser &&
           <ExpansionPanel>
             <ExpansionPanelSummary >
-                <h2 className="tc sans-serif f4 center mv0 pv0">Add New Drink</h2>
+              <h2 className="tc sans-serif f4 center mv0 pv0">Add New Drink</h2>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className="mh3">
               <AddNewDrink
@@ -99,6 +99,8 @@ class App extends Component {
                 allIngredients={this.state.allIngredients}/>
             </ExpansionPanelDetails>
           </ExpansionPanel>
+        }
+
 
         <DrinkList
           debug={this.state.debug}

@@ -80,11 +80,14 @@ class Drink extends Component {
     )
 
     this.setState({edit: false})
-
   }
 
   editDrink = () => {
     this.setState({edit: true, anchorEl: null})
+  }
+
+  turnOffEditMode = () => {
+    this.setState({edit: false})
   }
 
   deleteDrink = () => {
@@ -238,11 +241,24 @@ class Drink extends Component {
     )
   }
 
+  EditBackButton = (props) => {
+    if(props.new || !props.edit) {
+      return null
+    }
+    return (
+      <Button
+        onClick={this.turnOffEditMode}>
+        Back
+      </Button>
+    )
+  }
+
   render() {
     return (
       <div>
         <div className="fr">
           <this.DrinkMenu edit={this.state.edit} anchorEl={this.state.anchorEl} new={this.props.new}/>
+          <this.EditBackButton edit={this.state.edit} new={this.props.new}/>
         </div>
         <this.DrinkName edit={this.state.edit}/>
         <this.DrinkDescription edit={this.state.edit}/>

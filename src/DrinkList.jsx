@@ -23,6 +23,8 @@ class DrinkList extends Component {
   componentWillReceiveProps(nextProps) {
     if(nextProps.authUser) {
       this.fetchDrinks(nextProps.authUser.uid)
+    } else {
+      this.state.drinks = []
     }
   }
 
