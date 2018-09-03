@@ -24,7 +24,15 @@ class DrinkList extends Component {
     if(nextProps.authUser) {
       this.fetchDrinks(nextProps.authUser.uid)
     } else {
-      this.state.drinks = []
+      this.setState({
+        drinks: []
+      })
+    }
+  }
+
+  componentDidMount() {
+    if(this.props.authUser) {
+      this.fetchDrinks(this.props.authUser.uid)
     }
   }
 
