@@ -86,6 +86,9 @@ class App extends Component {
   }
 
   Content = (props) => {
+    if(!props.authUser) {
+      return null
+    }
     if (props.value === 0) {
       return (
         <div>
@@ -131,7 +134,7 @@ class App extends Component {
           <Auth onLogin={this.onLogin} onLogout={this.onLogout}/>
         </div>
 
-        <this.Content value={this.state.value}/>
+        <this.Content value={this.state.value} authUser={this.state.authUser}/>
 
         <BottomNavigation
           className="fixed bottom-0 w-100"

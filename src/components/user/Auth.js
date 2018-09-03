@@ -18,7 +18,8 @@ class Auth extends Component {
     this.state = {
       authUser: null,
       firestoreUser: null,
-      drawerOpen: false
+      drawerOpen: false,
+      loading: true
     };
   }
 
@@ -40,11 +41,13 @@ class Auth extends Component {
           if (firestoreUser) {
             console.log("Found firestore user.")
             console.log(firestoreUser)
-
+            this.setState({
+              loading: false
+            })
             this.setState({firestoreUser: firestoreUser})
             this.props.onLogin(authUser, firestoreUser)
           } else {
-            console.log("Did not find firestore user, creating it.")
+            /*console.log("Did not find firestore user, creating it.")
             database.collection("users").doc(authUser.uid).set({"drinks": {}}).then(
               response => {
                 console.log("Firestore user created.")
@@ -53,11 +56,14 @@ class Auth extends Component {
                 console.log("Error creating firestore user: ")
                 console.log(error)
               }
-            )
+            )*/
           }
         })
       } else {
         console.log("Auth user not found.")
+        this.setState({
+          loading: false
+        })
       }
     });
   }
@@ -88,6 +94,9 @@ class Auth extends Component {
   };
 
   UserArea = (props) => {
+    if(this.state.loading) {
+      return (<p>LOADFINF</p>)
+    }
     if (!props.authUser) {
       return (
         <div className="tc">

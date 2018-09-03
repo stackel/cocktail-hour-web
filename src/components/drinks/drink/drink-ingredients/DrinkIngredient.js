@@ -93,7 +93,7 @@ class DrinkIngredient extends Component {
   }
 
   DeleteButton = (props) => {
-    if(props.edit) {
+    if(props.show) {
       return (<Button onClick={this.delete(this.props.i)}>X</Button>)
     } else {
       return null;
@@ -107,7 +107,7 @@ class DrinkIngredient extends Component {
 
     return (
       <div>
-        <this.DeleteButton edit={this.props.edit}/>
+        <this.DeleteButton show={this.props.edit}/>
         <this.IngredientField
           ingredient={this.state.drinkIngredient.ingredient}
           allIngredients={this.props.allIngredients}
