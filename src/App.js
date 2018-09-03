@@ -12,6 +12,7 @@ import {database} from './firebase'
 import Auth from './Auth'
 import AddNewDrink from './AddNewDrink'
 import DrinkList from './DrinkList'
+import IngredientList from './IngredientList'
 
 class App extends Component {
   constructor(props) {
@@ -102,16 +103,18 @@ class App extends Component {
           </ExpansionPanel>
           <DrinkList
             debug={this.state.debug}
-            authUser={this.state.authUser
-}
+            authUser={this.state.authUser}
             units={this.state.units}
             allIngredients={this.state.allIngredients}/>
         </div>
       )
     }
     if (props.value === 1) {
-      return (<p>
-        INGREDS</p>)
+      return (          <IngredientList
+                  debug={this.state.debug}
+                  authUser={this.state.authUser}
+                  units={this.state.units}
+                  allIngredients={this.state.allIngredients}/>)
     }
     return null;
   }
