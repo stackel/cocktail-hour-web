@@ -25,8 +25,8 @@ class App extends Component {
   }
 
   fetchIngredients = () => {
-    const ingredients = []
     database.collection("ingredients").onSnapshot(snapshot => {
+      const ingredients = []
       snapshot.forEach(doc => {
         ingredients.push(doc.data());
       })
