@@ -62,7 +62,7 @@ class Drink extends Component {
   }
 
   deleteDrinkIngredient = i => {
-    const newIngredients = [...this.state.ingredients];
+    let newIngredients = [...this.state.ingredients];
     newIngredients.splice(i, 1);
     this.setState({ingredients: newIngredients});
   }

@@ -11,14 +11,6 @@ import DeleteButton from
 "components/drinks/drink/drink-ingredients/drink-ingredient/fields/DeleteButton"
 
 class DrinkIngredient extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      drinkIngredient: props.drinkIngredient
-    };
-  }
-
   handleFieldChange = (fieldName, value) => {
     this.props.drinkIngredientFieldChanged(this.props.i, fieldName, value)
   };
@@ -33,7 +25,7 @@ class DrinkIngredient extends Component {
 
         <div class="w-50 dib pr4">
           <IngredientField
-            ingredient={this.state.drinkIngredient.ingredient}
+            ingredient={this.props.drinkIngredient.ingredient}
             allIngredients={this.props.allIngredients}
             firestoreUser={this.props.firestoreUser}
             edit={this.props.edit}
@@ -43,14 +35,14 @@ class DrinkIngredient extends Component {
         <div class="w-50 dib tr">
           <div class="dib w-50 pr4">
             <AmountField
-              amount={this.state.drinkIngredient.amount}
+              amount={this.props.drinkIngredient.amount}
               edit={this.props.edit}
               handleChange={this.handleFieldChange}/>
           </div>
 
           <div class="dib w-50">
             <UnitField
-              unit={this.state.drinkIngredient.unit}
+              unit={this.props.drinkIngredient.unit}
               allUnits={this.props.allUnits}
               edit={this.props.edit}
               handleChange={this.handleFieldChange}/>
@@ -61,7 +53,7 @@ class DrinkIngredient extends Component {
           <DeleteButton handleDelete={this.handleDelete} show={this.props.edit}/>
         </div>
 
-        <DebugJson show={this.props.debug} value={this.state.drinkIngredient}/>
+        <DebugJson show={this.props.debug} value={this.props.drinkIngredient}/>
       </div>
     )
   }
