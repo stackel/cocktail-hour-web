@@ -16,7 +16,7 @@ class IngredientField extends Component {
         <Select
           placeholder="Ingredient"
           className="mb2"
-          value={props.ingredient}
+          defaultValue={props.ingredient}
           onChange={this.handleChange}
           options={props.allIngredients}/>
       )

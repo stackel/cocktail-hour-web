@@ -47,6 +47,14 @@ class Drink extends Component {
     this.setState({
       edit: value
     })
+    //RESET
+    if(!value) {
+      this.setState({
+        description: this.props.drink.description,
+        name: this.props.drink.name,
+        ingredients: this.props.drink.ingredients,
+      })
+    }
   }
 
   drinkIngredientFieldChanged = (i, fieldName, value) => {

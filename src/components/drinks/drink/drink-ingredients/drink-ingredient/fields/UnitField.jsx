@@ -14,7 +14,7 @@ class UnitField extends Component {
       return (
         <Select
           placeholder="Unit"
-          value={props.unit}
+          defaultValue={props.unit}
           onChange={this.handleChange}
           options={props.allUnits}/>
       )
