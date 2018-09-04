@@ -15,28 +15,34 @@ import DrinkIngredientList from 'components/drinks/drink/drink-ingredients/Drink
 import DrinkMenu from 'components/drinks/drink/menu/DrinkMenu'
 import DebugJson from 'components/shared/DebugJson'
 
+import _ from 'lodash'
 
 class Drink extends Component {
   constructor(props) {
     super(props);
-    if (props.drink) {
-      this.state = {
-        edit: props.edit,
-        name: props.drink.name,
-        description: props.drink.description,
-        ingredients: props.drink.ingredients,
-        id: props.drink.id,
-      };
-    } else {
-      this.state = {
-        edit: props.edit,
-        name: "",
-        description: "",
-        ingredients: [
-          {}
-        ],
-      };
+    this.state = {
+      edit: props.edit,
+      name: "",
+      description: "",
+      ingredients: [{}]
     }
+  }
+
+  componentDidMount() {
+    this.setDrink(this.props.drink)
+  }
+
+  setDrink = (drink) => {
+    if (!drink) {
+      return
+    }
+    this.setState({
+      description: drink.description,
+      name: drink.name,
+      id: drink.id,
+      ingredients: _.cloneDeep(drink.ingredients)
+    })
+
   }
 
   handleFieldChange = fieldName => event => {
@@ -44,16 +50,9 @@ class Drink extends Component {
   };
 
   toggleEdit = value => {
-    this.setState({
-      edit: value
-    })
-    //RESET
-    if(!value) {
-      this.setState({
-        description: this.props.drink.description,
-        name: this.props.drink.name,
-        ingredients: this.props.drink.ingredients,
-      })
+    this.setState({edit: value})
+    if (!value) {
+      this.setDrink(this.props.drink)
     }
   }
 

@@ -4,28 +4,26 @@ import TextField from '@material-ui/core/TextField';
 
 class AmountField extends Component {
   handleChange = event => {
+    console.log(event.target.value)
     this.props.handleChange("amount", event.target.value)
   }
 
   render() {
-    const props = this.props
-
-    if (props.edit) {
+    if (this.props.edit) {
       return (
         <TextField
-          id={props.amount}
           className="w-100"
           label="Amount"
-          defaultValue={props.amount}
+          defaultValue={this.props.amount}
           onChange={this.handleChange}/>
       )
     }
 
-    if (!props.amount) {
+    if (!this.props.amount) {
       return null
     }
 
-    return (<p className="sans-serif">{props.amount}</p>)
+    return (<p className="sans-serif">{this.props.amount}</p>)
   }
 }
 

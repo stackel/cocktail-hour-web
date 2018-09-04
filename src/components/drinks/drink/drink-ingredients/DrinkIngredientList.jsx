@@ -12,19 +12,17 @@ class DrinkIngredientList extends Component {
   }
 
   render() {
-    const ingredients = this.props.ingredients;
-
-    if (!ingredients) {
+    if (!this.props.ingredients) {
       return null
     }
 
     const ingredientComponents = [];
-    for (let i = 0; i < ingredients.length; i++) {
+    for (let i = 0; i < this.props.ingredients.length; i++) {
       ingredientComponents.push(
         <DrinkIngredient
           i={i}
           key={i}
-          drinkIngredient={ingredients[i]}
+          drinkIngredient={this.props.ingredients[i]}
           edit={this.props.edit}
           debug={this.props.debug}
           allUnits={this.props.units}
