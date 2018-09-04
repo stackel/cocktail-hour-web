@@ -159,6 +159,7 @@ class Drink extends Component {
       return (
         <Button
           variant="contained"
+          color="primary"
           className="w-100"
           onClick={this.saveDrink}
           color="primary">Save</Button>
@@ -168,6 +169,7 @@ class Drink extends Component {
       return (
         <Button
           variant="contained"
+          color="primary"
           className="w-100"
           onClick={this.updateDrink}
           color="primary">Update</Button>
@@ -179,7 +181,7 @@ class Drink extends Component {
   AddIngredientButton = (props) => {
     if (props.edit) {
       return (
-        <Button variant="contained" className="w-100" onClick={this.addIngredient}>Add ingredient</Button>
+        <Button variant="outlined" className="w-100" onClick={this.addIngredient}>Add ingredient</Button>
       )
     } else {
       return null
