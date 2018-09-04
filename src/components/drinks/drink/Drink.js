@@ -12,6 +12,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {database} from 'utils/firebase'
 
 import DrinkIngredientList from 'components/drinks/drink/drink-ingredients/DrinkIngredientList'
+import DrinkMenu from 'components/drinks/drink/menu/DrinkMenu'
+import DebugJson from 'components/shared/DebugJson'
+
 
 class Drink extends Component {
   constructor(props) {
@@ -23,7 +26,6 @@ class Drink extends Component {
         description: props.drink.description,
         ingredients: props.drink.ingredients,
         id: props.drink.id,
-        anchorEl: null
       };
     } else {
       this.state = {
@@ -33,7 +35,6 @@ class Drink extends Component {
         ingredients: [
           {}
         ],
-        anchorEl: null
       };
     }
   }
@@ -41,6 +42,12 @@ class Drink extends Component {
   handleFieldChange = fieldName => event => {
     this.setState({[fieldName]: event.target.value});
   };
+
+  toggleEdit = value => {
+    this.setState({
+      edit: value
+    })
+  }
 
   drinkIngredientFieldChanged = (i, fieldName, value) => {
     const newDrinkIngredients = [...this.state.ingredients];
@@ -60,10 +67,6 @@ class Drink extends Component {
     this.setState({ingredients: newIngredients});
   }
 
-  editModeChanged = event => {
-    this.setState({edit: event.target.checked});
-  };
-
   saveDrink = () => {
     database.collection("users").doc(this.props.authUser.uid).collection("drinks").add(
       {name: this.state.name, description: this.state.description, ingredients: this.state.ingredients}
@@ -77,32 +80,14 @@ class Drink extends Component {
     ).set(
       {name: this.state.name, description: this.state.description, ingredients: this.state.ingredients}
     )
-
-    this.setState({edit: false})
-  }
-
-  editDrink = () => {
-    this.setState({edit: true, anchorEl: null})
-  }
-
-  turnOffEditMode = () => {
     this.setState({edit: false})
   }
 
   deleteDrink = () => {
-    console.log("DELETE")
     database.collection("users").doc(this.props.authUser.uid).collection("drinks").doc(
       this.state.id
     ).delete()
   }
-
-  handleClick = event => {
-    this.setState({anchorEl: event.currentTarget});
-  };
-
-  handleClose = () => {
-    this.setState({anchorEl: null});
-  };
 
   DrinkName = props => {
     if (props.edit) {
@@ -134,24 +119,12 @@ class Drink extends Component {
     }
   }
 
-  DebugJson = props => {
-    if (props.debug) {
-      return (<pre> {JSON.stringify(this.state, null, 2)} </pre>)
-    } else {
-      return null;
-    }
-  }
-
   NewDrink = (props) => {
     if (props.new) {
       return (<h2 className="tc sans-serif f3">Add New Drink</h2>)
     } else {
       return null
     }
-  }
-
-  EditButton = (props) => {
-    return (<MenuItem onClick={this.editDrink}>Edit</MenuItem>)
   }
 
   SaveOrUpdateButton = (props) => {
@@ -161,8 +134,7 @@ class Drink extends Component {
           variant="contained"
           color="primary"
           className="w-100"
-          onClick={this.saveDrink}
-          color="primary">Save</Button>
+          onClick={this.saveDrink}>Save</Button>
       )
     }
     if (props.edit) {
@@ -171,8 +143,7 @@ class Drink extends Component {
           variant="contained"
           color="primary"
           className="w-100"
-          onClick={this.updateDrink}
-          color="primary">Update</Button>
+          onClick={this.updateDrink}>Update</Button>
       )
     }
     return null;
@@ -188,56 +159,17 @@ class Drink extends Component {
     }
   }
 
-  DeleteDrinkButton = (props) => {
-    return (<MenuItem onClick={this.deleteDrink}>Delete</MenuItem>)
-  }
-
-  DrinkMenu = (props) => {
-    const anchorEl = props.anchorEl;
-    if (props.new || props.edit) {
-      return null
-    }
-    return (
-      <div>
-        <Button
-          aria-owns={anchorEl
-            ? 'simple-menu'
-            : null}
-          aria-haspopup="true"
-          onClick={this.handleClick}>
-          menu
-        </Button>
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={this.handleClose}>
-          <this.EditButton new={this.props.new}/>
-          <this.DeleteDrinkButton edit={this.state.edit} new={this.props.new}/>
-        </Menu>
-      </div>
-    )
-  }
-
-  EditBackButton = (props) => {
-    if(props.new || !props.edit) {
-      return null
-    }
-    return (
-      <Button
-        onClick={this.turnOffEditMode}>
-        Back
-      </Button>
-    )
-  }
-
   render() {
     return (
       <div>
         <div className="fr">
-          <this.DrinkMenu edit={this.state.edit} anchorEl={this.state.anchorEl} new={this.props.new}/>
-          <this.EditBackButton edit={this.state.edit} new={this.props.new}/>
+          <DrinkMenu
+            edit={this.state.edit}
+            new={this.props.new}
+            onDelete={this.deleteDrink}
+            onEditChanged={this.toggleEdit}/>
         </div>
+
         <this.DrinkName edit={this.state.edit}/>
         <this.DrinkDescription edit={this.state.edit}/>
 
@@ -255,7 +187,7 @@ class Drink extends Component {
           <this.AddIngredientButton edit={this.state.edit}/>
         </div>
         <this.SaveOrUpdateButton edit={this.state.edit} new={this.props.new}/>
-        <this.DebugJson debug={this.props.debug}/>
+        <DebugJson debug={this.props.debug}/>
       </div>
     );
   }
