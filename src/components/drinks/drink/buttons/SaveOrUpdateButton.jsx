@@ -17,6 +17,7 @@ class SaveOrUpdateButton extends Component {
       return (
         <Button
           variant="contained"
+          disabled={this.props.disabled}
           color="primary"
           className="w-100"
           onClick={this.onSave}>Save</Button>
@@ -26,6 +27,7 @@ class SaveOrUpdateButton extends Component {
       return (
         <Button
           variant="contained"
+          disabled={this.props.disabled}
           color="primary"
           className="w-100"
           onClick={this.onUpdate}>Update</Button>

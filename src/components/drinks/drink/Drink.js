@@ -18,7 +18,9 @@ class Drink extends Component {
       edit: props.edit,
       name: "",
       description: "",
-      ingredients: [{}],
+      ingredients: [
+        {}
+      ],
       redirectToDashboard: false
     }
   }
@@ -75,9 +77,7 @@ class Drink extends Component {
     database.collection("users").doc(this.props.authUserUid).collection("drinks").add(
       {name: this.state.name, description: this.state.description, ingredients: this.state.ingredients}
     ).then(() => {
-      this.setState({
-        redirectToDashboard: true
-      })
+      this.setState({redirectToDashboard: true})
     })
   }
 
@@ -96,8 +96,33 @@ class Drink extends Component {
     ).delete()
   }
 
+  validateFields = () => {
+    if(!this.state.name.length < 0) {
+      return false
+    }
+
+    if(!this.state.description.length < 0) {
+      return false
+    }
+
+    if(this.state.ingredients.length < 1) {
+      return false
+    }
+
+    const firstIngredient = this.state.ingredients[0];
+    if(!firstIngredient.ingredient) {
+      return false
+    }
+    if(!firstIngredient.amount) {
+      return false
+    }
+
+    return true;
+
+  }
+
   render() {
-    if(this.state.redirectToDashboard) {
+    if (this.state.redirectToDashboard) {
       return (<Redirect to="/"/>)
     }
     return (
@@ -140,6 +165,7 @@ class Drink extends Component {
         </div>
 
         <SaveOrUpdateButton
+          disabled={!this.validateFields()}
           edit={this.state.edit}
           new={this.props.new}
           onSave={this.saveDrink}

@@ -71,10 +71,7 @@ class Dashboard extends Component {
     this.setState({value});
   }
 
-  Content = (props) => {
-    if (!props.authUser) {
-      return null
-    }
+  List = (props) => {
     if (props.value === 0) {
       return (
         <div>
@@ -124,7 +121,7 @@ class Dashboard extends Component {
           }
         }}> New </Link>
 
-        <this.Content
+      <this.List
         value={this.state.value}
         authUser={this.state.authUser}/>
 
