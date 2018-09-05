@@ -57,7 +57,6 @@ class DrinkList extends Component {
     const drinks = this.state.drinks;
     const drinkComponents = [];
     for (let i = 0; i < drinks.length; i++) {
-      console.log(drinks[i])
       drinkComponents.push(
         <Card className="ma3" key={drinks[i].id}>
           <CardContent className="ma2">
