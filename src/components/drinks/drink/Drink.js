@@ -1,21 +1,15 @@
 import React, {Component} from 'react';
-import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
-import CardContent from '@material-ui/core/CardContent';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import Select from 'react-select';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import _ from 'lodash'
 
 import {database} from 'utils/firebase'
-
 import DrinkIngredientList from 'components/drinks/drink/drink-ingredients/DrinkIngredientList'
 import DrinkMenu from 'components/drinks/drink/menu/DrinkMenu'
+import DrinkName from 'components/drinks/drink/fields/DrinkName'
+import DrinkDescription from 'components/drinks/drink/fields/DrinkDescription'
+import AddIngredientButton from 'components/drinks/drink/drink-ingredients/AddIngredientButton'
+import SaveOrUpdateButton from 'components/drinks/drink/buttons/SaveOrUpdateButton'
 import DebugJson from 'components/shared/DebugJson'
-
-import _ from 'lodash'
 
 class Drink extends Component {
   constructor(props) {
@@ -29,7 +23,9 @@ class Drink extends Component {
   }
 
   componentDidMount() {
-    this.setDrink(this.props.drink)
+    if (this.props.drink) {
+      this.setDrink(this.props.drink)
+    }
   }
 
   setDrink = (drink) => {
@@ -45,10 +41,6 @@ class Drink extends Component {
 
   }
 
-  handleFieldChange = fieldName => event => {
-    this.setState({[fieldName]: event.target.value});
-  };
-
   toggleEdit = value => {
     this.setState({edit: value})
     if (!value) {
@@ -56,7 +48,11 @@ class Drink extends Component {
     }
   }
 
-  drinkIngredientFieldChanged = (i, fieldName, value) => {
+  changeField = (fieldName, value) => {
+    this.setState({[fieldName]: value});
+  };
+
+  changeIngredientField = (i, fieldName, value) => {
     const newDrinkIngredients = [...this.state.ingredients];
     newDrinkIngredients[i][fieldName] = value;
     this.setState({ingredients: newDrinkIngredients});
@@ -68,7 +64,7 @@ class Drink extends Component {
     this.setState({ingredients: newIngredients});
   }
 
-  deleteDrinkIngredient = i => {
+  deleteIngredient = i => {
     let newIngredients = [...this.state.ingredients];
     newIngredients.splice(i, 1);
     this.setState({ingredients: newIngredients});
@@ -96,75 +92,7 @@ class Drink extends Component {
     ).delete()
   }
 
-  DrinkName = props => {
-    if (props.edit) {
-      return (
-        <TextField
-          id="name"
-          label="Name"
-          className="w-100"
-          value={this.state.name}
-          onChange={this.handleFieldChange('name')}/>
-      )
-    } else {
-      return <h3 className="sans-serif f3">{this.state.name}</h3>
-    }
-  }
-
-  DrinkDescription = props => {
-    if (props.edit) {
-      return (
-        <TextField
-          id="description"
-          label="Description"
-          className="w-100"
-          value={this.state.description}
-          onChange={this.handleFieldChange('description')}/>
-      )
-    } else {
-      return <p className="f4 sans-serif">{this.state.description}</p>
-    }
-  }
-
-  NewDrink = (props) => {
-    if (props.new) {
-      return (<h2 className="tc sans-serif f3">Add New Drink</h2>)
-    } else {
-      return null
-    }
-  }
-
-  SaveOrUpdateButton = (props) => {
-    if (props.new) {
-      return (
-        <Button
-          variant="contained"
-          color="primary"
-          className="w-100"
-          onClick={this.saveDrink}>Save</Button>
-      )
-    }
-    if (props.edit) {
-      return (
-        <Button
-          variant="contained"
-          color="primary"
-          className="w-100"
-          onClick={this.updateDrink}>Update</Button>
-      )
-    }
-    return null;
-  }
-
-  AddIngredientButton = (props) => {
-    if (props.edit) {
-      return (
-        <Button variant="outlined" className="w-100" onClick={this.addIngredient}>Add ingredient</Button>
-      )
-    } else {
-      return null
-    }
-  }
+  SaveOrUpdateButton = (props) => {}
 
   render() {
     return (
@@ -177,23 +105,37 @@ class Drink extends Component {
             onEditChanged={this.toggleEdit}/>
         </div>
 
-        <this.DrinkName edit={this.state.edit}/>
-        <this.DrinkDescription edit={this.state.edit}/>
-
-        <h3 className="tc sans-serif f4">Ingredients:</h3>
-        <DrinkIngredientList
-          ingredients={this.state.ingredients}
+        <DrinkName
+          name={this.state.name}
           edit={this.state.edit}
-          debug={this.state.debug}
-          units={this.props.units}
-          firestoreUser={this.props.firestoreUser}
-          allIngredients={this.props.allIngredients}
-          drinkIngredientFieldChanged={this.drinkIngredientFieldChanged}
-          drinkIngredientDeleted={this.deleteDrinkIngredient}/>
-        <div className="mv3">
-          <this.AddIngredientButton edit={this.state.edit}/>
+          onChange={this.changeField}/>
+        <DrinkDescription
+          description={this.state.description}
+          edit={this.state.edit}
+          onChange={this.changeField}/>
+
+        <div className="mv4">
+          <DrinkIngredientList
+            ingredients={this.state.ingredients}
+            edit={this.state.edit}
+            debug={this.state.debug}
+            units={this.props.units}
+            firestoreUser={this.props.firestoreUser}
+            allIngredients={this.props.allIngredients}
+            drinkIngredientFieldChanged={this.changeIngredientField}
+            drinkIngredientDeleted={this.deleteIngredient}/>
         </div>
-        <this.SaveOrUpdateButton edit={this.state.edit} new={this.props.new}/>
+
+        <div className="mv3">
+          <AddIngredientButton edit={this.state.edit} onClick={this.addIngredient}/>
+        </div>
+
+        <SaveOrUpdateButton
+          edit={this.state.edit}
+          new={this.props.new}
+          onSave={this.saveDrink}
+          onUpdate={this.updateDrink}/>
+
         <DebugJson debug={this.props.debug}/>
       </div>
     );
