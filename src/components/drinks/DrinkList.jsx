@@ -4,6 +4,10 @@ import Button from '@material-ui/core/Button';
 import CardContent from '@material-ui/core/CardContent';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import {Link} from "react-router-dom";
 
 import {database, auth, googleAuthProvider} from 'utils/firebase'
 
@@ -19,17 +23,15 @@ class DrinkList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.authUser) {
+    if (nextProps.authUser) {
       this.fetchDrinks(nextProps.authUser.uid)
     } else {
-      this.setState({
-        drinks: []
-      })
+      this.setState({drinks: []})
     }
   }
 
   componentDidMount() {
-    if(this.props.authUser) {
+    if (this.props.authUser) {
       this.fetchDrinks(this.props.authUser.uid)
     }
   }
@@ -48,8 +50,10 @@ class DrinkList extends Component {
     );
   }
 
+  drinkClicked = () => {}
+
   render() {
-    if(!this.props.firestoreUser) {
+    if (!this.props.firestoreUser) {
       return null
     }
 
@@ -57,26 +61,33 @@ class DrinkList extends Component {
     const drinkComponents = [];
     for (let i = 0; i < drinks.length; i++) {
       drinkComponents.push(
-        <Card className="ma3" key={drinks[i].id}>
-          <CardContent className="ma2">
-            <Drink
-              className="ma4"
-              drink={drinks[i]}
-              debug={this.props.debug}
-              edit={false}
-              new={false}
-              authUser={this.props.authUser}
-              firestoreUser={this.props.firestoreUser}
-              allIngredients={this.props.allIngredients}
-              units={this.props.units}/>
-          </CardContent>
-        </Card>
+        <ListItem
+          component={Link}
+          to={{
+            pathname: "/drink/" + drinks[i].id,
+            state: {
+              debug: JSON.stringify(this.props.debug),
+              allIngredients: JSON.stringify(this.props.allIngredients),
+              units: JSON.stringify(this.props.units),
+              authUser: JSON.stringify(this.props.authUser),
+              firestoreUser: JSON.stringify(this.props.firestoreUser),
+              drink: JSON.stringify(drinks[i])
+            }
+          }}
+          button="button"
+          key={drinks[i].id}
+          onClick={this.drinkClicked}>
+          <ListItemText className="db" primary={drinks[i].name}/>
+        </ListItem>
       )
     }
-
-    return (<div>
-      {drinkComponents}
-    </div>);
+    return (
+      <div className="w-100">
+        <List component="nav">
+          {drinkComponents}
+        </List>
+      </div>
+    );
   }
 }
 
