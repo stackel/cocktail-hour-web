@@ -7,7 +7,6 @@ import Switch from '@material-ui/core/Switch';
 
 import {database} from 'utils/firebase'
 
-import Auth from 'components/user/Auth'
 import IngredientListItem from 'components/ingredients/ingredient/IngredientListItem'
 
 class IngredientList extends Component {

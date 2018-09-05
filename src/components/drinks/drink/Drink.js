@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import Button from '@material-ui/core/Button';
 import _ from 'lodash'
-
+import {Redirect} from 'react-router-dom'
 import {database} from 'utils/firebase'
 import DrinkIngredientList from 'components/drinks/drink/drink-ingredients/DrinkIngredientList'
 import DrinkMenu from 'components/drinks/drink/menu/DrinkMenu'
+import AddNewDrinkTitle from 'components/drinks/drink/fields/AddNewDrinkTitle'
 import DrinkName from 'components/drinks/drink/fields/DrinkName'
 import DrinkDescription from 'components/drinks/drink/fields/DrinkDescription'
 import AddIngredientButton from 'components/drinks/drink/drink-ingredients/AddIngredientButton'
@@ -18,7 +18,8 @@ class Drink extends Component {
       edit: props.edit,
       name: "",
       description: "",
-      ingredients: [{}]
+      ingredients: [{}],
+      redirectToDashboard: false
     }
   }
 
@@ -71,14 +72,17 @@ class Drink extends Component {
   }
 
   saveDrink = () => {
-    database.collection("users").doc(this.props.authUser.uid).collection("drinks").add(
+    database.collection("users").doc(this.props.authUserUid).collection("drinks").add(
       {name: this.state.name, description: this.state.description, ingredients: this.state.ingredients}
-    )
-    this.setState({name: "", description: "", ingredients: [{}]})
+    ).then(() => {
+      this.setState({
+        redirectToDashboard: true
+      })
+    })
   }
 
   updateDrink = () => {
-    database.collection("users").doc(this.props.authUser.uid).collection("drinks").doc(
+    database.collection("users").doc(this.props.authUserUid).collection("drinks").doc(
       this.state.id
     ).set(
       {name: this.state.name, description: this.state.description, ingredients: this.state.ingredients}
@@ -92,9 +96,10 @@ class Drink extends Component {
     ).delete()
   }
 
-  SaveOrUpdateButton = (props) => {}
-
   render() {
+    if(this.state.redirectToDashboard) {
+      return (<Redirect to="/"/>)
+    }
     return (
       <div>
         <div className="fr">
@@ -103,6 +108,10 @@ class Drink extends Component {
             new={this.props.new}
             onDelete={this.deleteDrink}
             onEditChanged={this.toggleEdit}/>
+        </div>
+
+        <div className="tc">
+          <AddNewDrinkTitle new={this.props.new}/>
         </div>
 
         <DrinkName

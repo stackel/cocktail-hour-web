@@ -7,7 +7,6 @@ import Switch from '@material-ui/core/Switch';
 
 import {database, auth, googleAuthProvider} from 'utils/firebase'
 
-import Auth from 'components/user/Auth'
 import Drink from 'components/drinks/drink/Drink'
 
 class DrinkList extends Component {

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 
 import EditButton from 'components/drinks/drink/menu/EditButton'
 import DeleteButton from 'components/drinks/drink/menu/DeleteButton'
