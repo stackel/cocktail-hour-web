@@ -5,13 +5,10 @@ import CardContent from '@material-ui/core/CardContent';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import {Link} from "react-router-dom";
 
 import {database, auth, googleAuthProvider} from 'utils/firebase'
 
-import Drink from 'components/drinks/drink/Drink'
+import DrinkListItem from 'components/drinks/drink/DrinkListItem'
 
 class DrinkList extends Component {
   constructor(props) {
@@ -50,8 +47,6 @@ class DrinkList extends Component {
     );
   }
 
-  drinkClicked = () => {}
-
   render() {
     if (!this.props.firestoreUser) {
       return null
@@ -61,24 +56,14 @@ class DrinkList extends Component {
     const drinkComponents = [];
     for (let i = 0; i < drinks.length; i++) {
       drinkComponents.push(
-        <ListItem
-          component={Link}
-          to={{
-            pathname: "/drink/" + drinks[i].id,
-            state: {
-              debug: JSON.stringify(this.props.debug),
-              allIngredients: JSON.stringify(this.props.allIngredients),
-              units: JSON.stringify(this.props.units),
-              authUser: JSON.stringify(this.props.authUser),
-              firestoreUser: JSON.stringify(this.props.firestoreUser),
-              drink: JSON.stringify(drinks[i])
-            }
-          }}
-          button="button"
+        <DrinkListItem
           key={drinks[i].id}
-          onClick={this.drinkClicked}>
-          <ListItemText className="db" primary={drinks[i].name}/>
-        </ListItem>
+          debug={this.props.debug}
+          allIngredients={this.props.allIngredients}
+          units={this.props.units}
+          authUser={this.props.authUser}
+          firestoreUser={this.props.firestoreUser}
+          drink={drinks[i]}/>
       )
     }
     return (
