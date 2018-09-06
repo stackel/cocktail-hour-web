@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import Button from '@material-ui/core/ExpansionPanel';
+import Button from '@material-ui/core/Button';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import {Link} from 'react-router-dom'
@@ -102,38 +102,44 @@ class Dashboard extends Component {
       return (<Auth onLogin={this.onLogin}/>)
     }
 
-    return (<div>
-      <DebugToggle
-        hide={false}
-        debug={this.state.debug}
-        onChange={this.changeDebugMode}/>
+    return (
+      <div>
+        <DebugToggle
+          hide={false}
+          debug={this.state.debug}
+          onChange={this.changeDebugMode}/>
 
-      <User authUser={this.state.authUser} onLogout={this.logout}/>
+        <User authUser={this.state.authUser} onLogout={this.logout}/>
 
-      <Link
-        to={{
-          pathname: "/new",
-          state: {
-            debug: JSON.stringify(this.state.debug),
-            allIngredients: JSON.stringify(this.state.allIngredients),
-            units: JSON.stringify(this.state.units),
-            userUid: this.state.authUser.uid
-          }
-        }}> New </Link>
+        <div class="tc mv3">
+          <Button
+            variant="outlined"
+            color="primary"
+            component={Link}
+            to={{
+              pathname: "/new",
+              state: {
+                debug: JSON.stringify(this.state.debug),
+                allIngredients: JSON.stringify(this.state.allIngredients),
+                units: JSON.stringify(this.state.units),
+                userUid: this.state.authUser.uid
+              }
+            }}>
+            New Drink
+          </Button>
+        </div>
 
-      <this.List
-        value={this.state.value}
-        authUser={this.state.authUser}/>
+        <this.List value={this.state.value} authUser={this.state.authUser}/>
 
-      <BottomNavigation
-        className="fixed bottom-0 w-100"
-        value={this.state.value}
-        onChange={this.bottomNavigationChanged}
-        showLabels="showLabels">
-        <BottomNavigationAction label="Drinks"/>
-        <BottomNavigationAction label="Ingredients"/>
-      </BottomNavigation>
-    </div>
+        <BottomNavigation
+          className="fixed bottom-0 w-100"
+          value={this.state.value}
+          onChange={this.bottomNavigationChanged}
+          showLabels="showLabels">
+          <BottomNavigationAction label="Drinks"/>
+          <BottomNavigationAction label="Ingredients"/>
+        </BottomNavigation>
+      </div>
     );
   }
 }
