@@ -57,7 +57,7 @@ class DrinkDetail extends Component {
     if (this.state.redirectToEditDrink) {
       return (
         <Redirect
-          to={{
+          push to={{
             pathname: this.state.drink.id + "/edit",
             state: {
               drink: this.state.drink
