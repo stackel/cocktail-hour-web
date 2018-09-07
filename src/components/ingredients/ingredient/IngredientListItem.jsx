@@ -40,8 +40,8 @@ class IngredientListItem extends Component {
 
   render() {
     return (
-      <ListItem>
-        <ListItemText primary={this.state.ingredient.label}/>
+      <ListItem button>
+        <ListItemText primary={this.state.ingredient.label} secondary={this.state.ingredient.type.label}/>
         <ListItemSecondaryAction>
           <Checkbox
             onChange={this.hasIngredientChanged}
