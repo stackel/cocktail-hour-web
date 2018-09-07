@@ -5,32 +5,24 @@ import CardContent from '@material-ui/core/CardContent';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import List from '@material-ui/core/List';
-
+import Input from '@material-ui/core/Input';
+import _ from 'lodash'
 import {database, auth, googleAuthProvider} from 'utils/firebase'
 
-import DrinkListItem from 'components/drinks/drink/DrinkListItem'
+import DrinkListItem from 'components/drinks/DrinkListItem'
 
 class DrinkList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      drinks: []
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.authUser) {
-      this.fetchDrinks(nextProps.authUser.uid)
-    } else {
-      this.setState({drinks: []})
+      drinks: [],
+      drinksFiltered: []
     }
   }
 
   componentDidMount() {
-    if (this.props.authUser) {
-      this.fetchDrinks(this.props.authUser.uid)
-    }
+    this.fetchDrinks(this.props.authUserUid)
   }
 
   fetchDrinks = (userUid) => {
@@ -42,32 +34,54 @@ class DrinkList extends Component {
           drink.id = doc.id
           drinks.push(drink);
         })
-        this.setState({drinks: drinks})
+        this.setState({drinks: drinks, drinksFiltered: drinks})
       }
     );
   }
+  searchInputChanged = event => {
+    const drinks = this.state.drinks;
+    const searchString = event.target.value.toLowerCase()
+
+    let drinksFilteredByName = drinks.filter(obj => {return obj.name.toLowerCase().includes(searchString)})
+
+    let drinksFilteredByIngredients = drinks.filter(obj => {
+      for (var i = 0; i < obj.ingredients.length; i++) {
+        const drinkIngredientName = obj.ingredients[i].ingredient.label.toLowerCase();
+        if(drinkIngredientName.includes(searchString)) {
+          return true;
+        }
+      }
+      return false
+    })
+
+    console.log(drinksFilteredByIngredients)
+
+    this.setState({
+      drinksFiltered: _.uniq(drinksFilteredByName.concat(drinksFilteredByIngredients))
+    })
+  }
 
   render() {
-    if (!this.props.firestoreUser) {
-      return null
-    }
-
-    const drinks = this.state.drinks;
+    const drinks = this.state.drinksFiltered;
     const drinkComponents = [];
     for (let i = 0; i < drinks.length; i++) {
       drinkComponents.push(
         <DrinkListItem
           key={drinks[i].id}
-          debug={this.props.debug}
-          allIngredients={this.props.allIngredients}
-          units={this.props.units}
-          authUser={this.props.authUser}
-          firestoreUser={this.props.firestoreUser}
-          drink={drinks[i]}/>
+          userIngredients={this.props.userIngredients}
+          drink={drinks[i]}
+          authUserUid={this.props.authUserUid}/>
       )
     }
     return (
-      <div className="w-100">
+      <div className="w-100 tc">
+        <Input
+          className="center w-50"
+          placeholder="Search (Name, ingredient..)"
+          inputProps={{
+            'aria-label' : 'Search'
+          }}
+          onChange={this.searchInputChanged}/>
         <List component="nav">
           {drinkComponents}
         </List>

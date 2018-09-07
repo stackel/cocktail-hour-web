@@ -22,12 +22,11 @@ class DrinkIngredient extends Component {
   render() {
     return (
       <div>
-
         <div className="w-50 dib pr4">
           <IngredientField
             ingredient={this.props.drinkIngredient.ingredient}
             allIngredients={this.props.allIngredients}
-            firestoreUser={this.props.firestoreUser}
+            userIngredients={this.props.userIngredients}
             edit={this.props.edit}
             handleChange={this.handleFieldChange}/>
         </div>

@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import CardContent from '@material-ui/core/CardContent';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import List from '@material-ui/core/List';
 
 import {database} from 'utils/firebase'
 
@@ -19,33 +20,29 @@ class IngredientList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.authUser) {
+    if (nextProps.authUser) {
       this.fetchIngredients(nextProps.authUser.uid)
     } else {
-      this.setState({
-        ingredient: []
-      })
+      this.setState({ingredient: []})
     }
   }
 
   componentDidMount() {
-    if(this.props.authUser) {
+    if (this.props.authUser) {
       this.fetchIngredients(this.props.authUser.uid)
     }
   }
 
   fetchIngredients = (userUid) => {
-    database.collection("ingredients").orderBy("name").onSnapshot(
-      snapshot => {
-        const ingredients = []
-        snapshot.forEach(doc => {
-          let ingredient = doc.data()
-          ingredient.id = doc.id
-          ingredients.push(ingredient);
-        })
-        this.setState({ingredients: ingredients})
-      }
-    );
+    database.collection("ingredients").orderBy("name").onSnapshot(snapshot => {
+      const ingredients = []
+      snapshot.forEach(doc => {
+        let ingredient = doc.data()
+        ingredient.id = doc.id
+        ingredients.push(ingredient);
+      })
+      this.setState({ingredients: ingredients})
+    });
   }
 
   render() {
@@ -53,24 +50,17 @@ class IngredientList extends Component {
     const ingredientComponents = [];
     for (let i = 0; i < ingredients.length; i++) {
       ingredientComponents.push(
-        <Card className="ma2" key={ingredients[i].id}>
-          <CardContent className="ma2">
-            <IngredientListItem
-              className="ma4"
-              ingredient={ingredients[i]}
-              debug={this.props.debug}
-              edit={false}
-              new={false}
-              authUser={this.props.authUser}
-              ingredients={this.props.firestoreUser.ingredients}/>
-          </CardContent>
-        </Card>
+        <IngredientListItem
+          key={ingredients[i].id}
+          ingredient={ingredients[i]}
+          authUser={this.props.authUser}
+          ingredients={this.props.firestoreUser.ingredients}/>
       )
     }
 
-    return (<div>
+    return (<List>
       {ingredientComponents}
-    </div>);
+    </List>);
   }
 }
 

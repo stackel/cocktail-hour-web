@@ -27,30 +27,8 @@ class Dashboard extends Component {
     };
   }
 
-  fetchIngredients = () => {
-    database.collection("ingredients").onSnapshot(snapshot => {
-      let ingredients = []
-      snapshot.forEach(doc => {
-        ingredients.push(doc.data());
-      })
-      this.setState({allIngredients: ingredients})
-    })
-  }
-
-  fetchUnits = () => {
-    database.collection("units").onSnapshot(snapshot => {
-      let units = []
-      snapshot.forEach(doc => {
-        units.push(doc.data());
-      })
-      this.setState({units: units})
-    })
-  }
-
   onLogin = (authUser, firestoreUser) => {
     this.setState({authUser: authUser, firestoreUser: firestoreUser})
-    this.fetchIngredients();
-    this.fetchUnits();
   }
 
   logout = () => {
@@ -76,11 +54,8 @@ class Dashboard extends Component {
       return (
         <div>
           <DrinkList
-            debug={this.state.debug}
-            authUser={this.state.authUser}
-            firestoreUser={this.state.firestoreUser}
-            units={this.state.units}
-            allIngredients={this.state.allIngredients}/>
+            userIngredients={this.state.firestoreUser.ingredients}
+            authUserUid={this.state.authUser.uid}/>
         </div>
       )
     }
@@ -103,9 +78,9 @@ class Dashboard extends Component {
     }
 
     return (
-      <div>
+      <div className="pt3">
         <DebugToggle
-          hide={false}
+          hide={true}
           debug={this.state.debug}
           onChange={this.changeDebugMode}/>
 
@@ -116,20 +91,14 @@ class Dashboard extends Component {
             variant="outlined"
             color="primary"
             component={Link}
-            to={{
-              pathname: "/new",
-              state: {
-                debug: JSON.stringify(this.state.debug),
-                allIngredients: JSON.stringify(this.state.allIngredients),
-                units: JSON.stringify(this.state.units),
-                userUid: this.state.authUser.uid
-              }
-            }}>
+            to="/new">
             New Drink
           </Button>
         </div>
+        <div className="mt4">
+          <this.List value={this.state.value} authUser={this.state.authUser}/>
 
-        <this.List value={this.state.value} authUser={this.state.authUser}/>
+        </div>
 
         <BottomNavigation
           className="fixed bottom-0 w-100"

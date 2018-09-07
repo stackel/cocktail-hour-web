@@ -25,7 +25,11 @@ class IngredientField extends Component {
       return null
     }
 
-    if (props.firestoreUser.ingredients.includes(props.ingredient.name)) {
+    if(!props.userIngredients) {
+      return (<p className="sans-serif gray ">{props.ingredient.label}</p>)
+    }
+
+    if (props.userIngredients.includes(props.ingredient.name)) {
       return (<p className="sans-serif b">{props.ingredient.label}</p>)
     } else {
       return (<p className="sans-serif gray ">{props.ingredient.label}</p>)

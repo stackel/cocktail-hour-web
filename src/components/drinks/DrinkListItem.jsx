@@ -13,18 +13,15 @@ class DrinkListItem extends Component {
         to={{
           pathname: "/drink/" + drink.id,
           state: {
-            debug: JSON.stringify(this.props.debug),
-            allIngredients: JSON.stringify(this.props.allIngredients),
-            units: JSON.stringify(this.props.units),
-            authUser: JSON.stringify(this.props.authUser),
-            firestoreUser: JSON.stringify(this.props.firestoreUser),
-            drink: JSON.stringify(drink)
+            userIngredients: JSON.stringify(this.props.userIngredients),
+            drink: JSON.stringify(drink),
+            authUserUid: this.props.authUserUid
           }
         }}
         button>
 
-        <ListItemText primary={drink.name}/>
-
+        <ListItemText primary={ drink.name }/>
+        <ListItemText secondary={ drink.ingredients.map(obj => {return obj.ingredient.label}).join(", ") }/>
       </ListItem>
     );
   }

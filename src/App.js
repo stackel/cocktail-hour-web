@@ -3,7 +3,8 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 
 import Dashboard from 'components/dashboard/Dashboard'
 import AddNewDrink from 'components/drinks/AddNewDrink'
-import DrinkDetail from 'components/drinks/drink/DrinkDetail'
+import DrinkDetail from 'components/drinks/DrinkDetail'
+import EditDrink from 'components/drinks/EditDrink'
 
 class App extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class App extends Component {
         <div>
           <Route exact path="/" component={Dashboard}/>
           <Route exact path="/new" component={AddNewDrink}/>
+          <Route exact path="/drink/:id/edit" component={EditDrink}/>
           <Route exact path="/drink/:id" component={DrinkDetail}/>
         </div>
       </Router>

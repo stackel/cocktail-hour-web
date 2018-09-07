@@ -1,8 +1,24 @@
 import React, {Component} from 'react';
 
+import { database } from 'utils/firebase'
 import DrinkIngredient from 'components/drinks/drink/drink-ingredients/drink-ingredient/DrinkIngredient'
 
 class DrinkIngredientList extends Component {
+  constructor(props) {
+    super(props)
+    this.state={
+      allIngredients: null,
+      allUnits: null
+    }
+  }
+
+  componentDidMount() {
+    if(this.props.edit) {
+      this.fetchIngredients()
+      this.fetchUnits()
+    }
+  }
+
   drinkIngredientFieldChanged = (i, fieldName, value) => {
     this.props.drinkIngredientFieldChanged(i, fieldName, value)
   }
@@ -11,9 +27,33 @@ class DrinkIngredientList extends Component {
     this.props.drinkIngredientDeleted(i)
   }
 
+  fetchIngredients = () => {
+    database.collection("ingredients").onSnapshot(snapshot => {
+      let ingredients = []
+      snapshot.forEach(doc => {
+        ingredients.push(doc.data());
+      })
+      this.setState({allIngredients: ingredients})
+    })
+  }
+
+  fetchUnits = () => {
+    database.collection("units").onSnapshot(snapshot => {
+      let units = []
+      snapshot.forEach(doc => {
+        units.push(doc.data());
+      })
+      this.setState({allUnits: units})
+    })
+  }
+
   render() {
     if (!this.props.ingredients) {
       return null
+    }
+
+    if(this.props.edit && (!this.state.allIngredients || !this.state.allUnits)) {
+      return <div> loading</div>
     }
 
     const ingredientComponents = [];
@@ -24,10 +64,9 @@ class DrinkIngredientList extends Component {
           key={i}
           drinkIngredient={this.props.ingredients[i]}
           edit={this.props.edit}
-          debug={this.props.debug}
-          allUnits={this.props.units}
-          allIngredients={this.props.allIngredients}
-          firestoreUser={this.props.firestoreUser}
+          userIngredients={this.props.userIngredients}
+          allIngredients={this.state.allIngredients}
+          allUnits={this.state.allUnits}
           drinkIngredientFieldChanged={this.drinkIngredientFieldChanged}
           drinkIngredientDeleted={this.drinkIngredientDeleted}/>
       )

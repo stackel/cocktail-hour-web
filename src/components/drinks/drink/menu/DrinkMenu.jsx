@@ -27,26 +27,14 @@ class DrinkMenu extends Component {
     this.close()
   }
 
-  onEditChanged = (value) => {
-    this.props.onEditChanged(value)
+  onEditClicked = () => {
+    this.props.onEditClicked()
     this.close()
   }
 
   render() {
     const anchorElement = this.state.anchorElement;
 
-    if (this.props.new) {
-      return null
-    }
-
-    if (this.props.edit) {
-      return (
-        <EditBackButton
-          edit={this.props.edit}
-          new={this.props.new}
-          onClick={this.onEditChanged}/>
-      )
-    }
     return (
       <div>
         <Button
@@ -62,7 +50,7 @@ class DrinkMenu extends Component {
           anchorEl={anchorElement}
           open={Boolean(anchorElement)}
           onClose={this.close}>
-          <EditButton onClick={this.onEditChanged}/>
+          <EditButton onClick={this.onEditClicked}/>
           <DeleteButton
             onClick={this.onDelete}
             edit={this.props.edit}

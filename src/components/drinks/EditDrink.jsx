@@ -4,15 +4,16 @@ import Drink from 'components/drinks/drink/Drink'
 
 import {auth, database} from 'utils/firebase'
 
-class AddNewDrink extends Component {
+class EditDrink extends Component {
   constructor(props) {
     super(props)
     this.state = {
       edit: true,
-      new: true,
+      new: false,
       units: null,
       userUid: null,
-      allIngredients: null
+      allIngredients: null,
+      drink: null
     }
   }
 
@@ -25,11 +26,16 @@ class AddNewDrink extends Component {
   }
 
   componentDidMount() {
+    if(this.props.location.state) {
+      this.setState({
+        drink: this.props.location.state.drink
+      })
+    }
     this.getUser()
   }
 
   render() {
-    if (!this.state.userUid) {
+    if (!this.state.userUid || !this.state.drink) {
       return (<div>Loading...</div>)
     }
     return (
@@ -37,10 +43,11 @@ class AddNewDrink extends Component {
         <Drink
           edit={this.state.edit}
           new={this.state.new}
-          authUserUid={this.state.userUid}/>
+          authUserUid={this.state.userUid}
+          drink={this.state.drink}/>
       </div>
     )
   }
 }
 
-export default AddNewDrink
+export default EditDrink

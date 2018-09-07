@@ -3,7 +3,6 @@ import _ from 'lodash'
 import {Redirect} from 'react-router-dom'
 import {database} from 'utils/firebase'
 import DrinkIngredientList from 'components/drinks/drink/drink-ingredients/DrinkIngredientList'
-import DrinkMenu from 'components/drinks/drink/menu/DrinkMenu'
 import AddNewDrinkTitle from 'components/drinks/drink/fields/AddNewDrinkTitle'
 import DrinkName from 'components/drinks/drink/fields/DrinkName'
 import DrinkDescription from 'components/drinks/drink/fields/DrinkDescription'
@@ -42,13 +41,6 @@ class Drink extends Component {
       ingredients: _.cloneDeep(drink.ingredients)
     })
 
-  }
-
-  toggleEdit = value => {
-    this.setState({edit: value})
-    if (!value) {
-      this.setDrink(this.props.drink)
-    }
   }
 
   changeField = (fieldName, value) => {
@@ -91,9 +83,13 @@ class Drink extends Component {
   }
 
   deleteDrink = () => {
-    database.collection("users").doc(this.props.authUser.uid).collection("drinks").doc(
+    database.collection("users").doc(this.props.authUserUid).collection("drinks").doc(
       this.state.id
-    ).delete()
+    ).delete().then(() => {
+      this.setState({
+        redirectToDashboard: true
+      })
+    })
   }
 
   validateFields = () => {
@@ -127,14 +123,6 @@ class Drink extends Component {
     }
     return (
       <div>
-        <div className="fr">
-          <DrinkMenu
-            edit={this.state.edit}
-            new={this.props.new}
-            onDelete={this.deleteDrink}
-            onEditChanged={this.toggleEdit}/>
-        </div>
-
         <div className="tc">
           <AddNewDrinkTitle new={this.props.new}/>
         </div>
@@ -151,11 +139,8 @@ class Drink extends Component {
         <div className="mv4">
           <DrinkIngredientList
             ingredients={this.state.ingredients}
+            userIngredients={this.props.userIngredients}
             edit={this.state.edit}
-            debug={this.state.debug}
-            units={this.props.units}
-            firestoreUser={this.props.firestoreUser}
-            allIngredients={this.props.allIngredients}
             drinkIngredientFieldChanged={this.changeIngredientField}
             drinkIngredientDeleted={this.deleteIngredient}/>
         </div>
