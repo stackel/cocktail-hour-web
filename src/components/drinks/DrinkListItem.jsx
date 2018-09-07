@@ -19,9 +19,7 @@ class DrinkListItem extends Component {
           }
         }}
         button>
-
-        <ListItemText primary={ drink.name }/>
-        <ListItemText secondary={ drink.ingredients.map(obj => {return obj.ingredient.label}).join(", ") }/>
+        <ListItemText primary={ drink.name } secondary={ drink.ingredients.map(obj => {return obj.ingredient.label}).join(", ") }/>
       </ListItem>
     );
   }
