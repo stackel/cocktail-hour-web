@@ -16,7 +16,6 @@ class DrinkDetail extends Component {
       userIngredients: null,
       drink: null,
       authUserUid:null
-
     }
   }
 

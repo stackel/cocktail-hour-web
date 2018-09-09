@@ -1,22 +1,25 @@
 import React, {Component} from 'react';
 
 import Drink from 'components/drinks/drink/Drink'
-
+import {Redirect} from 'react-router-dom'
 import {auth, database} from 'utils/firebase'
 
 class AddNewDrink extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      edit: true,
-      new: true,
-      units: null,
       userUid: null,
-      allIngredients: null
+      redirectToDashboard: false
     }
   }
 
-  getUser = () => {
+  componentDidMount() {
+    if (!this.props.location.userUid) {
+      this.getUserUid()
+    }
+  }
+
+  getUserUid = () => {
     auth.onAuthStateChanged(authUser => {
       if (authUser) {
         this.setState({userUid: authUser.uid})
@@ -24,20 +27,29 @@ class AddNewDrink extends Component {
     })
   }
 
-  componentDidMount() {
-    this.getUser()
+  saveDrink = (newDrink) => {
+    database.collection("users").doc(this.state.userUid).collection("drinks").add(
+      newDrink
+    ).then(() => {
+      this.setState({redirectToDashboard: true})
+    })
   }
 
   render() {
+    if (this.state.redirectToDashboard) {
+      return (<Redirect to="/"/>)
+    }
+
     if (!this.state.userUid) {
       return (<div>Loading...</div>)
     }
+
     return (
       <div className="ma4">
         <Drink
-          edit={this.state.edit}
-          new={this.state.new}
-          authUserUid={this.state.userUid}/>
+          edit={true}
+          new={true}
+          onSaveDrink={this.saveDrink}/>
       </div>
     )
   }

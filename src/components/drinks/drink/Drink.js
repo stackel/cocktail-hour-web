@@ -66,11 +66,12 @@ class Drink extends Component {
   }
 
   saveDrink = () => {
-    database.collection("users").doc(this.props.authUserUid).collection("drinks").add(
-      {name: this.state.name, description: this.state.description, ingredients: this.state.ingredients}
-    ).then(() => {
-      this.setState({redirectToDashboard: true})
-    })
+    const newDrink = {
+      name: this.state.name,
+      description: this.state.description,
+      ingredients: this.state.ingredients
+    }
+    this.props.onSaveDrink(newDrink)
   }
 
   updateDrink = () => {
@@ -86,30 +87,28 @@ class Drink extends Component {
     database.collection("users").doc(this.props.authUserUid).collection("drinks").doc(
       this.state.id
     ).delete().then(() => {
-      this.setState({
-        redirectToDashboard: true
-      })
+      this.setState({redirectToDashboard: true})
     })
   }
 
   validateFields = () => {
-    if(!this.state.name.length < 0) {
+    if (!this.state.name.length < 0) {
       return false
     }
 
-    if(!this.state.description.length < 0) {
+    if (!this.state.description.length < 0) {
       return false
     }
 
-    if(this.state.ingredients.length < 1) {
+    if (this.state.ingredients.length < 1) {
       return false
     }
 
     const firstIngredient = this.state.ingredients[0];
-    if(!firstIngredient.ingredient) {
+    if (!firstIngredient.ingredient) {
       return false
     }
-    if(!firstIngredient.amount) {
+    if (!firstIngredient.amount) {
       return false
     }
 

@@ -8,11 +8,7 @@ class EditDrink extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      edit: true,
-      new: false,
-      units: null,
       userUid: null,
-      allIngredients: null,
       drink: null
     }
   }
@@ -25,11 +21,16 @@ class EditDrink extends Component {
     })
   }
 
+  updateDrink = (newDrink) => {
+
+  }
+
   componentDidMount() {
     if(this.props.location.state) {
       this.setState({
         drink: this.props.location.state.drink
       })
+
     }
     this.getUser()
   }
@@ -41,8 +42,8 @@ class EditDrink extends Component {
     return (
       <div className="ma4">
         <Drink
-          edit={this.state.edit}
-          new={this.state.new}
+          edit={true}
+          new={false}
           authUserUid={this.state.userUid}
           drink={this.state.drink}/>
       </div>
