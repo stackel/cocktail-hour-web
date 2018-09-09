@@ -9,6 +9,9 @@ class EditButton extends Component {
 
   }
   render() {
+    if(!this.props.show) {
+      return null
+    }
     return (<MenuItem onClick={this.onClick}>Delete</MenuItem>)
   }
 }

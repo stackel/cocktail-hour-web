@@ -98,14 +98,14 @@ class CreateOrEditDrink extends Component {
           to={{
             pathname: "/drink/" + this.state.drink.id,
             state: {
-              drink: this.state.drink
+              drink: JSON.stringify(this.state.drink)
             }
           }}/>
       )
     }
 
     if (this.state.drinkSaved) {
-      return (<Redirect to={"/"}/>)
+      return (<Redirect to="/"/>)
     }
 
     return (

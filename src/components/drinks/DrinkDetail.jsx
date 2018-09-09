@@ -10,26 +10,29 @@ class DrinkDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      edit: false,
-      new: false,
       userIngredients: null,
       drink: null,
-      authUserUid:null
+      authUserUid: null
     }
   }
 
   componentDidMount() {
-    if(this.props.location.state) {
+    const locationState = this.props.location.state
+
+    if (locationState.drink) {
       this.setState({
-        userIngredients: JSON.parse(this.props.location.state.userIngredients),
-        drink: JSON.parse(this.props.location.state.drink),
-        authUserUid: this.props.location.state.authUserUid
+        drink: JSON.parse(locationState.drink)
       })
-    } else {
-      //TODO: MAKE IT WORK INDEPEDENTLY
-      //GET  AUTH USER
-      //GET FIRESTORE user
-      // GET DRINK
+    }
+
+    if (locationState.userIngredients) {
+      this.setState({
+        userIngredients: JSON.parse(locationState.userIngredients)
+      })
+    }
+
+    if (locationState.authUserUid) {
+      this.setState({authUserUid: locationState.authUserUid})
     }
   }
 
@@ -49,13 +52,15 @@ class DrinkDetail extends Component {
     if (!this.state.drink) {
       return <div>loading</div>
     }
+
     if (this.state.redirectToDashboard) {
       return (<Redirect to="/"/>)
     }
     if (this.state.redirectToEditDrink) {
       return (
         <Redirect
-          push to={{
+          push="push"
+          to={{
             pathname: this.state.drink.id + "/edit",
             state: {
               drink: this.state.drink
@@ -67,16 +72,17 @@ class DrinkDetail extends Component {
     return (
       <div class="ma4">
         <div className="fr">
-          <DrinkMenu onDelete={this.deleteDrink} onEditClicked={this.goToEditDrink}/>
+          <DrinkMenu
+            showDelete={this.state.authUserUid}
+            onDelete={this.deleteDrink}
+            onEditClicked={this.goToEditDrink}/>
         </div>
         <Drink
           drink={this.state.drink}
           edit={false}
           new={false}
-          userIngredients={this.state.userIngredients}
-          authUserUid={this.state.authUserUid}/>
+          userIngredients={this.state.userIngredients}/>
       </div>
-
     );
   }
 }
