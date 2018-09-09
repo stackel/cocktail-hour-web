@@ -7,119 +7,42 @@ import AddNewDrinkTitle from 'components/drinks/drink/fields/AddNewDrinkTitle'
 import DrinkName from 'components/drinks/drink/fields/DrinkName'
 import DrinkDescription from 'components/drinks/drink/fields/DrinkDescription'
 import AddIngredientButton from 'components/drinks/drink/drink-ingredients/AddIngredientButton'
-import SaveOrUpdateButton from 'components/drinks/drink/buttons/SaveOrUpdateButton'
 import DebugJson from 'components/shared/DebugJson'
 
 class Drink extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      edit: props.edit,
-      name: "",
-      description: "",
-      ingredients: [
-        {}
-      ],
-      redirectToDashboard: false
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.drink) {
-      this.setDrink(this.props.drink)
-    }
-  }
-
-  setDrink = (drink) => {
-    if (!drink) {
-      return
-    }
-    this.setState({
-      description: drink.description,
-      name: drink.name,
-      id: drink.id,
-      ingredients: _.cloneDeep(drink.ingredients)
-    })
-
-  }
-
   changeField = (fieldName, value) => {
-    this.setState({[fieldName]: value});
+    let drink = _.cloneDeep(this.props.drink)
+    drink[fieldName] = value;
+    this.props.onDrinkEdit(drink);
   };
 
   changeIngredientField = (i, fieldName, value) => {
-    const newDrinkIngredients = [...this.state.ingredients];
+    const newDrinkIngredients = [...this.props.drink.ingredients];
     newDrinkIngredients[i][fieldName] = value;
-    this.setState({ingredients: newDrinkIngredients});
+    let drink = _.cloneDeep(this.props.drink)
+    drink.ingredients = newDrinkIngredients;
+    this.props.onDrinkEdit(drink);
   }
 
   addIngredient = event => {
     const newIngredients = [...this.state.ingredients];
     newIngredients.push({"ingredient": "", "amount": "", "unit": ""})
-    this.setState({ingredients: newIngredients});
+    let drink = _.cloneDeep(this.props.drink)
+    drink.ingredients = newIngredients;
+    this.props.onDrinkEdit(drink);
   }
 
   deleteIngredient = i => {
     let newIngredients = [...this.state.ingredients];
     newIngredients.splice(i, 1);
-    this.setState({ingredients: newIngredients});
-  }
-
-  saveDrink = () => {
-    const newDrink = {
-      name: this.state.name,
-      description: this.state.description,
-      ingredients: this.state.ingredients
-    }
-    this.props.onSaveDrink(newDrink)
-  }
-
-  updateDrink = () => {
-    database.collection("users").doc(this.props.authUserUid).collection("drinks").doc(
-      this.state.id
-    ).set(
-      {name: this.state.name, description: this.state.description, ingredients: this.state.ingredients}
-    )
-    this.setState({edit: false})
-  }
-
-  deleteDrink = () => {
-    database.collection("users").doc(this.props.authUserUid).collection("drinks").doc(
-      this.state.id
-    ).delete().then(() => {
-      this.setState({redirectToDashboard: true})
-    })
-  }
-
-  validateFields = () => {
-    if (!this.state.name.length < 0) {
-      return false
-    }
-
-    if (!this.state.description.length < 0) {
-      return false
-    }
-
-    if (this.state.ingredients.length < 1) {
-      return false
-    }
-
-    const firstIngredient = this.state.ingredients[0];
-    if (!firstIngredient.ingredient) {
-      return false
-    }
-    if (!firstIngredient.amount) {
-      return false
-    }
-
-    return true;
-
+    let drink = _.cloneDeep(this.props.drink)
+    drink.ingredients = newIngredients;
+    this.props.onDrinkEdit(drink);
   }
 
   render() {
-    if (this.state.redirectToDashboard) {
-      return (<Redirect to="/"/>)
-    }
+    const drink = this.props.drink;
+
     return (
       <div>
         <div className="tc">
@@ -127,33 +50,26 @@ class Drink extends Component {
         </div>
 
         <DrinkName
-          name={this.state.name}
-          edit={this.state.edit}
+          name={drink.name}
+          edit={this.props.edit}
           onChange={this.changeField}/>
         <DrinkDescription
-          description={this.state.description}
-          edit={this.state.edit}
+          description={drink.description}
+          edit={this.props.edit}
           onChange={this.changeField}/>
 
         <div className="mv4">
           <DrinkIngredientList
-            ingredients={this.state.ingredients}
+            ingredients={drink.ingredients}
             userIngredients={this.props.userIngredients}
-            edit={this.state.edit}
+            edit={this.props.edit}
             drinkIngredientFieldChanged={this.changeIngredientField}
             drinkIngredientDeleted={this.deleteIngredient}/>
         </div>
 
         <div className="mv3">
-          <AddIngredientButton edit={this.state.edit} onClick={this.addIngredient}/>
+          <AddIngredientButton edit={this.props.edit} onClick={this.addIngredient}/>
         </div>
-
-        <SaveOrUpdateButton
-          disabled={!this.validateFields()}
-          edit={this.state.edit}
-          new={this.props.new}
-          onSave={this.saveDrink}
-          onUpdate={this.updateDrink}/>
 
         <DebugJson debug={this.props.debug}/>
       </div>
