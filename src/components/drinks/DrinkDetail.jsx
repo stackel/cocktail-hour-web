@@ -10,7 +10,6 @@ class DrinkDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      debug: false,
       edit: false,
       new: false,
       userIngredients: null,

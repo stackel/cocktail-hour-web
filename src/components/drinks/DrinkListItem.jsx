@@ -18,8 +18,12 @@ class DrinkListItem extends Component {
             authUserUid: this.props.authUserUid
           }
         }}
-        button>
-        <ListItemText primary={ drink.name } secondary={ drink.ingredients.map(obj => {return obj.ingredient.label}).join(", ") }/>
+        button="button">
+        <ListItemText
+          primary={drink.name}
+          secondary={drink.ingredients.map(obj => {
+            return obj.ingredient.label
+          }).join(", ")}/>
       </ListItem>
     );
   }

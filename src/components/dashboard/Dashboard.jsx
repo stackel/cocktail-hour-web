@@ -10,7 +10,6 @@ import {database, auth} from 'utils/firebase'
 import Auth from 'components/auth/Auth'
 import User from 'components/dashboard/User'
 import DebugToggle from 'components/dashboard/DebugToggle'
-import AddNewDrink from 'components/drinks/AddNewDrink'
 import DrinkList from 'components/drinks/DrinkList'
 import IngredientList from 'components/ingredients/IngredientList'
 

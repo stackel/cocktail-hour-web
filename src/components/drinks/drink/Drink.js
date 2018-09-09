@@ -25,7 +25,7 @@ class Drink extends Component {
   }
 
   addIngredient = event => {
-    const newIngredients = [...this.state.ingredients];
+    const newIngredients = [...this.props.drink.ingredients];
     newIngredients.push({"ingredient": "", "amount": "", "unit": ""})
     let drink = _.cloneDeep(this.props.drink)
     drink.ingredients = newIngredients;
@@ -33,7 +33,7 @@ class Drink extends Component {
   }
 
   deleteIngredient = i => {
-    let newIngredients = [...this.state.ingredients];
+    let newIngredients = [...this.props.drink.ingredients];
     newIngredients.splice(i, 1);
     let drink = _.cloneDeep(this.props.drink)
     drink.ingredients = newIngredients;
@@ -71,7 +71,7 @@ class Drink extends Component {
           <AddIngredientButton edit={this.props.edit} onClick={this.addIngredient}/>
         </div>
 
-        <DebugJson debug={this.props.debug}/>
+        <DebugJson debug={false}/>
       </div>
     );
   }

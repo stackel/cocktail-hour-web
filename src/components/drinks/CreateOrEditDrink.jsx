@@ -6,19 +6,29 @@ import SaveOrUpdateButton from 'components/drinks/drink/buttons/SaveOrUpdateButt
 
 import {auth, database} from 'utils/firebase'
 
-class EditDrink extends Component {
+class CreateOrEditDrink extends Component {
   constructor(props) {
     super(props)
     this.state = {
       userUid: null,
       drink: null,
-      drinkUpdated: false
+      drinkUpdated: false,
+      drinkSaved: false
     }
   }
 
   componentDidMount() {
     if (this.props.location.state) {
-      this.setState({drink: this.props.location.state.drink})
+      this.setState({drink: this.props.location.state.drink, new: false})
+    } else {
+      this.setState({
+        drink: {
+          name: "",
+          description: "",
+          ingredients: [{}]
+        },
+        new: true
+      })
     }
     this.getUser()
   }
@@ -31,13 +41,20 @@ class EditDrink extends Component {
     })
   }
 
-  updateDrink = () => {
-    console.log(this.state.drink)
-    database.collection("users").doc(this.state.userUid).collection("drinks").doc(
-      this.state.drink.id
-    ).set(this.state.drink).then(() => {
-      this.setState({drinkUpdated: true})
-    })
+  updateOrSaveDrink = () => {
+    if (this.state.drink.id) {
+      database.collection("users").doc(this.state.userUid).collection("drinks").doc(
+        this.state.drink.id
+      ).set(this.state.drink).then(() => {
+        this.setState({drinkUpdated: true})
+      })
+    } else {
+      database.collection("users").doc(this.state.userUid).collection("drinks").add(
+        this.state.drink
+      ).then(() => {
+        this.setState({drinkSaved: true})
+      })
+    }
   }
 
   editDrink = (newDrink) => {
@@ -76,7 +93,19 @@ class EditDrink extends Component {
     }
 
     if (this.state.drinkUpdated) {
-      return (<Redirect to={"/drink/" + this.state.drink.id}/>)
+      return (
+        <Redirect
+          to={{
+            pathname: "/drink/" + this.state.drink.id,
+            state: {
+              drink: this.state.drink
+            }
+          }}/>
+      )
+    }
+
+    if (this.state.drinkSaved) {
+      return (<Redirect to={"/"}/>)
     }
 
     return (
@@ -84,17 +113,16 @@ class EditDrink extends Component {
         <Drink
           drink={this.state.drink}
           edit={true}
-          new={false}
-          onDrinkUpdate={this.updateDrink}
+          new={this.state.new}
           onDrinkEdit={this.editDrink}/>
         <SaveOrUpdateButton
           edit={true}
-          new={false}
-          onUpdate={this.updateDrink}
+          new={this.state.new}
+          onClick={this.updateOrSaveDrink}
           disabled={!this.validateFields()}/>
       </div>
     )
   }
 }
 
-export default EditDrink
+export default CreateOrEditDrink

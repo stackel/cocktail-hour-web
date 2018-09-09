@@ -4,12 +4,8 @@ import Button from '@material-ui/core/Button';
 
 class SaveOrUpdateButton extends Component {
 
-  onSave = event => {
-    this.props.onSave()
-  }
-
-  onUpdate = event => {
-    this.props.onUpdate()
+  onClick = event => {
+    this.props.onClick()
   }
 
   render() {
@@ -20,7 +16,7 @@ class SaveOrUpdateButton extends Component {
           disabled={this.props.disabled}
           color="primary"
           className="w-100"
-          onClick={this.onSave}>Save</Button>
+          onClick={this.onClick}>Save</Button>
       )
     }
     if (this.props.edit) {
@@ -30,7 +26,7 @@ class SaveOrUpdateButton extends Component {
           disabled={this.props.disabled}
           color="primary"
           className="w-100"
-          onClick={this.onUpdate}>Update</Button>
+          onClick={this.onClick}>Update</Button>
       )
     }
     return null;
