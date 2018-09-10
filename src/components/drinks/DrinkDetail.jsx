@@ -19,21 +19,26 @@ class DrinkDetail extends Component {
   componentDidMount() {
     const locationState = this.props.location.state
 
-    if (locationState.drink) {
-      this.setState({
-        drink: JSON.parse(locationState.drink)
-      })
+    if(locationState) {
+      if (locationState.drink) {
+        this.setState({
+          drink: JSON.parse(locationState.drink)
+        })
+      }
+
+      if (locationState.userIngredients) {
+        this.setState({
+          userIngredients: JSON.parse(locationState.userIngredients)
+        })
+      }
+
+      if (locationState.authUserUid) {
+        this.setState({authUserUid: locationState.authUserUid})
+      }
+    } else {
+      //G ET EVERYTHING
     }
 
-    if (locationState.userIngredients) {
-      this.setState({
-        userIngredients: JSON.parse(locationState.userIngredients)
-      })
-    }
-
-    if (locationState.authUserUid) {
-      this.setState({authUserUid: locationState.authUserUid})
-    }
   }
 
   deleteDrink = () => {

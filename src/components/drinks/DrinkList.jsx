@@ -10,14 +10,16 @@ import _ from 'lodash'
 import {database, auth, googleAuthProvider} from 'utils/firebase'
 
 import DrinkListItem from 'components/drinks/DrinkListItem'
+import Loading from 'components/shared/Loading'
+
 
 class DrinkList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      drinks: [],
-      drinksFiltered: []
+      drinks: null,
+      drinksFiltered: null
     }
   }
 
@@ -63,6 +65,12 @@ class DrinkList extends Component {
 
   render() {
     const drinks = this.state.drinksFiltered;
+    if(!drinks) {
+      return(<div className="tc ma5">
+        <Loading/>
+      </div>)
+    }
+
     const drinkComponents = [];
     for (let i = 0; i < drinks.length; i++) {
       drinkComponents.push(

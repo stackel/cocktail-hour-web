@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
 
-import { database } from 'utils/firebase'
+import {database} from 'utils/firebase'
 import DrinkIngredient from 'components/drinks/drink/drink-ingredients/drink-ingredient/DrinkIngredient'
+import Loading from 'components/shared/Loading'
 
 class DrinkIngredientList extends Component {
   constructor(props) {
     super(props)
-    this.state={
+    this.state = {
       allIngredients: null,
       allUnits: null
     }
   }
 
   componentDidMount() {
-    if(this.props.edit) {
+    if (this.props.edit) {
       this.fetchIngredients()
       this.fetchUnits()
     }
@@ -52,8 +53,10 @@ class DrinkIngredientList extends Component {
       return null
     }
 
-    if(this.props.edit && (!this.state.allIngredients || !this.state.allUnits)) {
-      return <div> loading</div>
+    if (this.props.edit && (!this.state.allIngredients || !this.state.allUnits)) {
+      return (<div className="tc ma5">
+        <Loading/>
+      </div>)
     }
 
     const ingredientComponents = [];

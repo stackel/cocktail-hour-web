@@ -5,28 +5,18 @@ import CardContent from '@material-ui/core/CardContent';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import List from '@material-ui/core/List';
-
 import {database} from 'utils/firebase'
 
 import IngredientListItem from 'components/ingredients/ingredient/IngredientListItem'
+import Loading from 'components/shared/Loading'
 
 class IngredientList extends Component {
   constructor(props) {
-    super(props);
-
+    super(props)
     this.state = {
-      ingredients: []
+      ingredients: null
     }
   }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.authUser) {
-      this.fetchIngredients(nextProps.authUser.uid)
-    } else {
-      this.setState({ingredient: []})
-    }
-  }
-
   componentDidMount() {
     if (this.props.authUser) {
       this.fetchIngredients(this.props.authUser.uid)
@@ -46,6 +36,11 @@ class IngredientList extends Component {
   }
 
   render() {
+    if (!this.state.ingredients || !this.props.authUser) {
+      return (<div className="tc ma5">
+        <Loading/>
+      </div>)
+    }
     const ingredients = this.state.ingredients;
     const ingredientComponents = [];
     for (let i = 0; i < ingredients.length; i++) {

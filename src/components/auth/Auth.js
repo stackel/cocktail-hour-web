@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Button from '@material-ui/core/Button';
 
 import {database, auth, googleAuthProvider} from 'utils/firebase'
+import Loading from 'components/shared/Loading'
 
 class Auth extends Component {
   constructor(props) {
@@ -53,7 +54,13 @@ class Auth extends Component {
 
   render() {
     if (this.state.loading) {
-      return (<div>loading</div>)
+      return (
+        <div className="tc ma6">
+          <h1 className="sans-serif f2 tc mt7">
+            COCKTAIL HOUR</h1>
+          <Loading/>
+        </div>
+      )
     }
 
     return (
