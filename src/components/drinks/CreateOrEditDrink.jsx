@@ -42,6 +42,8 @@ class CreateOrEditDrink extends Component {
   }
 
   updateOrSaveDrink = () => {
+    this.state.drink.ingredients = this.state.drink.ingredients.filter(obj => {return obj.ingredient})
+
     if (this.state.drink.id) {
       database.collection("users").doc(this.state.userUid).collection("drinks").doc(
         this.state.drink.id

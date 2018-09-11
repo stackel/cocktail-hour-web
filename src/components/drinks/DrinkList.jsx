@@ -56,8 +56,6 @@ class DrinkList extends Component {
       return false
     })
 
-    console.log(drinksFilteredByIngredients)
-
     this.setState({
       drinksFiltered: _.uniq(drinksFilteredByName.concat(drinksFilteredByIngredients))
     })
