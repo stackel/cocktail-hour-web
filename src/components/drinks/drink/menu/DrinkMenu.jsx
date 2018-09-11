@@ -52,7 +52,7 @@ class DrinkMenu extends Component {
           onClose={this.close}>
           <EditButton onClick={this.onEditClicked}/>
           <DeleteButton
-            show={this.props.showdelete}
+            show={this.props.showDelete}
             onClick={this.onDelete}
             edit={this.props.edit}
             new={this.props.new}/>
