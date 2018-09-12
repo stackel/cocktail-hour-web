@@ -24,7 +24,7 @@ class UnitField extends Component {
       return null
     }
 
-    return (<p className="sans-serif gray">{props.unit.label}</p>)
+    return (<p className="sans-serif gray f4">{props.unit.label}</p>)
   }
 }
 

@@ -73,7 +73,9 @@ class AddNewIngredient extends Component {
 
     return (
       <div className="ma4">
+        <h1 className="sans-serif f2"> Add New Ingredient</h1>
         <TextField
+          className="mv4"
           id="name"
           label="Name"
           className="w-100"
@@ -81,6 +83,7 @@ class AddNewIngredient extends Component {
           onChange={this.ingredientChanged("name")}/>
 
         <TextField
+          className="mv4"
           id="label"
           label="Label"
           className="w-100"
@@ -88,6 +91,7 @@ class AddNewIngredient extends Component {
           onChange={this.ingredientChanged("label")}/>
 
         <TextField
+          className="mv4"
           id="description"
           label="Description"
           className="w-100"
@@ -95,6 +99,7 @@ class AddNewIngredient extends Component {
           onChange={this.ingredientChanged("description")}/>
 
         <Select
+          className="mv4"
           placeholder="Type"
           onChange={this.typeChanged}
           defaultValue={this.state.type}

@@ -26,13 +26,13 @@ class IngredientField extends Component {
     }
 
     if(!props.userIngredients) {
-      return (<p className="sans-serif gray ">{props.ingredient.label}</p>)
+      return (<p className="sans-serif gray f4">{props.ingredient.label}</p>)
     }
 
     if (props.userIngredients.includes(props.ingredient.name)) {
-      return (<p className="sans-serif b">{props.ingredient.label}</p>)
+      return (<p className="sans-serif b f4">{props.ingredient.label}</p>)
     } else {
-      return (<p className="sans-serif gray ">{props.ingredient.label}</p>)
+      return (<p className="sans-serif gray f4">{props.ingredient.label}</p>)
     }
 
   }

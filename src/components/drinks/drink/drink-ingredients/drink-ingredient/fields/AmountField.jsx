@@ -23,7 +23,7 @@ class AmountField extends Component {
       return null
     }
 
-    return (<p className="sans-serif">{this.props.amount}</p>)
+    return (<p className="sans-serif f4">{this.props.amount}</p>)
   }
 }
 
