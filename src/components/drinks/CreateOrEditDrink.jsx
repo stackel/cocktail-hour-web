@@ -13,7 +13,8 @@ class CreateOrEditDrink extends Component {
       userUid: null,
       drink: null,
       drinkUpdated: false,
-      drinkSaved: false
+      drinkSaved: false,
+      saving: false
     }
   }
 
@@ -43,18 +44,20 @@ class CreateOrEditDrink extends Component {
 
   updateOrSaveDrink = () => {
     this.state.drink.ingredients = this.state.drink.ingredients.filter(obj => {return obj.ingredient})
-
+    this.setState({
+      saving: true
+    })
     if (this.state.drink.id) {
       database.collection("users").doc(this.state.userUid).collection("drinks").doc(
         this.state.drink.id
       ).set(this.state.drink).then(() => {
-        this.setState({drinkUpdated: true})
+        this.setState({drinkUpdated: true, saving: false})
       })
     } else {
       database.collection("users").doc(this.state.userUid).collection("drinks").add(
         this.state.drink
       ).then(() => {
-        this.setState({drinkSaved: true})
+        this.setState({drinkSaved: true, saving:false})
       })
     }
   }
@@ -108,6 +111,10 @@ class CreateOrEditDrink extends Component {
 
     if (this.state.drinkSaved) {
       return (<Redirect to="/"/>)
+    }
+
+    if(this.state.saving) {
+      return (<p> saving ..</p>)
     }
 
     return (

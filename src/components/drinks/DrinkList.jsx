@@ -57,8 +57,21 @@ class DrinkList extends Component {
       return false
     })
 
+    let drinksFilteredByTags = drinks.filter(obj => {
+      if(obj.tags) {
+        for (var i = 0; i < obj.tags.length; i++) {
+          const tagLabel = obj.tags[i].label.toLowerCase();
+          if(tagLabel.includes(searchString)) {
+            return true;
+          }
+        }
+      }
+
+      return false
+    })
+
     this.setState({
-      drinksFiltered: _.uniq(drinksFilteredByName.concat(drinksFilteredByIngredients))
+      drinksFiltered: _.uniq(drinksFilteredByName.concat(drinksFilteredByIngredients).concat(drinksFilteredByTags))
     })
   }
 
