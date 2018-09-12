@@ -8,6 +8,7 @@ import List from '@material-ui/core/List';
 import Input from '@material-ui/core/Input';
 import _ from 'lodash'
 import {database, auth, googleAuthProvider} from 'utils/firebase'
+import Divider from '@material-ui/core/Divider';
 
 import DrinkListItem from 'components/drinks/DrinkListItem'
 import Loading from 'components/shared/Loading'
@@ -72,11 +73,15 @@ class DrinkList extends Component {
     const drinkComponents = [];
     for (let i = 0; i < drinks.length; i++) {
       drinkComponents.push(
-        <DrinkListItem
-          key={drinks[i].id}
-          userIngredients={this.props.userIngredients}
-          drink={drinks[i]}
-          authUserUid={this.props.authUserUid}/>
+        <div>
+          <DrinkListItem
+            key={drinks[i].id}
+            userIngredients={this.props.userIngredients}
+            drink={drinks[i]}
+            authUserUid={this.props.authUserUid}/>
+          <Divider/>
+        </div>
+
       )
     }
     return (
