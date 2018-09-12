@@ -98,9 +98,9 @@ class DrinkList extends Component {
       )
     }
     return (
-      <div className="w-100 tc">
+      <div className="tc">
         <Input
-          className="center w-50"
+          className="w-75 mb3"
           placeholder="Search (Name, ingredient, tag)"
           inputProps={{
             'aria-label' : 'Search'
