@@ -7,7 +7,7 @@ class DrinkDescription extends Component {
     onChange = event => {
       this.props.onChange("description", event.target.value)
     }
-    
+
     render() {
       if (this.props.edit) {
         return (
@@ -19,7 +19,7 @@ class DrinkDescription extends Component {
             onChange={this.onChange}/>
         )
       } else {
-        return <p className="sans-serif f5">{this.props.description}</p>
+        return <p className="sans-serif f5 lh-copy dark-gray">{this.props.description}</p>
       }
     }
 }
