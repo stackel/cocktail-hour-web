@@ -22,7 +22,7 @@ class DrinkIngredient extends Component {
   render() {
     return (
       <div>
-        <div className="w-50 dib pr4">
+        <div className="w-50 dib pr3">
           <IngredientField
             ingredient={this.props.drinkIngredient.ingredient}
             allIngredients={this.props.allIngredients}
@@ -32,24 +32,24 @@ class DrinkIngredient extends Component {
         </div>
 
         <div className="w-50 dib tr">
-          <div className="dib w-50 pr4">
+          <div className="dib w-30 pr3">
             <AmountField
               amount={this.props.drinkIngredient.amount}
               edit={this.props.edit}
               handleChange={this.handleFieldChange}/>
           </div>
 
-          <div className="dib w-50">
+          <div className="dib w-60 pr3">
             <UnitField
               unit={this.props.drinkIngredient.unit}
               allUnits={this.props.allUnits}
               edit={this.props.edit}
               handleChange={this.handleFieldChange}/>
           </div>
-        </div>
 
-        <div className="mv3">
-          <DeleteButton handleDelete={this.handleDelete} show={this.props.edit}/>
+          <div className="dib w-10">
+            <DeleteButton handleDelete={this.handleDelete} show={this.props.edit}/>
+          </div>
         </div>
 
         <DebugJson show={this.props.debug} value={this.props.drinkIngredient}/>
