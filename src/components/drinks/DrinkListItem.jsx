@@ -8,9 +8,11 @@ import {Link} from "react-router-dom";
 class DrinkListItem extends Component {
   TagList = (props) => {
     const tagComponents = []
-    if(props.tags) {
+    if (props.tags) {
       props.tags.map(tag => {
-        tagComponents.push(<Chip className="dib mv2 mr2" key={tag.name} label={tag.label}/>);
+        tagComponents.push(
+          <Chip className="dib mv2 mr2" key={tag.name} label={tag.label}/>
+        );
       });
     }
     return tagComponents;
@@ -19,18 +21,18 @@ class DrinkListItem extends Component {
   hasAllIngredients = drink => {
     for (var i = 0; i < drink.ingredients.length; i++) {
       const ingredient = drink.ingredients[i]
-      if(!this.props.userIngredients.includes(ingredient.ingredient)) {
+      if (!this.props.userIngredients.includes(ingredient.ingredient.name)) {
         return false
       }
     }
     return true
   }
 
+
   render() {
     const drink = this.props.drink
     return (
       <ListItem
-        className="red"
         component={Link}
         to={{
           pathname: "/drink/" + drink.id,
@@ -49,7 +51,7 @@ class DrinkListItem extends Component {
           }).join(", ")}/>
 
         <div>
-          <this.TagList tags={drink.tags} />
+          <this.TagList tags={drink.tags}/>
         </div>
 
       </ListItem>

@@ -94,7 +94,7 @@ class Dashboard extends Component {
             New Drink
           </Button>
         </div>
-        <div className="mt4">
+        <div className="mt4 pb5">
           <this.List value={this.state.value} authUser={this.state.authUser}/>
 
         </div>
