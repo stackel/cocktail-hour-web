@@ -99,16 +99,20 @@ class DrinkList extends Component {
     }
     return (
       <div className="tc">
-        <Input
-          className="w-75 mb3"
-          placeholder="Search (Name, ingredient, tag)"
-          inputProps={{
-            'aria-label' : 'Search'
-          }}
-          onChange={this.searchInputChanged}/>
+
         <List component="nav">
           {drinkComponents}
         </List>
+        <div className="w-100 fixed bottom-0 pb5 ph4">
+          <Input
+            className="w-100"
+            placeholder="Search (Name, ingredient, tag)"
+            inputProps={{
+              'aria-label' : 'Search'
+            }}
+            onChange={this.searchInputChanged}/>
+        </div>
+
       </div>
     );
   }

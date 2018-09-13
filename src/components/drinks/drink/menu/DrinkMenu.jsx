@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
+import MoreVert from '@material-ui/icons/MoreVert';
+
 
 import EditButton from 'components/drinks/drink/menu/EditButton'
 import DeleteButton from 'components/drinks/drink/menu/DeleteButton'
@@ -37,14 +39,15 @@ class DrinkMenu extends Component {
 
     return (
       <div>
-        <Button
+        <MoreVert
+          className="link"
           aria-owns={anchorElement
             ? 'drink-menu'
             : null}
           aria-haspopup="true"
           onClick={this.open}>
           menu
-        </Button>
+        </MoreVert>
         <Menu
           id="drink-menu"
           anchorEl={anchorElement}

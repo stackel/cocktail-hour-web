@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom'
 
 import Drink from 'components/drinks/drink/Drink'
+import AddNewDrinkTitle from 'components/drinks/drink/fields/AddNewDrinkTitle'
+
 import SaveOrUpdateButton from 'components/drinks/drink/buttons/SaveOrUpdateButton'
 
 import {auth, database} from 'utils/firebase'
@@ -119,6 +121,7 @@ class CreateOrEditDrink extends Component {
 
     return (
       <div className="ma4">
+        <AddNewDrinkTitle new={this.state.new}/>
         <Drink
           drink={this.state.drink}
           edit={true}

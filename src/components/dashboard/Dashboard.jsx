@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
 
 import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Divider from '@material-ui/core/Divider';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import {Link} from 'react-router-dom'
+import MoreVert from '@material-ui/icons/MoreVert';
 
 import {database, auth} from 'utils/firebase'
 
@@ -22,7 +26,8 @@ class Dashboard extends Component {
       debug: false,
       units: [],
       allIngredients: [],
-      value: 0
+      value: 0,
+      anchorElement: null
     };
   }
 
@@ -33,7 +38,7 @@ class Dashboard extends Component {
   logout = () => {
     auth.signOut().then(() => {
       console.log("Successfully logged out.")
-      this.setState({authUser: null, firestoreUser: null})
+      this.setState({authUser: null, firestoreUser: null, anchorElement: null})
     }, error => {
       console.log("An error occured while logging out: ")
       console.log(error)
@@ -71,32 +76,47 @@ class Dashboard extends Component {
     return null;
   }
 
+  open = event => {
+    this.setState({anchorElement: event.currentTarget});
+  };
+
+  close = () => {
+    this.setState({anchorElement: null});
+  };
+
   render() {
+    const anchorElement = this.state.anchorElement
     if (!this.state.authUser) {
       return (<Auth onLogin={this.onLogin}/>)
     }
 
     return (
-      <div className="pt3">
-        <DebugToggle
-          hide={true}
-          debug={this.state.debug}
-          onChange={this.changeDebugMode}/>
+      <div>
+        <header className="ph4 pv4">
+          <h1 className="sans-serif f2 ma0 pa0 fl">{this.state.value === 0 ? "Drinks" : "Ingredients" }</h1>
+          <div className="fr v-mid">
+            <MoreVert
+              aria-owns={anchorElement
+                ? 'drink-menu'
+                : null}
+              aria-haspopup="true"
+              onClick={this.open}>
+              menu
+            </MoreVert>
+            <Menu
+              id="drink-menu"
+              anchorEl={anchorElement}
+              open={Boolean(anchorElement)}
+              onClose={this.close}>
+              <Link className="link" to="/new"><MenuItem>New Drink</MenuItem></Link>
+              <MenuItem>Profile</MenuItem>
+              <MenuItem onClick={this.logout}>Log Out</MenuItem>
+            </Menu>
+          </div>
+        </header>
 
-        <User authUser={this.state.authUser} onLogout={this.logout}/>
-
-        <div class="tc mv3">
-          <Button
-            variant="outlined"
-            color="primary"
-            component={Link}
-            to="/new">
-            New Drink
-          </Button>
-        </div>
         <div className="mt4 pb5">
           <this.List value={this.state.value} authUser={this.state.authUser}/>
-
         </div>
 
         <BottomNavigation

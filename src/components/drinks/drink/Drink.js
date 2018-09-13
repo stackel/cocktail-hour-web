@@ -3,7 +3,6 @@ import _ from 'lodash'
 import {Redirect} from 'react-router-dom'
 import {database} from 'utils/firebase'
 import DrinkIngredientList from 'components/drinks/drink/drink-ingredients/DrinkIngredientList'
-import AddNewDrinkTitle from 'components/drinks/drink/fields/AddNewDrinkTitle'
 import DrinkName from 'components/drinks/drink/fields/DrinkName'
 import DrinkDescription from 'components/drinks/drink/fields/DrinkDescription'
 import AddIngredientButton from 'components/drinks/drink/drink-ingredients/AddIngredientButton'
@@ -45,10 +44,6 @@ class Drink extends Component {
 
     return (
       <div>
-        <div className="tc">
-          <AddNewDrinkTitle new={this.props.new}/>
-        </div>
-
         <DrinkName
           name={drink.name}
           edit={this.props.edit}

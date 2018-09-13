@@ -75,7 +75,7 @@ class DrinkDetail extends Component {
     }
 
     return (
-      <div class="ma4">
+      <div className="ma4">
         <div className="fr">
           <DrinkMenu
             showDelete={this.state.authUserUid}

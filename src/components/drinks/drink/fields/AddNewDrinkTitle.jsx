@@ -8,7 +8,7 @@ class AddNewDrinkTitle extends Component {
       return null
     }
     return (
-      <h2 className="sans-serif f3 b ttu"> Add New Drink</h2>
+      <h2 className="sans-serif f2 b"> Add New Drink</h2>
     )
   }
 }
