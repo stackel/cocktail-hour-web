@@ -11,7 +11,7 @@ class DrinkListItem extends Component {
     if (props.tags) {
       props.tags.map(tag => {
         tagComponents.push(
-          <Chip className="dib mv2 mr2" key={tag.name} label={tag.label}/>
+          <Chip className="dib fr mv2 mh1" key={tag.name} label={tag.label}/>
         );
       });
     }
