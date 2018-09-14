@@ -100,10 +100,7 @@ class DrinkList extends Component {
     return (
       <div className="tc">
 
-        <List component="nav">
-          {drinkComponents}
-        </List>
-        <div className="w-100 fixed bottom-0 pb5 ph4">
+        <div className="w-100 ph4">
           <Input
             className="w-100"
             placeholder="Search (Name, ingredient, tag)"
@@ -112,6 +109,11 @@ class DrinkList extends Component {
             }}
             onChange={this.searchInputChanged}/>
         </div>
+
+        <List component="nav">
+          {drinkComponents}
+        </List>
+
 
       </div>
     );
