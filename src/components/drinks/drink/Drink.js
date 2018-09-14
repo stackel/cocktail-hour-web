@@ -42,7 +42,7 @@ class Drink extends Component {
 
   updateTags = value => {
     let drink = _.cloneDeep(this.props.drink)
-    drink.tags = value;
+    drink.tags = value.map(obj => {return {name: obj.value, label: obj.label}});
     this.props.onDrinkEdit(drink);
   }
 
@@ -56,7 +56,7 @@ class Drink extends Component {
           edit={this.props.edit}
           onChange={this.changeField}/>
         <div className="mb3">
-          <TagList edit={this.props.edit} tags={drink.tags} onTagsChanged={this.updateTags}/>
+          <TagList edit={this.props.edit } tags={drink.tags || [] } onTagsChanged={this.updateTags}/>
         </div>
         <DrinkDescription
           description={drink.description}

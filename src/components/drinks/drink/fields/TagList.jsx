@@ -221,9 +221,6 @@ class IntegrationReactSelect extends React.Component {
       return (<p>loadng</p>)
     }
 
-    if (!this.props.tags) {
-      return null
-    }
 
     if (!this.props.edit) {
       return (
