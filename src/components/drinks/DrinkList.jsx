@@ -29,7 +29,7 @@ class DrinkList extends Component {
   }
 
   fetchDrinks = (userUid) => {
-    database.collection("users").doc(userUid).collection("drinks").onSnapshot(
+    database.collection("users").doc(userUid).collection("drinks").orderBy("name").onSnapshot(
       snapshot => {
         const drinks = []
         snapshot.forEach(doc => {
