@@ -19,7 +19,7 @@ class DrinkName extends Component {
             onChange={this.onChange}/>
         )
       } else {
-        return <h3 className="sans-serif f2">{this.props.name}</h3>
+        return <h3 className="sans-serif f2 mb3">{this.props.name}</h3>
       }
     }
 }
