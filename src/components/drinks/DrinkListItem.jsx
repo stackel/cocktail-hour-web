@@ -28,6 +28,25 @@ class DrinkListItem extends Component {
     return true
   }
 
+  hasIngredient = (ingredient) => {
+    return this.props.userIngredients.includes(ingredient.name);
+  }
+
+  secondaryText = (drink) => {
+    if (this.hasAllIngredients(drink)) {
+      return (drink.ingredients.map(obj => {
+        return obj.ingredient.label
+      }).join(", "))
+    } else {
+      return ("Missing: " + (
+        drink.ingredients.filter(obj => {
+          return !this.hasIngredient(obj.ingredient)
+        }).map(obj => {
+          return obj.ingredient.label
+        }).join(", ")
+      ))
+    }
+  }
 
   render() {
     const drink = this.props.drink
@@ -44,11 +63,7 @@ class DrinkListItem extends Component {
         }}
         button="button">
 
-        <ListItemText
-          primary={drink.name}
-          secondary={drink.ingredients.map(obj => {
-            return obj.ingredient.label
-          }).join(", ")}/>
+        <ListItemText primary={drink.name} secondary={this.secondaryText(drink)}/>
 
         <div>
           <this.TagList tags={drink.tags}/>
