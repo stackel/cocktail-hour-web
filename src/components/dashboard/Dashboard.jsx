@@ -38,7 +38,7 @@ class Dashboard extends Component {
   logout = () => {
     auth.signOut().then(() => {
       console.log("Successfully logged out.")
-      this.setState({authUser: null, firestoreUser: null, anchorElement: null})
+      this.setState({authUser: null, firestoreUser: null, anchorElement: null, allIngredients: null})
     }, error => {
       console.log("An error occured while logging out: ")
       console.log(error)

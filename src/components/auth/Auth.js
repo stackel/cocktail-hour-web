@@ -9,8 +9,6 @@ class Auth extends Component {
     super(props);
 
     this.state = {
-      authUser: null,
-      firestoreUser: null,
       loading: true
     };
   }
@@ -22,17 +20,23 @@ class Auth extends Component {
           "Successfully logged in with authUser " + authUser.displayName + " " +
           authUser.uid
         )
-        this.setState({authUser: authUser})
-
         database.collection("users").doc(authUser.uid).onSnapshot(snapshot => {
           let firestoreUser = snapshot.data()
           if (firestoreUser) {
             console.log("Found firestore user.")
             console.log(firestoreUser)
-            this.setState({loading: false, firestoreUser: firestoreUser})
-            this.props.onLogin(this.state.authUser, firestoreUser)
+            this.props.onLogin(authUser, firestoreUser)
           } else {
-            //CREATE FIRESTORE USER
+            database.collection("users").doc(authUser.uid).set(
+              {ingredients: []}
+            ).then(() => {
+              database.collection("users").doc(authUser.uid).onSnapshot(snapshot => {
+                this.props.onLogin(authUser, snapshot.data())
+              });
+
+            }).catch(response => {
+              console.log(response)
+            });
           }
         })
       } else {
