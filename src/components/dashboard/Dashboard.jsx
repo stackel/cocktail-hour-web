@@ -135,7 +135,7 @@ class Dashboard extends Component {
       </div>
 
       <BottomNavigation
-        className="fixed bottom-0 w-100"
+        className="fixed bottom-0 w-100 mw7"
         value={this.state.value}
         onChange={this.bottomNavigationChanged}
         showLabels="showLabels">

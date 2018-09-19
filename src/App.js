@@ -14,7 +14,7 @@ class App extends Component {
   render() {
     return (
       <Router basename={process.env.PUBLIC_URL}>
-        <div>
+        <div className="mw7 center">
           <Route exact path="/" component={Dashboard}/>
           <Route exact path="/profile" component={User}/>
           <Route exact path="/new" component={CreateOrEditDrink}/>
