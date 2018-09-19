@@ -38,7 +38,9 @@ class Dashboard extends Component {
   logout = () => {
     auth.signOut().then(() => {
       console.log("Successfully logged out.")
-      this.setState({authUser: null, firestoreUser: null, anchorElement: null, allIngredients: null})
+      this.setState(
+        {authUser: null, firestoreUser: null, anchorElement: null, allIngredients: null}
+      )
     }, error => {
       console.log("An error occured while logging out: ")
       console.log(error)
@@ -90,44 +92,57 @@ class Dashboard extends Component {
       return (<Auth onLogin={this.onLogin}/>)
     }
 
-    return (
-      <div>
-        <header className="ph4 pv4">
-          <h1 className="sans-serif f2 ma0 pa0 fl">{this.state.value === 0 ? "Drinks" : "Ingredients" }</h1>
-          <div className="fr v-mid">
-            <MoreVert
-              aria-owns={anchorElement
-                ? 'drink-menu'
-                : null}
-              aria-haspopup="true"
-              onClick={this.open}>
-              menu
-            </MoreVert>
-            <Menu
-              id="drink-menu"
-              anchorEl={anchorElement}
-              open={Boolean(anchorElement)}
-              onClose={this.close}>
-              <Link className="link" to="/new"><MenuItem>New Drink</MenuItem></Link>
-              <MenuItem>Profile</MenuItem>
-              <MenuItem onClick={this.logout}>Log Out</MenuItem>
-            </Menu>
-          </div>
-        </header>
-
-        <div className="mt4 pb5">
-          <this.List value={this.state.value} authUser={this.state.authUser}/>
+    return (<div>
+      <header className="ph4 pv4">
+        <h1 className="sans-serif f2 ma0 pa0 fl">{
+            this.state.value === 0
+              ? "Drinks"
+              : "Ingredients"
+          }</h1>
+        <div className="fr v-mid">
+          <MoreVert
+            aria-owns={anchorElement
+              ? 'drink-menu'
+              : null}
+            aria-haspopup="true"
+            onClick={this.open}>
+            menu
+          </MoreVert>
+          <Menu
+            id="drink-menu"
+            anchorEl={anchorElement}
+            open={Boolean(anchorElement)}
+            onClose={this.close}>
+            <Link className="link" to="/new">
+              <MenuItem>New Drink</MenuItem>
+            </Link>
+            >
+            <MenuItem
+              component={Link}
+              to={{
+                pathname: "/profile",
+                state: {
+                  authUser: JSON.stringify(this.state.authUser)
+                }
+              }}>Profile</MenuItem>
+            <MenuItem onClick={this.logout}>Log Out</MenuItem>
+          </Menu>
         </div>
+      </header>
 
-        <BottomNavigation
-          className="fixed bottom-0 w-100"
-          value={this.state.value}
-          onChange={this.bottomNavigationChanged}
-          showLabels="showLabels">
-          <BottomNavigationAction label="Drinks"/>
-          <BottomNavigationAction label="Ingredients"/>
-        </BottomNavigation>
+      <div className="mt4 pb5">
+        <this.List value={this.state.value} authUser={this.state.authUser}/>
       </div>
+
+      <BottomNavigation
+        className="fixed bottom-0 w-100"
+        value={this.state.value}
+        onChange={this.bottomNavigationChanged}
+        showLabels="showLabels">
+        <BottomNavigationAction label="Drinks"/>
+        <BottomNavigationAction label="Ingredients"/>
+      </BottomNavigation>
+    </div>
     );
   }
 }
