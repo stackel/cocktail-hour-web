@@ -12,7 +12,7 @@ import Divider from '@material-ui/core/Divider';
 
 import DrinkListItem from 'components/drinks/DrinkListItem'
 import Loading from 'components/shared/Loading'
-
+import Search from 'components/drinks/Search'
 
 class DrinkList extends Component {
   constructor(props) {
@@ -41,44 +41,56 @@ class DrinkList extends Component {
       }
     );
   }
-  searchInputChanged = event => {
+
+  hasIngredient = (obj, concept) => {
+    for (var i = 0; i < obj.ingredients.length; i++) {
+      const drinkIngredientName = obj.ingredients[i].ingredient.label.toLowerCase();
+      if (drinkIngredientName.includes(concept.label.toLowerCase())) {
+        return true
+      }
+    }
+    return false
+  }
+
+  hasTag = (obj, concept) => {
+    if (obj.tags) {
+      for (var i = 0; i < obj.tags.length; i++) {
+        const tagLabel = obj.tags[i].label.toLowerCase();
+        if (tagLabel.includes(concept.label.toLowerCase())) {
+          return true
+        }
+      }
+    }
+    return false
+  }
+
+  searchInputChanged = searchInput => {
     const drinks = this.state.drinks;
-    const searchString = event.target.value.toLowerCase()
 
-    let drinksFilteredByName = drinks.filter(obj => {return obj.name.toLowerCase().includes(searchString)})
+    if (searchInput.length <= 0) {
+      this.setState({drinksFiltered: drinks})
+      return
+    }
 
-    let drinksFilteredByIngredients = drinks.filter(obj => {
-      for (var i = 0; i < obj.ingredients.length; i++) {
-        const drinkIngredientName = obj.ingredients[i].ingredient.label.toLowerCase();
-        if(drinkIngredientName.includes(searchString)) {
-          return true;
-        }
-      }
-      return false
-    })
+    let hits = _.cloneDeep(drinks)
 
-    let drinksFilteredByTags = drinks.filter(obj => {
-      if(obj.tags) {
-        for (var i = 0; i < obj.tags.length; i++) {
-          const tagLabel = obj.tags[i].label.toLowerCase();
-          if(tagLabel.includes(searchString)) {
-            return true;
-          }
-        }
-      }
+    for (var i = 0; i < searchInput.length; i++) {
+      const concept = searchInput[i]
 
-      return false
-    })
+      let drinksFiltered = hits.filter(obj => {
+        return this.hasIngredient(obj, concept) || this.hasTag(obj, concept) || obj.id === concept.value
+      })
 
-    this.setState({
-      drinksFiltered: _.uniq(drinksFilteredByName.concat(drinksFilteredByIngredients).concat(drinksFilteredByTags))
-    })
+      hits = drinksFiltered;
+    }
+
+    this.setState({drinksFiltered: _.uniq(hits)})
   }
 
   render() {
     const drinks = this.state.drinksFiltered;
-    if(!drinks) {
-      return(<div className="tc ma5">
+    if (!drinks) {
+      return (<div className="tc ma5">
         <Loading/>
       </div>)
     }
@@ -101,19 +113,12 @@ class DrinkList extends Component {
       <div className="tc">
 
         <div className="w-100 ph4">
-          <Input
-            className="w-100"
-            placeholder="Search (Name, ingredient, tag)"
-            inputProps={{
-              'aria-label' : 'Search'
-            }}
-            onChange={this.searchInputChanged}/>
+          <Search onChange={this.searchInputChanged} drinks={this.state.drinks}/>
         </div>
 
         <List component="nav">
           {drinkComponents}
         </List>
-
 
       </div>
     );
