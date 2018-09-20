@@ -37,14 +37,16 @@ class DrinkList extends Component {
     }
     database.collection("users").doc(userUid).collection("drinks").orderBy("name").onSnapshot(
       snapshot => {
-        const drinks = []
-        snapshot.forEach(doc => {
-          let drink = doc.data()
-          drink.id = doc.id
-          drinks.push(drink);
-        })
-        localStorage.setItem('drinks', JSON.stringify(drinks))
-        this.setState({drinks: drinks, drinksFiltered: drinks})
+        if (snapshot) {
+          const drinks = []
+          snapshot.forEach(doc => {
+            let drink = doc.data()
+            drink.id = doc.id
+            drinks.push(drink);
+          })
+          localStorage.setItem('drinks', JSON.stringify(drinks))
+          this.setState({drinks: drinks, drinksFiltered: drinks})
+        }
       }
     );
   }
