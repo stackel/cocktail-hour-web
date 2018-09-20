@@ -17,7 +17,7 @@ class IngredientList extends Component {
       ingredients: null
     }
   }
-  
+
   componentDidMount() {
     if (this.props.authUser) {
       this.fetchAllIngredients(this.props.authUser.uid)
@@ -36,9 +36,10 @@ class IngredientList extends Component {
         ingredient.id = doc.id
         ingredients.push(ingredient);
       })
-      //save to localstorage
-      localStorage.setItem('allIngredients', JSON.stringify(ingredients))
-      this.setState({ingredients: ingredients})
+      if(ingredients.length > 0) {
+        localStorage.setItem('allIngredients', JSON.stringify(ingredients))
+        this.setState({ingredients: ingredients})
+      }
     });
   }
 

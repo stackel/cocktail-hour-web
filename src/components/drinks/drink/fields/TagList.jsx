@@ -193,6 +193,14 @@ class IntegrationReactSelect extends React.Component {
   };
 
   componentDidMount() {
+    if (localStorage.getItem('allTags')) {
+      this.setState({
+        tags: JSON.parse(localStorage.getItem('allTags')).map(obj => {
+          return {value: obj.name, label: obj.label}
+        })
+      })
+    }
+
     database.collection("tags").orderBy("name").onSnapshot(snapshot => {
       const tags = []
       snapshot.forEach(doc => {
@@ -200,11 +208,14 @@ class IntegrationReactSelect extends React.Component {
         tag.id = doc.id
         tags.push(tag);
       })
-      this.setState({
-        allTags: tags.map(obj => {
-          return {value: obj.name, label: obj.label}
-        })
-      });
+      if (tags.length > 0) {
+        localStorage.setItem('allTags', JSON.stringify(tags))
+        this.setState({
+          allTags: tags.map(obj => {
+            return {value: obj.name, label: obj.label}
+          })
+        });
+      }
     })
   }
 
@@ -220,7 +231,6 @@ class IntegrationReactSelect extends React.Component {
     if (!this.state.allTags) {
       return (<p>loadng</p>)
     }
-
 
     if (!this.props.edit) {
       return (

@@ -195,7 +195,9 @@ class IntegrationReactSelect extends React.Component {
 
     if (localStorage.getItem('allTags')) {
       this.setState({
-        ingredients: JSON.parse(localStorage.getItem('allTags'))
+        tags: JSON.parse(localStorage.getItem('allTags')).map(obj => {
+          return {value: obj.name, label: obj.label}
+        })
       })
     }
 
@@ -207,15 +209,14 @@ class IntegrationReactSelect extends React.Component {
         tags.push(tag);
       })
 
-      localStorage.setItem('allTags', JSON.stringify(tags.map(obj => {
-        return {value: obj.name, label: obj.label}
-      })))
-
-      this.setState({
-        allTags: tags.map(obj => {
-          return {value: obj.name, label: obj.label}
-        })
-      });
+      if (tags.length > 0) {
+        localStorage.setItem('allTags', JSON.stringify(tags))
+        this.setState({
+          allTags: tags.map(obj => {
+            return {value: obj.name, label: obj.label}
+          })
+        });
+      }
     })
 
     if (localStorage.getItem('allIngredients')) {
@@ -233,13 +234,15 @@ class IntegrationReactSelect extends React.Component {
         ingredient.id = doc.id
         ingredients.push(ingredient);
       })
-      localStorage.setItem('allIngredients', JSON.stringify(ingredients))
+      if (ingredients.length > 0) {
+        localStorage.setItem('allIngredients', JSON.stringify(ingredients))
 
-      this.setState({
-        allIngredients: ingredients.map(obj => {
-          return {value: obj.name, label: obj.label}
+        this.setState({
+          allIngredients: ingredients.map(obj => {
+            return {value: obj.name, label: obj.label}
+          })
         })
-      })
+      }
     })
   }
 
