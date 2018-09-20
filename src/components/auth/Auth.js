@@ -22,9 +22,12 @@ class Auth extends Component {
         )
         database.collection("users").doc(authUser.uid).onSnapshot(snapshot => {
           let firestoreUser = snapshot.data()
+
           if (firestoreUser) {
             console.log("Found firestore user.")
             console.log(firestoreUser)
+            localStorage.setItem('firestoreUser', JSON.stringify(firestoreUser))
+            localStorage.setItem('authUser', JSON.stringify(authUser))
             this.props.onLogin(authUser, firestoreUser)
           } else {
             database.collection("users").doc(authUser.uid).set(
