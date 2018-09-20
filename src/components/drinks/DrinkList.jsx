@@ -29,6 +29,12 @@ class DrinkList extends Component {
   }
 
   fetchDrinks = (userUid) => {
+    if (localStorage.getItem('drinks')) {
+      this.setState({
+        drinks: JSON.parse(localStorage.getItem('drinks')),
+        drinksFiltered: JSON.parse(localStorage.getItem('drinks'))
+      })
+    }
     database.collection("users").doc(userUid).collection("drinks").orderBy("name").onSnapshot(
       snapshot => {
         const drinks = []
@@ -37,6 +43,7 @@ class DrinkList extends Component {
           drink.id = doc.id
           drinks.push(drink);
         })
+        localStorage.setItem('drinks', JSON.stringify(drinks))
         this.setState({drinks: drinks, drinksFiltered: drinks})
       }
     );

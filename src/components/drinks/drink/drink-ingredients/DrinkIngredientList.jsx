@@ -15,8 +15,8 @@ class DrinkIngredientList extends Component {
 
   componentDidMount() {
     if (this.props.edit) {
-      this.fetchIngredients()
-      this.fetchUnits()
+      this.fetchAllIngredients()
+      this.fetchAllUnits()
     }
   }
 
@@ -28,22 +28,31 @@ class DrinkIngredientList extends Component {
     this.props.drinkIngredientDeleted(i)
   }
 
-  fetchIngredients = () => {
+  fetchAllIngredients = () => {
+    if(localStorage.getItem('allIngredients')) {
+      this.setState({ingredients: JSON.parse(localStorage.getItem('allIngredients'))})
+    }
+
     database.collection("ingredients").onSnapshot(snapshot => {
       let ingredients = []
       snapshot.forEach(doc => {
         ingredients.push(doc.data());
       })
+      localStorage.setItem('allIngredients', JSON.stringify(ingredients))
       this.setState({allIngredients: ingredients})
     })
   }
 
-  fetchUnits = () => {
+  fetchAllUnits = () => {
+    if(localStorage.getItem('allUnits')) {
+      this.setState({allUnits: JSON.parse(localStorage.getItem('allUnits'))})
+    }
     database.collection("units").onSnapshot(snapshot => {
       let units = []
       snapshot.forEach(doc => {
         units.push(doc.data());
       })
+      localStorage.setItem('allUnits', JSON.stringify(units))
       this.setState({allUnits: units})
     })
   }

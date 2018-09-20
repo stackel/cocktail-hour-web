@@ -192,6 +192,13 @@ class IntegrationReactSelect extends React.Component {
   };
 
   componentDidMount() {
+
+    if (localStorage.getItem('allTags')) {
+      this.setState({
+        ingredients: JSON.parse(localStorage.getItem('allTags'))
+      })
+    }
+
     database.collection("tags").orderBy("name").onSnapshot(snapshot => {
       const tags = []
       snapshot.forEach(doc => {
@@ -199,12 +206,25 @@ class IntegrationReactSelect extends React.Component {
         tag.id = doc.id
         tags.push(tag);
       })
+
+      localStorage.setItem('allTags', JSON.stringify(tags.map(obj => {
+        return {value: obj.name, label: obj.label}
+      })))
+
       this.setState({
         allTags: tags.map(obj => {
           return {value: obj.name, label: obj.label}
         })
       });
     })
+
+    if (localStorage.getItem('allIngredients')) {
+      this.setState({
+        allIngredients: JSON.parse(localStorage.getItem('allIngredients')).map(obj => {
+          return {value: obj.name, label: obj.label}
+        })
+      })
+    }
 
     database.collection("ingredients").orderBy("name").onSnapshot(snapshot => {
       const ingredients = []
@@ -213,7 +233,8 @@ class IntegrationReactSelect extends React.Component {
         ingredient.id = doc.id
         ingredients.push(ingredient);
       })
-      console.log(ingredients)
+      localStorage.setItem('allIngredients', JSON.stringify(ingredients))
+
       this.setState({
         allIngredients: ingredients.map(obj => {
           return {value: obj.name, label: obj.label}

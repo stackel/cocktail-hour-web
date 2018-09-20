@@ -17,13 +17,18 @@ class IngredientList extends Component {
       ingredients: null
     }
   }
+  
   componentDidMount() {
     if (this.props.authUser) {
-      this.fetchIngredients(this.props.authUser.uid)
+      this.fetchAllIngredients(this.props.authUser.uid)
     }
   }
 
-  fetchIngredients = (userUid) => {
+  fetchAllIngredients = (userUid) => {
+    if(localStorage.getItem('allIngredients')) {
+      this.setState({ingredients: JSON.parse(localStorage.getItem('allIngredients'))})
+    }
+
     database.collection("ingredients").orderBy("name").onSnapshot(snapshot => {
       const ingredients = []
       snapshot.forEach(doc => {
@@ -31,6 +36,8 @@ class IngredientList extends Component {
         ingredient.id = doc.id
         ingredients.push(ingredient);
       })
+      //save to localstorage
+      localStorage.setItem('allIngredients', JSON.stringify(ingredients))
       this.setState({ingredients: ingredients})
     });
   }

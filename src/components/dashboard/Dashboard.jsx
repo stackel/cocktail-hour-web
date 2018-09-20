@@ -13,7 +13,6 @@ import {database, auth} from 'utils/firebase'
 
 import Auth from 'components/auth/Auth'
 import User from 'components/dashboard/User'
-import DebugToggle from 'components/dashboard/DebugToggle'
 import DrinkList from 'components/drinks/DrinkList'
 import IngredientList from 'components/ingredients/IngredientList'
 
@@ -29,6 +28,14 @@ class Dashboard extends Component {
       value: 0,
       anchorElement: null
     };
+
+    if (localStorage.getItem('authUser')) {
+      this.state["authUser"] = JSON.parse(localStorage.getItem('authUser'));
+    }
+
+    if (localStorage.getItem('firestoreUser')) {
+      this.state["firestoreUser"] = JSON.parse(localStorage.getItem('firestoreUser'));
+    }
   }
 
   onLogin = (authUser, firestoreUser) => {
@@ -38,6 +45,7 @@ class Dashboard extends Component {
   logout = () => {
     auth.signOut().then(() => {
       console.log("Successfully logged out.")
+      localStorage.clear()
       this.setState(
         {authUser: null, firestoreUser: null, anchorElement: null, allIngredients: null}
       )
