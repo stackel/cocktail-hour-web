@@ -39,13 +39,14 @@ class CreateOrEditDrink extends Component {
   getUser = () => {
     auth.onAuthStateChanged(authUser => {
       if (authUser) {
+        localStorage.setItem('authUser', JSON.stringify(authUser))
         this.setState({userUid: authUser.uid})
       }
     })
   }
 
   updateOrSaveDrink = () => {
-    
+
     this.state.drink.ingredients = this.state.drink.ingredients.filter(obj => {return obj.ingredient})
     this.setState({
       saving: true

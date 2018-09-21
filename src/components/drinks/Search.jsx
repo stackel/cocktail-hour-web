@@ -195,7 +195,7 @@ class IntegrationReactSelect extends React.Component {
 
     if (localStorage.getItem('allTags')) {
       this.setState({
-        tags: JSON.parse(localStorage.getItem('allTags')).map(obj => {
+        allTags: JSON.parse(localStorage.getItem('allTags')).map(obj => {
           return {value: obj.name, label: obj.label}
         })
       })
