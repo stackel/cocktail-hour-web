@@ -14,17 +14,19 @@ class IngredientList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      ingredients: null
+      ingredients: null,
+      userIngredients: null
     }
   }
 
   componentDidMount() {
     if (this.props.authUser) {
-      this.fetchAllIngredients(this.props.authUser.uid)
+      this.fetchAllIngredients()
+      this.fetchUserIngredients(this.props.authUser.uid)
     }
   }
 
-  fetchAllIngredients = (userUid) => {
+  fetchAllIngredients = () => {
     if(localStorage.getItem('allIngredients')) {
       this.setState({ingredients: JSON.parse(localStorage.getItem('allIngredients'))})
     }
@@ -43,8 +45,25 @@ class IngredientList extends Component {
     });
   }
 
+  fetchUserIngredients = (userUid) => {
+    if(localStorage.getItem('userIngredients')) {
+      this.setState({userIngredients: JSON.parse(localStorage.getItem('userIngredients'))})
+    }
+
+    database.collection("users").doc(userUid).onSnapshot(snapshot => {
+      const firestoreUser = snapshot.data()
+      const ingredients = firestoreUser.ingredients
+
+      if(ingredients.length > 0) {
+        localStorage.setItem('userIngredients', JSON.stringify(ingredients))
+        this.setState({userIngredients: ingredients})
+      }
+    });
+
+  }
+
   render() {
-    if (!this.state.ingredients || !this.props.authUser) {
+    if (!this.state.ingredients || !this.props.authUser || !this.state.userIngredients) {
       return (<div className="tc ma5">
         <Loading/>
       </div>)
@@ -57,7 +76,7 @@ class IngredientList extends Component {
           key={ingredients[i].id}
           ingredient={ingredients[i]}
           authUser={this.props.authUser}
-          ingredients={this.props.firestoreUser.ingredients}/>
+          ingredients={this.state.userIngredients}/>
       )
     }
 

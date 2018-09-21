@@ -68,7 +68,6 @@ class Dashboard extends Component {
       return (
         <div>
           <DrinkList
-            userIngredients={this.state.firestoreUser.ingredients}
             authUserUid={this.state.authUser.uid}/>
         </div>
       )

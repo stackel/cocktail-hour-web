@@ -11,7 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import {database, firebase} from 'utils/firebase'
- 
+
 class IngredientListItem extends Component {
   constructor(props) {
     super(props);
