@@ -4,8 +4,7 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+
 import {Link} from 'react-router-dom'
 import MoreVert from '@material-ui/icons/MoreVert';
 
@@ -15,6 +14,7 @@ import Auth from 'components/auth/Auth'
 import User from 'components/dashboard/User'
 import DrinkList from 'components/drinks/DrinkList'
 import IngredientList from 'components/ingredients/IngredientList'
+import BottomTabs from 'components/dashboard/BottomTabs'
 
 class Dashboard extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class Dashboard extends Component {
       debug: false,
       units: [],
       allIngredients: [],
-      value: 0,
+      currentTab: 0,
       anchorElement: null
     };
 
@@ -51,8 +51,8 @@ class Dashboard extends Component {
     })
   }
 
-  bottomNavigationChanged = (event, value) => {
-    this.setState({value});
+  changeTab = (event, value) => {
+    this.setState({currentTab: value});
   }
 
   List = (props) => {
@@ -148,17 +148,9 @@ class Dashboard extends Component {
       </header>
 
       <div className="mt4 pb5">
-        <this.List value={this.state.value} authUser={this.state.user}/>
+        <this.List value={this.state.currentTab} authUser={this.state.user}/>
       </div>
-
-      <BottomNavigation
-        className="fixed bottom-0 w-100 mw7"
-        value={this.state.value}
-        onChange={this.bottomNavigationChanged}
-        showLabels="showLabels">
-        <BottomNavigationAction label="Drinks"/>
-        <BottomNavigationAction label="Ingredients"/>
-      </BottomNavigation>
+      <BottomTabs value={this.state.currentTab} onTabChanged={this.changeTab}/>
     </div>
     );
   }
