@@ -26,6 +26,16 @@ class DashboardMenu extends Component {
     this.setState({anchorElement: null});
   };
 
+  logout = () => {
+    auth.signOut().then(() => {
+      localStorage.clear()
+      this.setState({user: null})
+    }, error => {
+      console.log("An error occured while logging out: ")
+      console.log(error)
+    })
+  }
+
   NewIngredientMenuItem = (props) => {
     if (!props.show) {
       return null
