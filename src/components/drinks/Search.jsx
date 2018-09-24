@@ -160,7 +160,7 @@ function MultiValue(props) {
 function Menu(props) {
   return (
     <Paper
-      square="square"
+      square
       className={props.selectProps.classes.paper}
       {...props.innerProps}>
       {props.children}
@@ -278,7 +278,7 @@ class IntegrationReactSelect extends React.Component {
             }))}
             onChange={this.handleChange}
             placeholder="Select tags, ingredients, name"
-            isMulti="isMulti"/>
+            isMulti/>
         </NoSsr>
       </div>
     );

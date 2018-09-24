@@ -5,6 +5,7 @@ import Drink from 'components/drinks/drink/Drink'
 import AddNewDrinkTitle from 'components/drinks/drink/fields/AddNewDrinkTitle'
 
 import SaveOrUpdateButton from 'components/drinks/drink/buttons/SaveOrUpdateButton'
+import Loading from 'components/shared/Loading'
 
 import {auth, database} from 'utils/firebase'
 
@@ -97,7 +98,7 @@ class CreateOrEditDrink extends Component {
 
   render() {
     if (!this.state.userUid || !this.state.drink) {
-      return (<div>Loading...</div>)
+      return (<Loading/>)
     }
 
     if (this.state.drinkUpdated) {
@@ -117,7 +118,9 @@ class CreateOrEditDrink extends Component {
     }
 
     if(this.state.saving) {
-      return (<p> saving ..</p>)
+      return (<div className="tc mt6">
+        <Loading label="Saving"/>
+      </div>)
     }
 
     return (

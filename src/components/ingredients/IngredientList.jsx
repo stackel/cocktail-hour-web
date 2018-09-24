@@ -51,7 +51,7 @@ class IngredientList extends Component {
     }
 
     database.collection("users").doc(userId).onSnapshot(snapshot => {
-      const ingredients = snapshot.data().ingredients || []
+      const ingredients = (snapshot.data().ingredients || []).sort()
 
       localStorage.setItem('userIngredients', JSON.stringify(ingredients))
       this.setState({userIngredients: ingredients})

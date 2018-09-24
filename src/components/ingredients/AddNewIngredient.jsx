@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import TextField from '@material-ui/core/TextField';
 import Select from 'react-select';
+import Loading from 'components/shared/Loading';
 import SaveOrUpdateButton from 'components/drinks/drink/buttons/SaveOrUpdateButton'
 
 import {auth, database} from 'utils/firebase'
@@ -78,11 +79,15 @@ class AddNewIngredient extends Component {
 
   render() {
     if (!this.state.allTypes) {
-      return (<p>loading</p>)
+      return (<div className="tc mt6">
+        <Loading label="Loading"/>
+      </div>)
     }
 
     if (this.state.saving) {
-      return (<p>saving</p>)
+      return (<div className="tc mt6">
+        <Loading label="Saving"/>
+      </div>)
     }
 
     return (
