@@ -71,7 +71,7 @@ class Auth extends Component {
         <div className="tc ma6">
           <h1 className="sans-serif f2 tc mt7">
             COCKTAIL HOUR</h1>
-          <Loading/>
+          <Loading label="Logging in"/>
         </div>
       )
     }
