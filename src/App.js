@@ -6,6 +6,7 @@ import DrinkDetail from 'components/drinks/DrinkDetail'
 import CreateOrEditDrink from 'components/drinks/CreateOrEditDrink'
 import AddNewIngredient from 'components/ingredients/AddNewIngredient'
 import User from 'components/dashboard/User'
+import Assistant from 'components/assistant/Assistant'
 
 class App extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class App extends Component {
           <Route exact path="/drink/:id/edit" component={CreateOrEditDrink}/>
           <Route exact path="/drink/:id" component={DrinkDetail}/>
           <Route exact path="/ingredients/new" component={AddNewIngredient}/>
+          <Route exact path="/assistant" component={Assistant}/>
         </div>
       </Router>
     );

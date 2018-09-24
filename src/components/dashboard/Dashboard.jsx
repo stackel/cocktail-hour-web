@@ -143,6 +143,14 @@ class Dashboard extends Component {
                   authUser: JSON.stringify(this.state.authUser)
                 }
               }}>Profile</MenuItem>
+              <MenuItem
+                component={Link}
+                to={{
+                  pathname: "/assistant",
+                  state: {
+                    authUser: JSON.stringify(this.state.authUser)
+                  }
+                }}>Assistant</MenuItem>
             <MenuItem onClick={this.logout}>Log Out</MenuItem>
           </Menu>
         </div>

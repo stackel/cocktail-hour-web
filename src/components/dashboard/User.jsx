@@ -28,7 +28,7 @@ class User extends Component {
 
   fetchUser = () => {
     if(localStorage.getItem('authUser')) {
-      this.setState({user: JSON.parse(localStorage.getItem('firestoreUser'))})
+      this.setState({user: JSON.parse(localStorage.getItem('authUser'))})
     }
 
     auth.onAuthStateChanged(authUser => {
