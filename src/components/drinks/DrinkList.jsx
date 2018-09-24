@@ -43,9 +43,14 @@ class DrinkList extends Component {
           drink.id = doc.id
           drinks.push(drink);
         })
-        if(drinks.length > 0) {
+        if(drinks) {
           localStorage.setItem('drinks', JSON.stringify(drinks))
           this.setState({drinks: drinks, drinksFiltered: drinks})
+        } else {
+          this.setState({
+            drinks: [],
+            drinksFiltered: []
+          })
         }
       }
     );

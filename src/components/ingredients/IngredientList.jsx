@@ -54,9 +54,13 @@ class IngredientList extends Component {
       const firestoreUser = snapshot.data()
       const ingredients = firestoreUser.ingredients
 
-      if(ingredients.length > 0) {
+      if(ingredients) {
         localStorage.setItem('userIngredients', JSON.stringify(ingredients))
         this.setState({userIngredients: ingredients})
+      } else {
+        this.setState({
+          userIngredients: []
+        })
       }
     });
 

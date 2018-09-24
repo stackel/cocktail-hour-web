@@ -31,7 +31,9 @@ class Auth extends Component {
             this.props.onLogin(authUser, firestoreUser)
           } else {
             database.collection("users").doc(authUser.uid).set(
-              {ingredients: []}
+              {displayName: authUser.displayName,
+              email: authUser.email,
+              id: authUser.uid}
             ).then(() => {
               database.collection("users").doc(authUser.uid).onSnapshot(snapshot => {
                 this.props.onLogin(authUser, snapshot.data())

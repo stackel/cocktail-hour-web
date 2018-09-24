@@ -100,7 +100,7 @@ class Assistant extends Component {
     const drinks = this.state.drinks
     const firestoreUser = this.state.firestoreUser
 
-    if (!user || !drinks || !this.state.firestoreUser) {
+    if (!user || !drinks || !firestoreUser) {
       return (<div class="tc mt6"><Loading/>
       </div>)
     } else {
