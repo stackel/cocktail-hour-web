@@ -25,7 +25,8 @@ class DrinkList extends Component {
   }
 
   componentDidMount() {
-    this.fetchDrinks(this.props.authUserUid)
+    //GET USER FROM LOCAL LOCAL STORAGE
+    this.fetchDrinks(this.props.user.id)
   }
 
   fetchDrinks = (userUid) => {
@@ -109,7 +110,7 @@ class DrinkList extends Component {
           <DrinkListItem
             key={drinks[i].id}
             drink={drinks[i]}
-            authUserUid={this.props.authUserUid}/>
+            authUserUid={this.props.user.id}/>
           <Divider/>
         </div>
 

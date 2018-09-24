@@ -16,42 +16,40 @@ class Auth extends Component {
   componentDidMount() {
     auth.onAuthStateChanged(authUser => {
       if (authUser) {
-        console.log(
-          "Successfully logged in with authUser " + authUser.displayName + " " +
-          authUser.uid
-        )
+        console.log("Found auth user")
         database.collection("users").doc(authUser.uid).onSnapshot(snapshot => {
           let firestoreUser = snapshot.data()
 
           if (firestoreUser) {
             console.log("Found firestore user.")
             console.log(firestoreUser)
-            localStorage.setItem('firestoreUser', JSON.stringify(firestoreUser))
-            localStorage.setItem('authUser', JSON.stringify(authUser))
-            this.props.onLogin(authUser, firestoreUser)
+            this.loginDone(firestoreUser)
           } else {
-            database.collection("users").doc(authUser.uid).set(
-              {displayName: authUser.displayName,
+            console.log("Did not find firestore user.")
+            const firestoreUser = {
+              displayName: authUser.displayName,
               email: authUser.email,
-              id: authUser.uid}
-            ).then(() => {
-              database.collection("users").doc(authUser.uid).onSnapshot(snapshot => {
-                this.props.onLogin(authUser, snapshot.data())
-              });
-
+              id: authUser.uid,
+              admin: false
+            }
+            database.collection("users").doc(authUser.uid).set(firestoreUser).then(() => {
+              console.log("Firestore user registered.")
+              this.loginDone(firestoreUser)
             }).catch(response => {
               console.log(response)
             });
           }
         })
       } else {
-        console.log("Auth user not found.")
         this.setState({loading: false})
+        console.log("Auth user not found.")
       }
     });
   }
 
+
   loginWithGoogleAuth = () => {
+    this.setState({loading: true})
     auth.signInWithPopup(googleAuthProvider).then(result => {
       console.log("Google auth successful with result: ")
       console.log(result)
@@ -59,6 +57,12 @@ class Auth extends Component {
       console.log("Google auth failed with error: ")
       console.log(error)
     })
+  }
+
+  loginDone = (user) => {
+    localStorage.setItem('user', JSON.stringify(user))
+    this.setState({loading: false})
+    this.props.onLogin(user)
   }
 
   render() {

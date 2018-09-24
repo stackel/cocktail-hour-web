@@ -20,9 +20,10 @@ class IngredientList extends Component {
   }
 
   componentDidMount() {
-    if (this.props.authUser) {
+    const user = this.props.user
+    if (user) {
       this.fetchAllIngredients()
-      this.fetchUserIngredients(this.props.authUser.uid)
+      this.fetchUserIngredients(user.id)
     }
   }
 
@@ -47,14 +48,14 @@ class IngredientList extends Component {
     });
   }
 
-  fetchUserIngredients = (userUid) => {
+  fetchUserIngredients = (userId) => {
     if (localStorage.getItem('userIngredients')) {
       this.setState({
         userIngredients: JSON.parse(localStorage.getItem('userIngredients'))
       })
     }
 
-    database.collection("users").doc(userUid).onSnapshot(snapshot => {
+    database.collection("users").doc(userId).onSnapshot(snapshot => {
       const firestoreUser = snapshot.data()
       const ingredients = firestoreUser.ingredients || []
 
@@ -65,7 +66,7 @@ class IngredientList extends Component {
   }
 
   render() {
-    if (!this.state.ingredients || !this.props.authUser || !this.state.userIngredients) {
+    if (!this.state.ingredients || !this.state.userIngredients) {
       return (<div className="tc ma5">
         <Loading/>
       </div>)
@@ -77,7 +78,7 @@ class IngredientList extends Component {
         <IngredientListItem
           key={ingredients[i].id}
           ingredient={ingredients[i]}
-          authUser={this.props.authUser}
+          authUser={this.props.user}
           ingredients={this.state.userIngredients}/>
       )
     }

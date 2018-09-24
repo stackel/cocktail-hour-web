@@ -20,8 +20,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      authUser: null,
-      firestoreUser: null,
+      user: null,
       debug: false,
       units: [],
       allIngredients: [],
@@ -29,17 +28,14 @@ class Dashboard extends Component {
       anchorElement: null
     };
 
-    if (localStorage.getItem('authUser')) {
-      this.state["authUser"] = JSON.parse(localStorage.getItem('authUser'));
-    }
-
-    if (localStorage.getItem('firestoreUser')) {
-      this.state["firestoreUser"] = JSON.parse(localStorage.getItem('firestoreUser'));
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.state["user"] = JSON.parse(localStorage.getItem('user'));
     }
   }
 
-  onLogin = (authUser, firestoreUser) => {
-    this.setState({authUser: authUser, firestoreUser: firestoreUser})
+  onLogin = (user) => {
+    this.setState({user: user})
   }
 
   logout = () => {
@@ -47,17 +43,13 @@ class Dashboard extends Component {
       console.log("Successfully logged out.")
       localStorage.clear()
       this.setState(
-        {authUser: null, firestoreUser: null, anchorElement: null, allIngredients: null}
+        {user: null}
       )
     }, error => {
       console.log("An error occured while logging out: ")
       console.log(error)
     })
   }
-
-  changeDebugMode = debug => {
-    this.setState({debug: debug});
-  };
 
   bottomNavigationChanged = (event, value) => {
     this.setState({value});
@@ -67,7 +59,7 @@ class Dashboard extends Component {
     if (props.value === 0) {
       return (
         <div>
-          <DrinkList authUserUid={this.state.authUser.uid}/>
+          <DrinkList user={this.state.user}/>
         </div>
       )
     }
@@ -75,8 +67,7 @@ class Dashboard extends Component {
       return (
         <IngredientList
           debug={this.state.debug}
-          authUser={this.state.authUser}
-          firestoreUser={this.state.firestoreUser}
+          user={this.state.user}
           units={this.state.units}
           allIngredients={this.state.allIngredients}/>
       )
@@ -106,7 +97,7 @@ class Dashboard extends Component {
 
   render() {
     const anchorElement = this.state.anchorElement
-    if (!this.state.authUser) {
+    if (!this.state.user) {
       return (<Auth onLogin={this.onLogin}/>)
     }
 
@@ -134,13 +125,13 @@ class Dashboard extends Component {
             <Link className="link" to="/new">
               <MenuItem>New Drink</MenuItem>
             </Link>
-            <this.NewIngredientMenuItem show={this.state.firestoreUser.admin}/>
+            <this.NewIngredientMenuItem show={this.state.user.admin}/>
             <MenuItem
               component={Link}
               to={{
                 pathname: "/profile",
                 state: {
-                  authUser: JSON.stringify(this.state.authUser)
+                  authUser: JSON.stringify(this.state.user)
                 }
               }}>Profile</MenuItem>
               <MenuItem
@@ -148,7 +139,7 @@ class Dashboard extends Component {
                 to={{
                   pathname: "/assistant",
                   state: {
-                    authUser: JSON.stringify(this.state.authUser)
+                    authUser: JSON.stringify(this.state.user)
                   }
                 }}>Assistant</MenuItem>
             <MenuItem onClick={this.logout}>Log Out</MenuItem>
@@ -157,7 +148,7 @@ class Dashboard extends Component {
       </header>
 
       <div className="mt4 pb5">
-        <this.List value={this.state.value} authUser={this.state.authUser}/>
+        <this.List value={this.state.value} authUser={this.state.user}/>
       </div>
 
       <BottomNavigation
