@@ -67,8 +67,7 @@ class Dashboard extends Component {
     if (props.value === 0) {
       return (
         <div>
-          <DrinkList
-            authUserUid={this.state.authUser.uid}/>
+          <DrinkList authUserUid={this.state.authUser.uid}/>
         </div>
       )
     }
@@ -83,6 +82,18 @@ class Dashboard extends Component {
       )
     }
     return null;
+  }
+
+  NewIngredientMenuItem = (props) => {
+    if (!props.show) {
+      return null
+    }
+
+    return (
+      <Link className="link" to="/ingredients/new">
+        <MenuItem>New Ingredient</MenuItem>
+      </Link>
+    )
   }
 
   open = event => {
@@ -123,7 +134,7 @@ class Dashboard extends Component {
             <Link className="link" to="/new">
               <MenuItem>New Drink</MenuItem>
             </Link>
-            >
+            <this.NewIngredientMenuItem show={this.state.firestoreUser.admin}/>
             <MenuItem
               component={Link}
               to={{

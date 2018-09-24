@@ -22,7 +22,22 @@ class AddNewIngredient extends Component {
 
   componentDidMount() {
     this.fetchTypes()
+    this.fetchUser()
   }
+
+  fetchUser = () => {
+    if(localStorage.getItem('authUser')) {
+      this.setState({user: JSON.parse(localStorage.getItem('authUser'))})
+    }
+
+    auth.onAuthStateChanged(authUser => {
+      if (authUser) {
+        localStorage.setItem('authUser', JSON.stringify(authUser))
+        this.setState({user: authUser})
+      }
+    })
+  }
+
 
   fetchTypes = () => {
     database.collection("ingredient-types").onSnapshot(snapshot => {
