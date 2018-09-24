@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 
 import Drink from 'components/drinks/drink/Drink'
 import DrinkMenu from 'components/drinks/drink/menu/DrinkMenu'
+import Loading from 'components/shared/Loading'
 
-import {database, auth} from 'utils/firebase'
+
+import {database} from 'utils/firebase'
 import {Redirect} from 'react-router-dom'
 
 class DrinkDetail extends Component {
@@ -55,7 +57,9 @@ class DrinkDetail extends Component {
 
   render() {
     if (!this.state.drink) {
-      return <div>loading</div>
+      return (<div className="tc mt6">
+        <Loading label="Loading"/>
+      </div>)
     }
 
     if (this.state.redirectToDashboard) {
@@ -64,7 +68,7 @@ class DrinkDetail extends Component {
     if (this.state.redirectToEditDrink) {
       return (
         <Redirect
-          push="push"
+          push
           to={{
             pathname: this.state.drink.id + "/edit",
             state: {

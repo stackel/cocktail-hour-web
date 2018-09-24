@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 
-import DebugJson from 'components/shared/DebugJson'
 import IngredientField from
 "components/drinks/drink/drink-ingredients/drink-ingredient/fields/IngredientField"
 import AmountField from
@@ -52,7 +51,6 @@ class DrinkIngredient extends Component {
           </div>
         </div>
 
-        <DebugJson show={this.props.debug} value={this.props.drinkIngredient}/>
       </div>
     )
   }

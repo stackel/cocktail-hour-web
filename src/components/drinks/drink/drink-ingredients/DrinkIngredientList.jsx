@@ -33,7 +33,7 @@ class DrinkIngredientList extends Component {
       this.setState({ingredients: JSON.parse(localStorage.getItem('allIngredients'))})
     }
 
-    database.collection("ingredients").onSnapshot(snapshot => {
+    database.collection("ingredients").orderBy("name").onSnapshot(snapshot => {
       let ingredients = []
       snapshot.forEach(doc => {
         ingredients.push(doc.data());
@@ -47,7 +47,7 @@ class DrinkIngredientList extends Component {
     if(localStorage.getItem('allUnits')) {
       this.setState({allUnits: JSON.parse(localStorage.getItem('allUnits'))})
     }
-    database.collection("units").onSnapshot(snapshot => {
+    database.collection("units").orderBy("name").onSnapshot(snapshot => {
       let units = []
       snapshot.forEach(doc => {
         units.push(doc.data());

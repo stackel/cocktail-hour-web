@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom'
 
 import TextField from '@material-ui/core/TextField';
 import Select from 'react-select';
+import Loading from 'components/shared/Loading';
 import SaveOrUpdateButton from 'components/drinks/drink/buttons/SaveOrUpdateButton'
 
 import {auth, database} from 'utils/firebase'
@@ -22,7 +22,22 @@ class AddNewIngredient extends Component {
 
   componentDidMount() {
     this.fetchTypes()
+    this.fetchUser()
   }
+
+  fetchUser = () => {
+    if(localStorage.getItem('authUser')) {
+      this.setState({user: JSON.parse(localStorage.getItem('authUser'))})
+    }
+
+    auth.onAuthStateChanged(authUser => {
+      if (authUser) {
+        localStorage.setItem('authUser', JSON.stringify(authUser))
+        this.setState({user: authUser})
+      }
+    })
+  }
+
 
   fetchTypes = () => {
     database.collection("ingredient-types").onSnapshot(snapshot => {
@@ -64,37 +79,38 @@ class AddNewIngredient extends Component {
 
   render() {
     if (!this.state.allTypes) {
-      return (<p>loading</p>)
+      return (<div className="tc mt6">
+        <Loading label="Loading"/>
+      </div>)
     }
 
     if (this.state.saving) {
-      return (<p>saving</p>)
+      return (<div className="tc mt6">
+        <Loading label="Saving"/>
+      </div>)
     }
 
     return (
       <div className="ma4">
         <h1 className="sans-serif f2"> Add New Ingredient</h1>
         <TextField
-          className="mv4"
+          className="mv4 w-100"
           id="name"
           label="Name"
-          className="w-100"
           defaultValue={this.state.name}
           onChange={this.ingredientChanged("name")}/>
 
         <TextField
-          className="mv4"
+          className="mv4 w-100"
           id="label"
           label="Label"
-          className="w-100"
           defaultValue={this.state.label}
           onChange={this.ingredientChanged("label")}/>
 
         <TextField
-          className="mv4"
+          className="mv4 w-100"
           id="description"
           label="Description"
-          className="w-100"
           defaultValue={this.state.description}
           onChange={this.ingredientChanged("description")}/>
 

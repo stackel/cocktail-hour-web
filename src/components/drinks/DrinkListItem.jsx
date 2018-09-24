@@ -15,7 +15,7 @@ class DrinkListItem extends Component {
   }
 
   componentDidMount() {
-    this.fetchUserIngredients(this.props.authUserUid)
+    this.fetchUserIngredients(this.props.user.id)
   }
 
   fetchUserIngredients = (userUid) => {
@@ -38,7 +38,7 @@ class DrinkListItem extends Component {
   TagList = (props) => {
     const tagComponents = []
     if (props.tags) {
-      props.tags.map(tag => {
+      props.tags.forEach(tag => {
         tagComponents.push(
           <Chip className="dib fr mv2 mh1" key={tag.name} label={tag.label}/>
         );
@@ -93,7 +93,7 @@ class DrinkListItem extends Component {
             authUserUid: this.props.authUserUid
           }
         }}
-        button="button">
+        button>
 
         <ListItemText primary={drink.name} secondary={this.secondaryText(drink)}/>
 

@@ -85,7 +85,7 @@ function inputComponent({
 function Control(props) {
   return (
     <TextField
-      fullWidth="fullWidth"
+      fullWidth
       InputProps={{
         inputComponent,
         inputProps: {
@@ -264,7 +264,7 @@ class IntegrationReactSelect extends React.Component {
             options={this.state.allTags}
             onChange={this.handleChange}
             placeholder="Select tags"
-            isMulti="isMulti"/>
+            isMulti/>
         </NoSsr>
       </div>
     );

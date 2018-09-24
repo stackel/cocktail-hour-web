@@ -1,13 +1,7 @@
 import React, {Component} from 'react';
-import Card from '@material-ui/core/Card';
-import Button from '@material-ui/core/Button';
-import CardContent from '@material-ui/core/CardContent';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import List from '@material-ui/core/List';
-import Input from '@material-ui/core/Input';
 import _ from 'lodash'
-import {database, auth, googleAuthProvider} from 'utils/firebase'
+import {database} from 'utils/firebase'
 import Divider from '@material-ui/core/Divider';
 
 import DrinkListItem from 'components/drinks/DrinkListItem'
@@ -25,7 +19,7 @@ class DrinkList extends Component {
   }
 
   componentDidMount() {
-    this.fetchDrinks(this.props.authUserUid)
+    this.fetchDrinks(this.props.user.id)
   }
 
   fetchDrinks = (userUid) => {
@@ -43,10 +37,8 @@ class DrinkList extends Component {
           drink.id = doc.id
           drinks.push(drink);
         })
-        if(drinks.length > 0) {
-          localStorage.setItem('drinks', JSON.stringify(drinks))
-          this.setState({drinks: drinks, drinksFiltered: drinks})
-        }
+        localStorage.setItem('drinks', JSON.stringify(drinks))
+        this.setState({drinks: drinks, drinksFiltered: drinks})
       }
     );
   }
@@ -107,11 +99,10 @@ class DrinkList extends Component {
     const drinkComponents = [];
     for (let i = 0; i < drinks.length; i++) {
       drinkComponents.push(
-        <div>
+        <div key={drinks[i].id}>
           <DrinkListItem
-            key={drinks[i].id}
             drink={drinks[i]}
-            authUserUid={this.props.authUserUid}/>
+            user={this.props.user}/>
           <Divider/>
         </div>
 

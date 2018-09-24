@@ -1,9 +1,4 @@
 import React, {Component} from 'react';
-import Card from '@material-ui/core/Card';
-import Button from '@material-ui/core/Button';
-import CardContent from '@material-ui/core/CardContent';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import List from '@material-ui/core/List';
 import {database} from 'utils/firebase'
 
@@ -20,15 +15,18 @@ class IngredientList extends Component {
   }
 
   componentDidMount() {
-    if (this.props.authUser) {
+    const user = this.props.user
+    if (user) {
       this.fetchAllIngredients()
-      this.fetchUserIngredients(this.props.authUser.uid)
+      this.fetchUserIngredients(user.id)
     }
   }
 
   fetchAllIngredients = () => {
-    if(localStorage.getItem('allIngredients')) {
-      this.setState({ingredients: JSON.parse(localStorage.getItem('allIngredients'))})
+    if (localStorage.getItem('allIngredients')) {
+      this.setState({
+        ingredients: JSON.parse(localStorage.getItem('allIngredients'))
+      })
     }
 
     database.collection("ingredients").orderBy("name").onSnapshot(snapshot => {
@@ -38,32 +36,31 @@ class IngredientList extends Component {
         ingredient.id = doc.id
         ingredients.push(ingredient);
       })
-      if(ingredients.length > 0) {
+      if (ingredients) {
         localStorage.setItem('allIngredients', JSON.stringify(ingredients))
         this.setState({ingredients: ingredients})
       }
     });
   }
 
-  fetchUserIngredients = (userUid) => {
-    if(localStorage.getItem('userIngredients')) {
-      this.setState({userIngredients: JSON.parse(localStorage.getItem('userIngredients'))})
+  fetchUserIngredients = (userId) => {
+    if (localStorage.getItem('userIngredients')) {
+      this.setState({
+        userIngredients: JSON.parse(localStorage.getItem('userIngredients'))
+      })
     }
 
-    database.collection("users").doc(userUid).onSnapshot(snapshot => {
-      const firestoreUser = snapshot.data()
-      const ingredients = firestoreUser.ingredients
+    database.collection("users").doc(userId).onSnapshot(snapshot => {
+      const ingredients = (snapshot.data().ingredients || []).sort()
 
-      if(ingredients.length > 0) {
-        localStorage.setItem('userIngredients', JSON.stringify(ingredients))
-        this.setState({userIngredients: ingredients})
-      }
+      localStorage.setItem('userIngredients', JSON.stringify(ingredients))
+      this.setState({userIngredients: ingredients})
     });
 
   }
 
   render() {
-    if (!this.state.ingredients || !this.props.authUser || !this.state.userIngredients) {
+    if (!this.state.ingredients || !this.state.userIngredients) {
       return (<div className="tc ma5">
         <Loading/>
       </div>)
@@ -75,8 +72,8 @@ class IngredientList extends Component {
         <IngredientListItem
           key={ingredients[i].id}
           ingredient={ingredients[i]}
-          authUser={this.props.authUser}
-          ingredients={this.state.userIngredients}/>
+          ingredients={this.state.userIngredients}
+          user={this.props.user}/>
       )
     }
 
