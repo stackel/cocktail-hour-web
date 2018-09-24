@@ -7,7 +7,6 @@ import DrinkName from 'components/drinks/drink/fields/DrinkName'
 import TagList from 'components/drinks/drink/fields/TagList'
 import DrinkDescription from 'components/drinks/drink/fields/DrinkDescription'
 import AddIngredientButton from 'components/drinks/drink/drink-ingredients/AddIngredientButton'
-import DebugJson from 'components/shared/DebugJson'
 
 class Drink extends Component {
   changeField = (fieldName, value) => {
@@ -76,7 +75,6 @@ class Drink extends Component {
           <AddIngredientButton edit={this.props.edit} onClick={this.addIngredient}/>
         </div>
 
-        <DebugJson debug={false}/>
       </div>
     );
   }
