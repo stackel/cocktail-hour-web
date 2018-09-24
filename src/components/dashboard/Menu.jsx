@@ -1,20 +1,17 @@
 import React, {Component} from 'react';
-import Button from '@material-ui/core/Button';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import MoreVert from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {Link} from 'react-router-dom'
 
-import {database, auth, googleAuthProvider} from 'utils/firebase'
+import {auth} from 'utils/firebase'
 import Loading from 'components/shared/Loading'
 
 class DashboardMenu extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      anchorElement: null,
+      anchorElement: null
     }
   }
 
@@ -26,14 +23,22 @@ class DashboardMenu extends Component {
     this.setState({anchorElement: null});
   };
 
-  logout = () => {
-    auth.signOut().then(() => {
-      localStorage.clear()
-      this.setState({user: null})
-    }, error => {
-      console.log("An error occured while logging out: ")
-      console.log(error)
-    })
+  onLogoutClick = () => {
+    this.close()
+    this.props.onLogout()
+  }
+
+  ProfileMenuItem = (props) => {
+    return (
+      <MenuItem
+        component={Link}
+        to={{
+          pathname: "/profile",
+          state: {
+            authUser: JSON.stringify(props.user)
+          }
+        }}>Profile</MenuItem>
+    )
   }
 
   NewIngredientMenuItem = (props) => {
@@ -47,50 +52,48 @@ class DashboardMenu extends Component {
       </Link>
     )
   }
+
+  AssistantMenuItem = (props) => {
+    return (
+      <MenuItem
+        component={Link}
+        to={{
+          pathname: "/assistant",
+          state: {
+            user: JSON.stringify(props.user)
+          }
+        }}>Assistant</MenuItem>
+    )
+  }
+
   render() {
     const anchorElement = this.state.anchorElement
     return (
       <div>
-      <MoreVert
-        aria-owns={anchorElement
-          ? 'drink-menu'
-          : null}
-        aria-haspopup="true"
-        onClick={this.open}>
-        menu
-      </MoreVert>
-      <Menu
-        id="drink-menu"
-        anchorEl={anchorElement}
-        open={Boolean(anchorElement)}
-        onClose={this.close}>
-        <Link className="link" to="/new">
-          <MenuItem>New Drink</MenuItem>
-        </Link>
-        <this.NewIngredientMenuItem show={this.props.user.admin}/>
-        <MenuItem
-          component={Link}
-          to={{
-            pathname: "/profile",
-            state: {
-              authUser: JSON.stringify(this.props.user)
-            }
-          }}>Profile</MenuItem>
-        <MenuItem
-          component={Link}
-          to={{
-            pathname: "/assistant",
-            state: {
-              authUser: JSON.stringify(this.props.user)
-            }
-          }}>Assistant</MenuItem>
-        <MenuItem onClick={this.logout}>Log Out</MenuItem>
-      </Menu>
-    </div>
+        <MoreVert
+          aria-owns={anchorElement
+            ? 'drink-menu'
+            : null}
+          aria-haspopup="true"
+          onClick={this.open}>
+          menu
+        </MoreVert>
+        <Menu
+          id="drink-menu"
+          anchorEl={anchorElement}
+          open={Boolean(anchorElement)}
+          onClose={this.close}>
+          <Link className="link" to="/new">
+            <MenuItem>New Drink</MenuItem>
+          </Link>
+          <this.AssistantMenuItem user={this.props.user}/>
+          <this.NewIngredientMenuItem show={this.props.user.admin}/>
+          <this.ProfileMenuItem user={this.props.user}/>
+          <MenuItem onClick={this.onLogoutClick}>Log Out</MenuItem>
+        </Menu>
+      </div>
     )
-
   }
-
 }
 
 export default DashboardMenu;

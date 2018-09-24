@@ -25,6 +25,16 @@ class Dashboard extends Component {
     this.setState({user: user})
   }
 
+  onLogout = () => {
+    auth.signOut().then(() => {
+      localStorage.clear()
+      this.setState({user: null})
+    }, error => {
+      console.log("An error occured while logging out: ")
+      console.log(error)
+    })
+  }
+
   changeTab = (event, value) => {
     this.setState({currentTab: value});
   }
@@ -55,7 +65,7 @@ class Dashboard extends Component {
                 : "Ingredients"
             }</h1>
           <div className="fr v-mid">
-            <DashboardMenu user={this.state.user}/>
+            <DashboardMenu onLogout={this.onLogout} user={this.state.user}/>
           </div>
         </header>
 

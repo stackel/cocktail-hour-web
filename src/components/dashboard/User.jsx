@@ -1,25 +1,21 @@
 import React, {Component} from 'react';
 
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import Loading from 'components/shared/Loading'
+import {auth, database} from 'utils/firebase'
 
-import { auth } from 'utils/firebase'
 class User extends Component {
   constructor(props) {
     super(props)
     this.state = {
       user: null
     }
-
   }
 
   componentDidMount() {
-    if(this.props.location.state) {
+    const locationState = this.props.location.state
+    if (locationState && locationState.user) {
       this.setState({
-        user: JSON.parse(this.props.location.state.authUser)
+        user: JSON.parse(locationState.user)
       })
     } else {
       this.fetchUser()
@@ -27,22 +23,31 @@ class User extends Component {
   }
 
   fetchUser = () => {
-    if(localStorage.getItem('authUser')) {
-      this.setState({user: JSON.parse(localStorage.getItem('authUser'))})
+    const localUser = localStorage.getItem('user');
+    if (localUser) {
+      this.setState({
+        user: JSON.parse(localUser)
+      })
     }
 
     auth.onAuthStateChanged(authUser => {
       if (authUser) {
-        localStorage.setItem('authUser', JSON.stringify(authUser))
-        this.setState({user: authUser})
+        database.collection("users").doc(authUser.uid).onSnapshot(snapshot => {
+          const user = snapshot.data()
+          if(user) {
+            this.setState({user: snapshot.data()})
+            localStorage.setItem('user', JSON.stringify(user))
+          }
+        })
       }
     })
   }
 
   render() {
-    const user = this.state.user
+    const { user } = this.state
     if (!user) {
-      return (<div class="tc mt6"><Loading/> </div>)
+      return (<div className="tc mt6"><Loading/>
+      </div>)
     } else {
       return (
         <div className="pa4">
