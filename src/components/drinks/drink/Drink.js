@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import _ from 'lodash'
-import {Redirect} from 'react-router-dom'
-import {database} from 'utils/firebase'
 import DrinkIngredientList from 'components/drinks/drink/drink-ingredients/DrinkIngredientList'
 import DrinkName from 'components/drinks/drink/fields/DrinkName'
 import TagList from 'components/drinks/drink/fields/TagList'

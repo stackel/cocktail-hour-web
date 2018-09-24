@@ -4,9 +4,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {Link} from 'react-router-dom'
 
-import {auth} from 'utils/firebase'
-import Loading from 'components/shared/Loading'
-
 class DashboardMenu extends Component {
   constructor(props) {
     super(props)

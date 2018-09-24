@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
 
-import TextField from '@material-ui/core/TextField';
-
 class AddNewDrinkTitle extends Component {
   render() {
     if (!this.props.new) {

@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import Drink from 'components/drinks/drink/Drink'
 import DrinkMenu from 'components/drinks/drink/menu/DrinkMenu'
 
-import {database, auth} from 'utils/firebase'
+import {database} from 'utils/firebase'
 import {Redirect} from 'react-router-dom'
 
 class DrinkDetail extends Component {

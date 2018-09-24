@@ -85,7 +85,7 @@ function inputComponent({
 function Control(props) {
   return (
     <TextField
-      fullWidth="fullWidth"
+      fullWidth
       InputProps={{
         inputComponent,
         inputProps: {
@@ -192,7 +192,6 @@ class IntegrationReactSelect extends React.Component {
   };
 
   componentDidMount() {
-
     if (localStorage.getItem('allTags')) {
       this.setState({
         allTags: JSON.parse(localStorage.getItem('allTags')).map(obj => {
@@ -257,7 +256,7 @@ class IntegrationReactSelect extends React.Component {
     };
 
     if (!this.state.allTags || !this.state.allIngredients || !this.props.drinks) {
-      return (<p>loadng</p>)
+      return null
     }
 
     return (

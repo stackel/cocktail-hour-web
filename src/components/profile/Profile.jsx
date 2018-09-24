@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import Loading from 'components/shared/Loading'
 import {auth, database} from 'utils/firebase'
 
-class User extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -46,7 +46,7 @@ class User extends Component {
   render() {
     const { user } = this.state
     if (!user) {
-      return (<div className="tc mt6"><Loading/>
+      return (<div className="tc mt6"><Loading label="Loading"/>
       </div>)
     } else {
       return (
@@ -60,4 +60,4 @@ class User extends Component {
   }
 }
 
-export default User
+export default Profile

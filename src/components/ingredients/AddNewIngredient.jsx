@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom'
 
 import TextField from '@material-ui/core/TextField';
 import Select from 'react-select';
@@ -90,26 +89,23 @@ class AddNewIngredient extends Component {
       <div className="ma4">
         <h1 className="sans-serif f2"> Add New Ingredient</h1>
         <TextField
-          className="mv4"
+          className="mv4 w-100"
           id="name"
           label="Name"
-          className="w-100"
           defaultValue={this.state.name}
           onChange={this.ingredientChanged("name")}/>
 
         <TextField
-          className="mv4"
+          className="mv4 w-100"
           id="label"
           label="Label"
-          className="w-100"
           defaultValue={this.state.label}
           onChange={this.ingredientChanged("label")}/>
 
         <TextField
-          className="mv4"
+          className="mv4 w-100"
           id="description"
           label="Description"
-          className="w-100"
           defaultValue={this.state.description}
           onChange={this.ingredientChanged("description")}/>
 

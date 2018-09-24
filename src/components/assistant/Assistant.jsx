@@ -1,9 +1,5 @@
 import React, {Component} from 'react';
 
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import Loading from 'components/shared/Loading'
 
 import {database, auth} from 'utils/firebase'
@@ -74,12 +70,10 @@ class Assistant extends Component {
   }
 
   render() {
-    const user = this.state.user
-    const drinks = this.state.drinks
-    const firestoreUser = this.state.firestoreUser
+    const { user, drinks } = this.state
 
     if (!user || !drinks) {
-      return (<div class="tc mt6"><Loading/>
+      return (<div className="tc mt6"><Loading/>
       </div>)
     } else {
       return (

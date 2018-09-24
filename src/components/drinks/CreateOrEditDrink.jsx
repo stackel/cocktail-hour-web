@@ -46,8 +46,7 @@ class CreateOrEditDrink extends Component {
   }
 
   updateOrSaveDrink = () => {
-
-    this.state.drink.ingredients = this.state.drink.ingredients.filter(obj => {return obj.ingredient})
+    //this.state.drink.ingredients = this.state.drink.ingredients.filter(obj => {return obj.ingredient})
     this.setState({
       saving: true
     })
