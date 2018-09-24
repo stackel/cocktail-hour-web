@@ -15,7 +15,7 @@ class DrinkListItem extends Component {
   }
 
   componentDidMount() {
-    this.fetchUserIngredients(this.props.authUserUid)
+    this.fetchUserIngredients(this.props.user.id)
   }
 
   fetchUserIngredients = (userUid) => {

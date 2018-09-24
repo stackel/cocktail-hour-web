@@ -24,13 +24,13 @@ class IngredientListItem extends Component {
   hasIngredientChanged = event => {
     this.setState({hasIngredient: event.target.checked})
     if (event.target.checked) {
-      database.collection("users").doc(this.props.authUser.uid).update({
+      database.collection("users").doc(this.props.user.id).update({
         ingredients: firebase.firestore.FieldValue.arrayUnion(
           this.state.ingredient.name
         )
       })
     } else {
-      database.collection("users").doc(this.props.authUser.uid).update({
+      database.collection("users").doc(this.props.user.id).update({
         ingredients: firebase.firestore.FieldValue.arrayRemove(
           this.state.ingredient.name
         )

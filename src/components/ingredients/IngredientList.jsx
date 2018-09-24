@@ -78,7 +78,7 @@ class IngredientList extends Component {
         <IngredientListItem
           key={ingredients[i].id}
           ingredient={ingredients[i]}
-          authUser={this.props.user}
+          user={this.props.user}
           ingredients={this.state.userIngredients}/>
       )
     }

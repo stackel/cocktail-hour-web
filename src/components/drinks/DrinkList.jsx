@@ -110,7 +110,7 @@ class DrinkList extends Component {
           <DrinkListItem
             key={drinks[i].id}
             drink={drinks[i]}
-            authUserUid={this.props.user.id}/>
+            user={this.props.user}/>
           <Divider/>
         </div>
 
