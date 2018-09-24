@@ -1,20 +1,13 @@
 import React, {Component} from 'react';
 
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Divider from '@material-ui/core/Divider';
-
-import {Link} from 'react-router-dom'
-import MoreVert from '@material-ui/icons/MoreVert';
-
-import {database, auth} from 'utils/firebase'
+import { auth } from 'utils/firebase'
 
 import Auth from 'components/auth/Auth'
 import User from 'components/dashboard/User'
 import DrinkList from 'components/drinks/DrinkList'
 import IngredientList from 'components/ingredients/IngredientList'
 import BottomTabs from 'components/dashboard/BottomTabs'
+import DashboardMenu from 'components/dashboard/Menu'
 
 class Dashboard extends Component {
   constructor(props) {
@@ -75,28 +68,7 @@ class Dashboard extends Component {
     return null;
   }
 
-  NewIngredientMenuItem = (props) => {
-    if (!props.show) {
-      return null
-    }
-
-    return (
-      <Link className="link" to="/ingredients/new">
-        <MenuItem>New Ingredient</MenuItem>
-      </Link>
-    )
-  }
-
-  open = event => {
-    this.setState({anchorElement: event.currentTarget});
-  };
-
-  close = () => {
-    this.setState({anchorElement: null});
-  };
-
   render() {
-    const anchorElement = this.state.anchorElement
     if (!this.state.user) {
       return (<Auth onLogin={this.onLogin}/>)
     }
@@ -109,41 +81,7 @@ class Dashboard extends Component {
               : "Ingredients"
           }</h1>
         <div className="fr v-mid">
-          <MoreVert
-            aria-owns={anchorElement
-              ? 'drink-menu'
-              : null}
-            aria-haspopup="true"
-            onClick={this.open}>
-            menu
-          </MoreVert>
-          <Menu
-            id="drink-menu"
-            anchorEl={anchorElement}
-            open={Boolean(anchorElement)}
-            onClose={this.close}>
-            <Link className="link" to="/new">
-              <MenuItem>New Drink</MenuItem>
-            </Link>
-            <this.NewIngredientMenuItem show={this.state.user.admin}/>
-            <MenuItem
-              component={Link}
-              to={{
-                pathname: "/profile",
-                state: {
-                  authUser: JSON.stringify(this.state.user)
-                }
-              }}>Profile</MenuItem>
-              <MenuItem
-                component={Link}
-                to={{
-                  pathname: "/assistant",
-                  state: {
-                    authUser: JSON.stringify(this.state.user)
-                  }
-                }}>Assistant</MenuItem>
-            <MenuItem onClick={this.logout}>Log Out</MenuItem>
-          </Menu>
+          <DashboardMenu user={this.state.user}/>
         </div>
       </header>
 
