@@ -27,8 +27,10 @@ class IngredientList extends Component {
   }
 
   fetchAllIngredients = () => {
-    if(localStorage.getItem('allIngredients')) {
-      this.setState({ingredients: JSON.parse(localStorage.getItem('allIngredients'))})
+    if (localStorage.getItem('allIngredients')) {
+      this.setState({
+        ingredients: JSON.parse(localStorage.getItem('allIngredients'))
+      })
     }
 
     database.collection("ingredients").orderBy("name").onSnapshot(snapshot => {
@@ -38,7 +40,7 @@ class IngredientList extends Component {
         ingredient.id = doc.id
         ingredients.push(ingredient);
       })
-      if(ingredients.length > 0) {
+      if (ingredients.length > 0) {
         localStorage.setItem('allIngredients', JSON.stringify(ingredients))
         this.setState({ingredients: ingredients})
       }
@@ -46,22 +48,18 @@ class IngredientList extends Component {
   }
 
   fetchUserIngredients = (userUid) => {
-    if(localStorage.getItem('userIngredients')) {
-      this.setState({userIngredients: JSON.parse(localStorage.getItem('userIngredients'))})
+    if (localStorage.getItem('userIngredients')) {
+      this.setState({
+        userIngredients: JSON.parse(localStorage.getItem('userIngredients'))
+      })
     }
 
     database.collection("users").doc(userUid).onSnapshot(snapshot => {
       const firestoreUser = snapshot.data()
-      const ingredients = firestoreUser.ingredients
+      const ingredients = firestoreUser.ingredients || []
 
-      if(ingredients) {
-        localStorage.setItem('userIngredients', JSON.stringify(ingredients))
-        this.setState({userIngredients: ingredients})
-      } else {
-        this.setState({
-          userIngredients: []
-        })
-      }
+      localStorage.setItem('userIngredients', JSON.stringify(ingredients))
+      this.setState({userIngredients: ingredients})
     });
 
   }
