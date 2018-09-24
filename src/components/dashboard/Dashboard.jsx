@@ -17,7 +17,7 @@ class Dashboard extends Component {
 
     const user = localStorage.getItem('user');
     if (user) {
-      this.state["user"] = JSON.parse(localStorage.getItem('user'));
+      this.state["user"] = JSON.parse(user);
     }
   }
 

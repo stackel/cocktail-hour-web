@@ -1,9 +1,4 @@
 import React, {Component} from 'react';
-import Card from '@material-ui/core/Card';
-import Button from '@material-ui/core/Button';
-import CardContent from '@material-ui/core/CardContent';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import List from '@material-ui/core/List';
 import {database} from 'utils/firebase'
 
@@ -41,7 +36,7 @@ class IngredientList extends Component {
         ingredient.id = doc.id
         ingredients.push(ingredient);
       })
-      if (ingredients.length > 0) {
+      if (ingredients) {
         localStorage.setItem('allIngredients', JSON.stringify(ingredients))
         this.setState({ingredients: ingredients})
       }
@@ -56,8 +51,7 @@ class IngredientList extends Component {
     }
 
     database.collection("users").doc(userId).onSnapshot(snapshot => {
-      const firestoreUser = snapshot.data()
-      const ingredients = firestoreUser.ingredients || []
+      const ingredients = snapshot.data().ingredients || []
 
       localStorage.setItem('userIngredients', JSON.stringify(ingredients))
       this.setState({userIngredients: ingredients})
@@ -78,8 +72,8 @@ class IngredientList extends Component {
         <IngredientListItem
           key={ingredients[i].id}
           ingredient={ingredients[i]}
-          user={this.props.user}
-          ingredients={this.state.userIngredients}/>
+          ingredients={this.state.userIngredients}
+          user={this.props.user}/>
       )
     }
 
