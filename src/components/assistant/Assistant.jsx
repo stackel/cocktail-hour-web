@@ -18,58 +18,36 @@ class Assistant extends Component {
   }
 
   componentDidMount() {
-    const locationState = this.props.location.state;
-    if (!locationState) {
+    const locationState = this.props.location.state
+    if (locationState && locationState.user) {
+      const user = JSON.parse(locationState.user)
+      this.setState({user: user})
+      this.fetchDrinks(user.id)
+    } else {
       this.fetchUser()
-      return
     }
-
-    const authUser = locationState.authUser;
-    if (!authUser) {
-      this.fetchUser();
-      return
-    }
-
-    this.setState({user: authUser})
-    this.fetchDrinks(authUser.uid)
-    this.fetchFirestoreUser(authUser.uid)
-  }
-
-  fetchFirestoreUser = (userUid) => {
-    if (localStorage.getItem('firestoreUser')) {
-      const firestoreUser = JSON.parse(localStorage.getItem('firestoreUser'))
-      this.setState({firestoreUser: firestoreUser})
-    }
-    database.collection("users").doc(userUid).onSnapshot(snapshot => {
-      const firestoreUser = snapshot.data();
-      if (firestoreUser) {
-        this.setState({firestoreUser: firestoreUser})
-        localStorage.setItem('firestoreUser', JSON.stringify(firestoreUser))
-
-      }
-    })
-
   }
 
   fetchUser = () => {
-    if (localStorage.getItem('authUser')) {
-      const authUser = JSON.parse(localStorage.getItem('authUser'))
-      this.setState({user: authUser})
-      this.fetchDrinks(authUser.uid)
-      this.fetchFirestoreUser(authUser.uid)
-
-    } else {
-      auth.onAuthStateChanged(authUser => {
-        if (authUser) {
-          localStorage.setItem('authUser', JSON.stringify(authUser))
-          this.setState({user: authUser})
-          this.fetchDrinks(authUser.uid)
-          this.fetchFirestoreUser(authUser.uid)
-        } else {
-          console.log("GET AUTH USER FAILED")
-        }
-      })
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.setState({user: JSON.parse(user)})
+      this.fetchDrinks(JSON.parse(user).id)
+      return
     }
+
+    auth.onAuthStateChanged(authUser => {
+      if (authUser) {
+        database.collection("users").doc(authUser.uid).onSnapshot(snapshot => {
+          const user = snapshot.data()
+          if (user) {
+            this.setState({user: snapshot.data()})
+            localStorage.setItem('user', JSON.stringify(user))
+            this.fetchDrinks(user.id)
+          }
+        })
+      }
+    })
   }
 
   fetchDrinks = (userUid) => {
@@ -87,7 +65,7 @@ class Assistant extends Component {
           drink.id = doc.id
           drinks.push(drink);
         })
-        if (drinks.length > 0) {
+        if (drinks) {
           localStorage.setItem('drinks', JSON.stringify(drinks))
           this.setState({drinks: drinks})
         }
@@ -100,15 +78,15 @@ class Assistant extends Component {
     const drinks = this.state.drinks
     const firestoreUser = this.state.firestoreUser
 
-    if (!user || !drinks || !firestoreUser) {
+    if (!user || !drinks) {
       return (<div class="tc mt6"><Loading/>
       </div>)
     } else {
       return (
         <div className="pa4">
           <h1 className="sans-serif f2 mt0 mb4">Assistant</h1>
-            <h1 className="sans-serif f2 mt0 mb4">{drinks.length}</h1>
-            <h1 className="sans-serif f2 mt0 mb4">{firestoreUser.ingredients.length}</h1>
+          <h1 className="sans-serif f3 mt0 mb4">Number of drinks: {drinks.length}</h1>
+          <h1 className="sans-serif f3 mt0 mb4">Ingredients in bar: {user.ingredients.length}</h1>
         </div>
       )
     }
