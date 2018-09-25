@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import List from '@material-ui/core/List';
+import TextField from '@material-ui/core/TextField';
 import {database} from 'utils/firebase'
 
 import IngredientListItem from 'components/ingredients/ingredient/IngredientListItem'
@@ -10,6 +11,7 @@ class IngredientList extends Component {
     super(props)
     this.state = {
       ingredients: null,
+      filteredIngredients: null,
       userIngredients: null
     }
   }
@@ -25,7 +27,8 @@ class IngredientList extends Component {
   fetchAllIngredients = () => {
     if (localStorage.getItem('allIngredients')) {
       this.setState({
-        ingredients: JSON.parse(localStorage.getItem('allIngredients'))
+        ingredients: JSON.parse(localStorage.getItem('allIngredients')),
+        filteredIngredients: JSON.parse(localStorage.getItem('allIngredients'))
       })
     }
 
@@ -38,7 +41,7 @@ class IngredientList extends Component {
       })
       if (ingredients) {
         localStorage.setItem('allIngredients', JSON.stringify(ingredients))
-        this.setState({ingredients: ingredients})
+        this.setState({ingredients: ingredients, filteredIngredients: ingredients})
       }
     });
   }
@@ -59,13 +62,24 @@ class IngredientList extends Component {
 
   }
 
+  search = event => {
+    const searchTerm = event.target.value.toLowerCase()
+    this.setState({
+      filteredIngredients: this.state.ingredients.filter(obj => {
+        return obj.label.toLowerCase().includes(searchTerm) || obj.type.label.toLowerCase().includes(
+          searchTerm
+        )
+      })
+    })
+  }
+
   render() {
     if (!this.state.ingredients || !this.state.userIngredients) {
       return (<div className="tc ma5">
         <Loading/>
       </div>)
     }
-    const ingredients = this.state.ingredients;
+    const ingredients = this.state.filteredIngredients;
     const ingredientComponents = [];
     for (let i = 0; i < ingredients.length; i++) {
       ingredientComponents.push(
@@ -77,9 +91,16 @@ class IngredientList extends Component {
       )
     }
 
-    return (<List>
-      {ingredientComponents}
-    </List>);
+    return (
+      <div>
+        <div className="ph4">
+          <TextField className="w-100" id="search" label="Search name, type" onChange={this.search}/>
+        </div>.
+        <List>
+          {ingredientComponents}
+        </List>
+      </div>
+    );
   }
 }
 
