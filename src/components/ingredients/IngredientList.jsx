@@ -94,8 +94,8 @@ class IngredientList extends Component {
     return (
       <div>
         <div className="ph4">
-          <TextField className="w-100" id="search" label="Search" onChange={this.search}/>
-        </div>
+          <TextField className="w-100" id="search" label="Search name, type" onChange={this.search}/>
+        </div>.
         <List>
           {ingredientComponents}
         </List>
