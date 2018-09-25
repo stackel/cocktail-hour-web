@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom'
-
+import _ from 'lodash'
 import Drink from 'components/drinks/drink/Drink'
 import AddNewDrinkTitle from 'components/drinks/drink/fields/AddNewDrinkTitle'
 
@@ -55,7 +55,14 @@ class CreateOrEditDrink extends Component {
       database.collection("users").doc(this.state.userUid).collection("drinks").doc(
         this.state.drink.id
       ).set(this.state.drink).then(() => {
+        const shareId = this.state.drink.shareId
+        if(shareId) {
+          let sharedDrink = _.cloneDeep(this.state.drink);
+          sharedDrink.tags = [];
+          database.collection("shared").doc(shareId).set(sharedDrink)
+        }
         this.setState({drinkUpdated: true, saving: false})
+
       })
     } else {
       database.collection("users").doc(this.state.userUid).collection("drinks").add(
