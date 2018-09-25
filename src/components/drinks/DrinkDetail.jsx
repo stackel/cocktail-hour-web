@@ -4,6 +4,8 @@ import Drink from 'components/drinks/drink/Drink'
 import DrinkMenu from 'components/drinks/drink/menu/DrinkMenu'
 import Loading from 'components/shared/Loading'
 import _ from 'lodash'
+import Button from '@material-ui/core/Button';
+import {Link} from 'react-router-dom'
 
 import {database} from 'utils/firebase'
 import {Redirect} from 'react-router-dom'
@@ -21,7 +23,7 @@ class DrinkDetail extends Component {
   componentDidMount() {
     const locationState = this.props.location.state
 
-    if(locationState) {
+    if (locationState) {
       if (locationState.drink) {
         this.setState({
           drink: JSON.parse(locationState.drink)
@@ -69,28 +71,35 @@ class DrinkDetail extends Component {
       database.collection("users").doc(this.state.user.id).collection("drinks").doc(
         this.state.drink.id
       ).set(updatedDrink).then(() => {
-        this.setState({
-          drink:updatedDrink
-        })
+        this.setState({drink: updatedDrink})
         console.log("updated with shared id!")
       })
     })
   }
 
   DrinkShareInfo = (props) => {
-    if(!props.shareId) {
+    if (!props.shareId) {
       return null
     } else {
-      const link = window.location.origin + "/shared/" + props.shareId
-      return(<p className="tc sans-serif f5 dark-gray">Drink shared at <a className="link b black" target="_blank" href={link}>{link}</a></p>)
+      const link = "/shared/" + props.shareId
+      return (
+        <div className="tc">
+          <p className="tc sans-serif f5 dark-gray">Drink shared
+            <Link className="link b black" push="true" to={link}> here.</Link>
+          </p>
+        </div>
+
+      )
     }
   }
 
   render() {
     if (!this.state.drink) {
-      return (<div className="tc mt6">
-        <Loading label="Loading"/>
-      </div>)
+      return (
+        <div className="tc mt6">
+          <Loading label="Loading"/>
+        </div>
+      )
     }
 
     if (this.state.redirectToDashboard) {
@@ -99,7 +108,7 @@ class DrinkDetail extends Component {
     if (this.state.redirectToEditDrink) {
       return (
         <Redirect
-          push
+          push="push"
           to={{
             pathname: this.state.drink.id + "/edit",
             state: {

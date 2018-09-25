@@ -21,11 +21,8 @@ class SharedDrink extends Component {
   fetchUser = () => {
     auth.onAuthStateChanged(authUser => {
       if (authUser) {
-        this.setState({
-          userId: authUser.uid
-        })
-      } else {
-      }
+        this.setState({userId: authUser.uid})
+      } else {}
     })
   }
 
@@ -49,18 +46,22 @@ class SharedDrink extends Component {
       drink
     ).then(() => {
       console.log("added to library")
-      this.setState({
-        redirectToDashboard: true
-      })
+      this.setState({redirectToDashboard: true})
     })
   }
 
   AddDrinkButton = (props) => {
-    if(!props.show) {
+    if (!props.show) {
       return null
     }
 
-    return(<Button variant="outlined" color="primary" onClick={this.addToLibrary}>Add copy to your library</Button>)
+    return (
+      <Button variant="outlined" color="primary" onClick={this.addToLibrary}>Add copy to your library</Button>
+    )
+  }
+
+  copyUrl = () => {
+    navigator.clipboard.writeText(window.location.href);
   }
 
   render() {
@@ -72,8 +73,8 @@ class SharedDrink extends Component {
       )
     }
 
-    if(this.state.redirectToDashboard) {
-      return (<Redirect push to="/"/>)
+    if (this.state.redirectToDashboard) {
+      return (<Redirect push="push" to="/"/>)
     }
 
     return (
@@ -82,6 +83,10 @@ class SharedDrink extends Component {
         <div className="tc">
           <this.AddDrinkButton show={this.state.userId}/>
         </div>
+        <div className="tc mt3">
+          <Button className="mb4 center"  color="primary" onClick={this.copyUrl}>Copy link to clipboard</Button>
+        </div>
+
       </div>
     );
   }

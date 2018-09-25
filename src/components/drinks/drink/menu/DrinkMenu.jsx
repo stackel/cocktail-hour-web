@@ -70,7 +70,7 @@ class DrinkMenu extends Component {
           open={Boolean(anchorElement)}
           onClose={this.close}>
           <EditButton onClick={this.onEditClicked}/>
-          <this.ShareButton show={!this.props.shareId}/>
+          <this.ShareButton show={!this.props.isShared}/>
           <DeleteButton
             show={true}
             onClick={this.onDelete}
