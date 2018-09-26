@@ -42,6 +42,7 @@ class DrinkIngredient extends Component {
             <UnitField
               unit={this.props.drinkIngredient.unit}
               allUnits={this.props.allUnits}
+              amount={this.props.drinkIngredient.amount}
               edit={this.props.edit}
               handleChange={this.handleFieldChange}/>
           </div>
