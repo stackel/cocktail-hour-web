@@ -2,7 +2,7 @@
   "name": "cocktail-hour-web",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://stackel.github.io/cocktail-hour-web",
+  "homepage": "https://cocktailhour.online",
   "dependencies": {
     "@material-ui/core": "^3.0.0",
     "@material-ui/icons": "^3.0.1",
