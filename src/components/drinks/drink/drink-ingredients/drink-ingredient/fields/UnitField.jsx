@@ -16,7 +16,8 @@ class UnitField extends Component {
           placeholder="Unit"
           defaultValue={props.unit}
           onChange={this.handleChange}
-          options={props.allUnits}/>
+          options={props.allUnits}
+          getOptionLabel={(props.amount > 1) ? (option : {}) => option.label_plural : (option : {}) => option.label}/>
       )
     }
 
@@ -24,6 +25,9 @@ class UnitField extends Component {
       return null
     }
 
+    if (props.amount > 1) {
+      return (<p className="sans-serif gray f4">{props.unit.label_plural}</p>)
+    }
     return (<p className="sans-serif gray f4">{props.unit.label}</p>)
   }
 }

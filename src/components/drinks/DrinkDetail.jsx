@@ -3,7 +3,9 @@ import React, {Component} from 'react';
 import Drink from 'components/drinks/drink/Drink'
 import DrinkMenu from 'components/drinks/drink/menu/DrinkMenu'
 import Loading from 'components/shared/Loading'
-
+import _ from 'lodash'
+import Button from '@material-ui/core/Button';
+import {Link} from 'react-router-dom'
 
 import {database} from 'utils/firebase'
 import {Redirect} from 'react-router-dom'
@@ -14,14 +16,14 @@ class DrinkDetail extends Component {
     this.state = {
       userIngredients: null,
       drink: null,
-      authUserUid: null
+      user: {}
     }
   }
 
   componentDidMount() {
     const locationState = this.props.location.state
 
-    if(locationState) {
+    if (locationState) {
       if (locationState.drink) {
         this.setState({
           drink: JSON.parse(locationState.drink)
@@ -34,8 +36,8 @@ class DrinkDetail extends Component {
         })
       }
 
-      if (locationState.authUserUid) {
-        this.setState({authUserUid: locationState.authUserUid})
+      if (locationState.user) {
+        this.setState({user: locationState.user})
       }
     } else {
       //G ET EVERYTHING
@@ -44,9 +46,10 @@ class DrinkDetail extends Component {
   }
 
   deleteDrink = () => {
-    database.collection("users").doc(this.state.authUserUid).collection("drinks").doc(
+    database.collection("users").doc(this.state.user.id).collection("drinks").doc(
       this.state.drink.id
     ).delete().then(() => {
+      //TODO: REMOVE SHARE
       this.setState({redirectToDashboard: true})
     })
   }
@@ -55,11 +58,48 @@ class DrinkDetail extends Component {
     this.setState({redirectToEditDrink: true})
   }
 
+  shareDrink = () => {
+    let sharedDrink = _.cloneDeep(this.state.drink);
+    sharedDrink.tags = [];
+
+    database.collection("shared").add(sharedDrink).then(response => {
+      console.log("drink shared")
+      console.log(response.id)
+      let updatedDrink = _.cloneDeep(this.state.drink)
+      updatedDrink.shareId = response.id
+
+      database.collection("users").doc(this.state.user.id).collection("drinks").doc(
+        this.state.drink.id
+      ).set(updatedDrink).then(() => {
+        this.setState({drink: updatedDrink})
+        console.log("updated with shared id!")
+      })
+    })
+  }
+
+  DrinkShareInfo = (props) => {
+    if (!props.shareId) {
+      return null
+    } else {
+      const link = "/shared/" + props.shareId
+      return (
+        <div className="tc">
+          <p className="tc sans-serif f5 dark-gray">Drink shared
+            <Link className="link b black" push="true" to={link}> here.</Link>
+          </p>
+        </div>
+
+      )
+    }
+  }
+
   render() {
     if (!this.state.drink) {
-      return (<div className="tc mt6">
-        <Loading label="Loading"/>
-      </div>)
+      return (
+        <div className="tc mt6">
+          <Loading label="Loading"/>
+        </div>
+      )
     }
 
     if (this.state.redirectToDashboard) {
@@ -68,7 +108,7 @@ class DrinkDetail extends Component {
     if (this.state.redirectToEditDrink) {
       return (
         <Redirect
-          push
+          push="push"
           to={{
             pathname: this.state.drink.id + "/edit",
             state: {
@@ -82,15 +122,19 @@ class DrinkDetail extends Component {
       <div className="ma4">
         <div className="fr">
           <DrinkMenu
-            showDelete={this.state.authUserUid}
+            offline={!navigator.onLine}
+            isShared={this.state.drink.shareId}
+            hasUserId={this.state.user.id}
             onDelete={this.deleteDrink}
-            onEditClicked={this.goToEditDrink}/>
+            onEditClicked={this.goToEditDrink}
+            onShareClicked={this.shareDrink}/>
         </div>
         <Drink
           drink={this.state.drink}
           edit={false}
           new={false}
           userIngredients={this.state.userIngredients}/>
+        <this.DrinkShareInfo shareId={this.state.drink.shareId}/>
       </div>
     );
   }

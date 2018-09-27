@@ -8,8 +8,8 @@ class Assistant extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: null,
-      drinks: null
+      user: {},
+      drinks: []
     }
   }
 
@@ -80,7 +80,7 @@ class Assistant extends Component {
         <div className="pa4">
           <h1 className="sans-serif f2 mt0 mb4">Assistant</h1>
           <h1 className="sans-serif f3 mt0 mb4">Number of drinks: {drinks.length}</h1>
-          <h1 className="sans-serif f3 mt0 mb4">Ingredients in bar: {user.ingredients.length}</h1>
+          <h1 className="sans-serif f3 mt0 mb4">Ingredients in bar: {user.ingredients ? user.ingredients.length : 0}</h1>
         </div>
       )
     }

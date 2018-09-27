@@ -30,6 +30,8 @@ class Dashboard extends Component {
       localStorage.clear()
       this.setState({user: null})
     }, error => {
+      localStorage.clear()
+      this.setState({user: null})
       console.log("An error occured while logging out: ")
       console.log(error)
     })

@@ -10,7 +10,7 @@ class DrinkListItem extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      userIngredients: null
+      userIngredients: []
     }
   }
 
@@ -27,7 +27,7 @@ class DrinkListItem extends Component {
       const firestoreUser = snapshot.data()
       const ingredients = firestoreUser.ingredients
 
-      if(ingredients.length > 0) {
+      if(ingredients) {
         localStorage.setItem('userIngredients', JSON.stringify(ingredients))
         this.setState({userIngredients: ingredients})
       }
@@ -90,7 +90,7 @@ class DrinkListItem extends Component {
           state: {
             userIngredients: JSON.stringify(this.state.userIngredients),
             drink: JSON.stringify(drink),
-            authUserUid: this.props.authUserUid
+            user: this.props.user
           }
         }}
         button>

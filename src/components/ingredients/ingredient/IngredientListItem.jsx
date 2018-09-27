@@ -40,7 +40,8 @@ class IngredientListItem extends Component {
         <ListItemSecondaryAction>
           <Checkbox
             onChange={this.hasIngredientChanged}
-            checked={this.state.hasIngredient}/>
+            checked={this.state.hasIngredient}
+            disabled={!navigator.onLine}/>
         </ListItemSecondaryAction>
       </ListItem>
     )

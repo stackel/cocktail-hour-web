@@ -80,9 +80,7 @@ class DashboardMenu extends Component {
           anchorEl={anchorElement}
           open={Boolean(anchorElement)}
           onClose={this.close}>
-          <Link className="link" to="/new">
-            <MenuItem>New Drink</MenuItem>
-          </Link>
+          <MenuItem disabled={!navigator.onLine} component={Link} to="/new">New Drink</MenuItem>
           <this.AssistantMenuItem user={this.props.user}/>
           <this.NewIngredientMenuItem show={this.props.user.admin}/>
           <this.ProfileMenuItem user={this.props.user}/>
