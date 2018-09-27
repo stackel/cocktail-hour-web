@@ -2,9 +2,14 @@ import React, {Component} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Email from '@material-ui/icons/Email';
+import VpnKey from '@material-ui/icons/VpnKey';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 import {database, auth, googleAuthProvider} from 'utils/firebase'
-import Loading from 'components/shared/Loading'
+import LoadingFullscreen from 'components/shared/LoadingFullscreen'
 
 class Auth extends Component {
   constructor(props) {
@@ -50,18 +55,11 @@ class Auth extends Component {
   }
 
   emailChanged = event => {
-    this.setState({
-      email: event.target.value,
-      errorMessage: ""
-
-    })
+    this.setState({email: event.target.value, errorMessage: ""})
   }
 
   passwordChanged = event => {
-    this.setState({
-      password: event.target.value,
-      errorMessage: ""
-    })
+    this.setState({password: event.target.value, errorMessage: ""})
   }
 
   loginWithGoogleAuth = () => {
@@ -73,9 +71,7 @@ class Auth extends Component {
       this.setState({loading: false})
       console.log("Google auth failed with error: ")
       console.log(error)
-      this.setState({
-        errorMessage: error.message
-      })
+      this.setState({errorMessage: error.message})
     })
   }
 
@@ -90,9 +86,7 @@ class Auth extends Component {
       this.setState({loading: false})
       console.log("Email/Password auth failed with error: ")
       console.log(error)
-      this.setState({
-        errorMessage: error.message
-      })
+      this.setState({errorMessage: error.message})
     })
   }
 
@@ -107,9 +101,7 @@ class Auth extends Component {
       this.setState({loading: false})
       console.log("Email/Password register failed with error: ")
       console.log(error)
-      this.setState({
-        errorMessage: error.message
-      })
+      this.setState({errorMessage: error.message})
     })
   }
 
@@ -122,68 +114,80 @@ class Auth extends Component {
   render() {
     if (this.state.loading) {
       return (
-        <div className="tc ma6">
-          <h1 className="sans-serif f2 tc mt7">
-            COCKTAIL HOUR</h1>
-          <Loading label="Logging in"/>
-        </div>
+        <LoadingFullscreen label="Signing in.."/>
       )
     }
 
     return (
-      <div className="tc">
-        <h1 className="sans-serif f2 tc mt7">
-          COCKTAIL HOUR</h1>
-        <div>
+      <div className="tc mt6 pt5 mw5 center">
+        <img class=" mb4" src="res/logo-big-black.png"/>
+        <form onSubmit={this.loginWithEmailPassword}>
           <div>
-            <TextField
-              defaultValue={this.state.email}
-              id="email"
-              label="Email"
-              type="email"
-              autoComplete="email"
-              onChange={this.emailChanged}/>
-          </div>
-          <div className="mt2 mb4">
-            <TextField
-              defaultValue={this.state.password}
-              id="password"
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-              onChange={this.passwordChanged}/>
-          </div>
-
-          <div>
-            <div className="dib mh2">
-
-              <Button
-                onClick={this.loginWithEmailPassword}
-                variant="contained"
-                color="primary">
-                Sign in
-              </Button>
+            <div>
+              <Input
+                defaultValue={this.state.email}
+                placeholder="Email"
+                id="email"
+                className="w-100"
+                label="Email"
+                type="email"
+                autoComplete="email"
+                onChange={this.emailChanged}
+                startAdornment={<InputAdornment position = "start" > <Email/>
+              </InputAdornment>
+                }
+              />
             </div>
-            <div className="dib mh2">
+            <div className="mv3">
 
-              <Button
-                onClick={this.registerWithEmailAndPassword}
-                className="mh2"
-                variant="outlined"
-                color="primary">
-                Register
-              </Button>
+              <Input
+                defaultValue={this.state.password}
+                id="password"
+                label="Password"
+                type="password"
+                className="w-100"
+                placeholder="Password"
+                autoComplete="current-password"
+                onChange={this.passwordChanged}
+                startAdornment={<InputAdornment position = "start" > <VpnKey/>
+              </InputAdornment>
+                }/>
             </div>
-          </div>
 
-        </div>
+            <div>
+              <div className="dib w-50 pr2">
+
+                <Button
+                  type="submit"
+                  onClick={this.loginWithEmailPassword}
+                  variant="contained"
+                  className="w-100"
+                  color="primary">
+                  Sign in
+                </Button>
+              </div>
+              <div className="dib w-50 pl2 mt2">
+
+                <Button
+                  onClick={this.registerWithEmailAndPassword}
+                  className="w-100"
+                  variant="outlined"
+                  color="primary">
+                  Sign up
+                </Button>
+              </div>
+            </div>
+
+          </div>
+        </form>
 
         <div className="mv4">
-          <Button onClick={this.loginWithGoogleAuth} variant="contained" color="primary">
-            Sign in / register with Google
+          <Button className="w-100" onClick={this.loginWithGoogleAuth} variant="contained" color="primary">
+            Sign in / sign up with Google
           </Button>
         </div>
-        <p className="tc dark-red sans-serif f5"> {this.state.errorMessage}</p>
+        <p className="tc dark-red sans-serif f5">
+          {this.state.errorMessage}</p>
       </div>
     )
   }

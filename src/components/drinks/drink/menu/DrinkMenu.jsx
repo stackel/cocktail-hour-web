@@ -50,7 +50,7 @@ class DrinkMenu extends Component {
     const anchorElement = this.state.anchorElement;
     // hide edit on no ID
     // hide share on no ID
-    if(!this.props.hasUserId) {
+    if(!this.props.hasUserId || this.props.offline) {
       return null
     }
     return (

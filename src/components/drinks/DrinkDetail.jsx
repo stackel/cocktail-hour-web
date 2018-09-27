@@ -122,6 +122,7 @@ class DrinkDetail extends Component {
       <div className="ma4">
         <div className="fr">
           <DrinkMenu
+            offline={!navigator.onLine}
             isShared={this.state.drink.shareId}
             hasUserId={this.state.user.id}
             onDelete={this.deleteDrink}

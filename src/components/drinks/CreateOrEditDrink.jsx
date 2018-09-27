@@ -6,6 +6,7 @@ import AddNewDrinkTitle from 'components/drinks/drink/fields/AddNewDrinkTitle'
 
 import SaveOrUpdateButton from 'components/drinks/drink/buttons/SaveOrUpdateButton'
 import Loading from 'components/shared/Loading'
+import LoadingFullscreen from 'components/shared/LoadingFullscreen'
 
 import {auth, database} from 'utils/firebase'
 
@@ -126,7 +127,7 @@ class CreateOrEditDrink extends Component {
 
     if(this.state.saving) {
       return (<div className="tc mt6">
-        <Loading label="Saving"/>
+        <LoadingFullscreen label="Saving"/>
       </div>)
     }
 
