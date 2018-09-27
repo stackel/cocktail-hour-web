@@ -106,7 +106,7 @@ class CreateOrEditDrink extends Component {
 
   render() {
     if (!this.state.userUid || !this.state.drink) {
-      return (<Loading/>)
+      return (<LoadingFullscreen/>)
     }
 
     if (this.state.drinkUpdated) {
@@ -132,7 +132,7 @@ class CreateOrEditDrink extends Component {
     }
 
     return (
-      <div className="ma4">
+      <div className="ma3 ma4-ns">
         <AddNewDrinkTitle new={this.state.new}/>
         <Drink
           drink={this.state.drink}
