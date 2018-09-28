@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 import Dashboard from 'components/dashboard/Dashboard'
 import DrinkDetail from 'components/drinks/DrinkDetail'
 import ShareDrink from 'components/drinks/SharedDrink'
+import BrowseSharedDrinks from 'components/drinks/SharedDrinks/BrowseSharedDrinks'
 import CreateOrEditDrink from 'components/drinks/CreateOrEditDrink'
 import AddNewIngredient from 'components/ingredients/AddNewIngredient'
 import Profile from 'components/profile/Profile'
@@ -19,6 +20,7 @@ class App extends Component {
           <Route exact path="/new" component={CreateOrEditDrink}/>
           <Route exact path="/drink/:id/edit" component={CreateOrEditDrink}/>
           <Route exact path="/drink/:id" component={DrinkDetail}/>
+          <Route exact path="/shared" component={BrowseSharedDrinks}/>
           <Route exact path="/shared/:id" component={ShareDrink}/>
           <Route exact path="/ingredients/new" component={AddNewIngredient}/>
           <Route exact path="/assistant" component={Assistant}/>

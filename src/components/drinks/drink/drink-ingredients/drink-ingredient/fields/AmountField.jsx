@@ -12,7 +12,7 @@ class AmountField extends Component {
     if (this.props.edit) {
       return (
         <TextField
-          className="w-100"
+          className="w-100 sans-serif f6 f5-ns"
           label="Amount"
           defaultValue={this.props.amount}
           onChange={this.handleChange}/>

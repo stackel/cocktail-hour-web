@@ -15,7 +15,9 @@ class DrinkListItem extends Component {
   }
 
   componentDidMount() {
-    this.fetchUserIngredients(this.props.user.id)
+    if(this.props.user) {
+      this.fetchUserIngredients(this.props.user.id)
+    }
   }
 
   fetchUserIngredients = (userUid) => {
@@ -79,6 +81,7 @@ class DrinkListItem extends Component {
 
   render() {
     const drink = this.props.drink
+    const shareId = this.props.shareId || false
     if(!this.state.userIngredients) {
       return null
     }
@@ -86,7 +89,7 @@ class DrinkListItem extends Component {
       <ListItem
         component={Link}
         to={{
-          pathname: "/drink/" + drink.id,
+          pathname: shareId ? "/shared/" + shareId : "/drink/"+  drink.id,
           state: {
             userIngredients: JSON.stringify(this.state.userIngredients),
             drink: JSON.stringify(drink),

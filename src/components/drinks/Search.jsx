@@ -192,31 +192,34 @@ class IntegrationReactSelect extends React.Component {
   };
 
   componentDidMount() {
-    if (localStorage.getItem('allTags')) {
-      this.setState({
-        allTags: JSON.parse(localStorage.getItem('allTags')).map(obj => {
-          return {value: obj.name, label: obj.label}
+    if(!this.props.noTags) {
+      if (localStorage.getItem('allTags')) {
+        this.setState({
+          allTags: JSON.parse(localStorage.getItem('allTags')).map(obj => {
+            return {value: obj.name, label: obj.label}
+          })
         })
+      }
+
+      database.collection("tags").orderBy("name").onSnapshot(snapshot => {
+        const tags = []
+        snapshot.forEach(doc => {
+          let tag = doc.data()
+          tag.id = doc.id
+          tags.push(tag);
+        })
+
+        if (tags.length > 0) {
+          localStorage.setItem('allTags', JSON.stringify(tags))
+          this.setState({
+            allTags: tags.map(obj => {
+              return {value: obj.name, label: obj.label}
+            })
+          });
+        }
       })
     }
 
-    database.collection("tags").orderBy("name").onSnapshot(snapshot => {
-      const tags = []
-      snapshot.forEach(doc => {
-        let tag = doc.data()
-        tag.id = doc.id
-        tags.push(tag);
-      })
-
-      if (tags.length > 0) {
-        localStorage.setItem('allTags', JSON.stringify(tags))
-        this.setState({
-          allTags: tags.map(obj => {
-            return {value: obj.name, label: obj.label}
-          })
-        });
-      }
-    })
 
     if (localStorage.getItem('allIngredients')) {
       this.setState({
