@@ -96,12 +96,22 @@ class DrinkList extends Component {
       <div class="mw6 center mt6 tc">
         <h2 class="f4 sans-serif dark-gray">
           Your drink list is empty.</h2>
-        <Button
-          component={Link}
-          to="/new"
-          variant="contained"
-          color="primary"
-          className="mt4">Add drink</Button>
+        <div className="mv4">
+          <Button
+            component={Link}
+            to="/new"
+            variant="contained"
+            color="primary">Add drink</Button>
+
+        </div>
+        <div>
+          <Button
+            component={Link}
+            to="/shared"
+            variant="outlined"
+            color="primary"
+            className="mt4">Browse shared drinks</Button>
+        </div>
       </div>
     )
   }
@@ -123,10 +133,9 @@ class DrinkList extends Component {
         <Loading/>
       </div>)
     }
-    
+
     if (!this.state.drinks.length) {
-      return (
-        <this.NoDrinks/>)
+      return (<this.NoDrinks/>)
     }
 
     const drinkComponents = [];
@@ -146,9 +155,7 @@ class DrinkList extends Component {
           <Search onChange={this.searchInputChanged} drinks={this.state.drinks}/>
         </div>
 
-        {
-          !drinks.length && <this.NoMatching/>
-        }
+        {!drinks.length && <this.NoMatching/>}
 
         <List component="nav">
           {drinkComponents}
