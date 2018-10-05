@@ -81,8 +81,9 @@ class DashboardMenu extends Component {
           open={Boolean(anchorElement)}
           onClose={this.close}>
           <MenuItem disabled={!navigator.onLine} component={Link} to="/new">New Drink</MenuItem>
-          <this.AssistantMenuItem user={this.props.user}/>
           <this.NewIngredientMenuItem show={this.props.user.admin}/>
+          <MenuItem disabled={!navigator.onLine} component={Link} to="/shared">Browse shared drinks</MenuItem>
+          <this.AssistantMenuItem user={this.props.user}/>
           <this.ProfileMenuItem user={this.props.user}/>
           <MenuItem onClick={this.onLogoutClick}>Log Out</MenuItem>
         </Menu>

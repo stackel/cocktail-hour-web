@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
+import {Link} from "react-router-dom";
 
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import DrinkListItem from 'components/drinks/DrinkListItem'
 
 import {database, firebase} from 'utils/firebase'
 
@@ -35,7 +37,16 @@ class IngredientListItem extends Component {
 
   render() {
     return (
-      <ListItem button>
+      <ListItem
+        component={Link}
+        button
+        to={{
+          pathname: "/ingredient/" + this.state.ingredient.id,
+          state: {
+            ingredient: JSON.stringify(this.state.ingredient),
+            userId: this.props.user.id
+          }
+        }}>
         <ListItemText primary={this.state.ingredient.label} secondary={this.state.ingredient.type.label}/>
         <ListItemSecondaryAction>
           <Checkbox

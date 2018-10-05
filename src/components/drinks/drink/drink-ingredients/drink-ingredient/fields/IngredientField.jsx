@@ -15,6 +15,7 @@ class IngredientField extends Component {
       return (
         <Select
           placeholder="Ingredient"
+          className="sans-serif f6 f5-ns"
           defaultValue={props.ingredient}
           onChange={this.handleChange}
           options={props.allIngredients}/>
