@@ -21,6 +21,12 @@ class Dashboard extends Component {
     }
   }
 
+  componentDidMount() {
+    this.setState({
+      currentTab: parseInt(sessionStorage.getItem('currentTab')) || 0
+    })
+  }
+
   onLogin = (user) => {
     this.setState({user: user})
   }
@@ -38,16 +44,17 @@ class Dashboard extends Component {
   }
 
   changeTab = (event, value) => {
+    sessionStorage.setItem('currentTab', value)
     this.setState({currentTab: value});
   }
 
   List = (props) => {
-    if (props.value === 0) {
+    if (props.value == 0) {
       return (<div>
         <DrinkList user={this.state.user}/>
       </div>)
     }
-    if (props.value === 1) {
+    if (props.value == 1) {
       return (<IngredientList user={this.state.user}/>)
     }
     return null;
@@ -62,7 +69,7 @@ class Dashboard extends Component {
       <div>
         <header className="pa4">
           <h1 className="sans-serif f2 ma0 pa0 fl">{
-              this.state.currentTab === 0
+              this.state.currentTab == 0
                 ? "Drinks"
                 : "Ingredients"
             }</h1>
