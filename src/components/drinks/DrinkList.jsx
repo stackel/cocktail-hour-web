@@ -17,7 +17,8 @@ class DrinkList extends Component {
 
     this.state = {
       drinks: [],
-      drinksFiltered: null
+      drinksFiltered: null,
+      query: sessionStorage.getItem('query')
     }
   }
 
@@ -41,7 +42,10 @@ class DrinkList extends Component {
           drinks.push(drink);
         })
         localStorage.setItem('drinks', JSON.stringify(drinks))
-        this.setState({drinks: drinks, drinksFiltered: drinks})
+        this.setState({drinks: drinks})
+        if(!this.state.drinksFiltered) {
+          this.setState({drinksFiltered: drinks})
+        }
       }
     );
   }
@@ -70,6 +74,8 @@ class DrinkList extends Component {
 
   searchInputChanged = searchInput => {
     const drinks = this.state.drinks;
+
+    sessionStorage.setItem('query', JSON.stringify(searchInput));
 
     if (searchInput.length <= 0) {
       this.setState({drinksFiltered: drinks})
@@ -152,7 +158,7 @@ class DrinkList extends Component {
       <div className="tc">
 
         <div className="w-100 ph4">
-          <Search onChange={this.searchInputChanged} drinks={this.state.drinks}/>
+          <Search defaultValue={JSON.parse(this.state.query)} onChange={this.searchInputChanged} drinks={this.state.drinks}/>
         </div>
 
         {!drinks.length && <this.NoMatching/>}

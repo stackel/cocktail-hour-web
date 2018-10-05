@@ -187,11 +187,15 @@ class IntegrationReactSelect extends React.Component {
       allTags: []
     }
   }
+
   handleChange = value => {
     this.props.onChange(value)
   };
 
   componentDidMount() {
+    if(this.props.defaultValue) {
+      this.handleChange(this.props.defaultValue);
+    }
     if(!this.props.noTags) {
       if (localStorage.getItem('allTags')) {
         this.setState({
@@ -269,6 +273,7 @@ class IntegrationReactSelect extends React.Component {
           <Select
             classes={classes}
             styles={selectStyles}
+            defaultValue={this.props.defaultValue}
             textFieldProps={{
               label: 'Search',
               InputLabelProps: {
