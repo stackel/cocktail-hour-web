@@ -11,22 +11,39 @@ import IngredientDetail from 'components/ingredients/ingredient/IngredientDetail
 import Profile from 'components/profile/Profile'
 import Assistant from 'components/assistant/Assistant'
 
+class ScrollToTop extends Component {
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  render() {
+    return this.props.children;
+  }
+}
+
 class App extends Component {
+
   render() {
     return (
       <Router basename={process.env.PUBLIC_URL}>
-        <div className="mw7 center">
-          <Route exact path="/" component={Dashboard}/>
-          <Route exact path="/profile" component={Profile}/>
-          <Route exact path="/new" component={CreateOrEditDrink}/>
-          <Route exact path="/drink/:id/edit" component={CreateOrEditDrink}/>
-          <Route exact path="/drink/:id" component={DrinkDetail}/>
-          <Route exact path="/shared" component={BrowseSharedDrinks}/>
-          <Route exact path="/shared/:id" component={ShareDrink}/>
-          <Route exact path="/ingredient/:id" component={IngredientDetail}/>
-          <Route exact path="/ingredients/new" component={AddNewIngredient}/>
-          <Route exact path="/assistant" component={Assistant}/>
-        </div>
+
+
+          <div className="mw7 center">
+            <ScrollToTop> </ScrollToTop>
+
+            <Route exact="exact" path="/" component={Dashboard}/>
+            <Route exact="exact" path="/profile" component={Profile}/>
+            <Route exact="exact" path="/new" component={CreateOrEditDrink}/>
+            <Route exact="exact" path="/drink/:id/edit" component={CreateOrEditDrink}/>
+            <Route component={ScrollToTop} exact path="/drink/:id" component={DrinkDetail}/>
+            <Route exact="exact" path="/shared" component={BrowseSharedDrinks}/>
+            <Route exact="exact" path="/shared/:id" component={ShareDrink}/>
+            <Route component={ScrollToTop} exact path="/ingredient/:id" component={IngredientDetail}/>
+            <Route exact="exact" path="/ingredients/new" component={AddNewIngredient}/>
+            <Route exact="exact" path="/assistant" component={Assistant}/>
+          </div>
       </Router>
     );
   }
