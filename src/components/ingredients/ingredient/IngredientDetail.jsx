@@ -120,7 +120,7 @@ class IngredientDetail extends Component {
           <p className="sans-serif f5 lh-copy dark-gray ">{ingredient.description}</p>
         </div>
         {
-          drinkComponents > 0 &&
+          drinkComponents.length > 0 &&
           <div>
             <h4 className="sans-serif f5 dark-gray tc fw5 mb2 mt0 pt0">Drinks with ingredient</h4>
             <List component="nav">
