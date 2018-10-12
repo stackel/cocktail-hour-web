@@ -52,8 +52,8 @@ class DrinkList extends Component {
 
   hasIngredient = (obj, concept) => {
     for (var i = 0; i < obj.ingredients.length; i++) {
-      const drinkIngredientName = obj.ingredients[i].ingredient.label.toLowerCase();
-      if (drinkIngredientName === concept.label.toLowerCase()) {
+      const drinkIngredientName = obj.ingredients[i].ingredient.name.toLowerCase();
+      if (drinkIngredientName === concept.value.toLowerCase()) {
         return true
       }
     }
