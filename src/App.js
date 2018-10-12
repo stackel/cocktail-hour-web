@@ -10,11 +10,13 @@ import AddNewIngredient from 'components/ingredients/AddNewIngredient'
 import IngredientDetail from 'components/ingredients/ingredient/IngredientDetail'
 import Profile from 'components/profile/Profile'
 import Assistant from 'components/assistant/Assistant'
+import ScrollToTop from 'utils/ScrollToTop'
 
 class App extends Component {
   render() {
     return (
       <Router basename={process.env.PUBLIC_URL}>
+        <ScrollToTop>
         <div className="mw7 center">
           <Route exact path="/" component={Dashboard}/>
           <Route exact path="/profile" component={Profile}/>
@@ -27,6 +29,8 @@ class App extends Component {
           <Route exact path="/ingredients/new" component={AddNewIngredient}/>
           <Route exact path="/assistant" component={Assistant}/>
         </div>
+      </ScrollToTop>
+
       </Router>
     );
   }
